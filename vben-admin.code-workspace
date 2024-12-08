@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "name": "@vben/ant-admin",
+      "path": "apps/ant-admin",
+    },
+    {
       "name": "@vben/backend-mock",
       "path": "apps/backend-mock",
     },
