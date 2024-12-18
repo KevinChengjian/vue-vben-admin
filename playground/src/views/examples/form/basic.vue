@@ -16,6 +16,8 @@ const activeTab = ref('basic');
 const [BaseForm, baseFormApi] = useVbenForm({
   // 所有表单项共用，可单独在表单内覆盖
   commonConfig: {
+    // 在label后显示一个冒号
+    colon: true,
     // 所有表单项
     componentProps: {
       class: 'w-full',
@@ -40,6 +42,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       fieldName: 'username',
       // 界面显示的label
       label: '字符串',
+      rules: 'required',
     },
     {
       // 组件需要在 #/adapter.ts内注册，并加上类型
@@ -55,12 +58,27 @@ const [BaseForm, baseFormApi] = useVbenForm({
         },
         // 菜单接口
         api: getAllMenusApi,
-        placeholder: '请选择',
       },
       // 字段名
       fieldName: 'api',
       // 界面显示的label
       label: 'ApiSelect',
+    },
+    {
+      component: 'ApiTreeSelect',
+      // 对应组件的参数
+      componentProps: {
+        // 菜单接口
+        api: getAllMenusApi,
+        childrenField: 'children',
+        // 菜单接口转options格式
+        labelField: 'name',
+        valueField: 'path',
+      },
+      // 字段名
+      fieldName: 'apiTree',
+      // 界面显示的label
+      label: 'ApiTreeSelect',
     },
     {
       component: 'InputPassword',
@@ -377,7 +395,7 @@ function handleSetFormValue() {
       </Tabs>
     </template>
     <template #extra>
-      <DocButton path="/components/common-ui/vben-form" />
+      <DocButton class="mb-2" path="/components/common-ui/vben-form" />
     </template>
     <Card v-show="activeTab === 'basic'" title="基础示例">
       <template #extra>
