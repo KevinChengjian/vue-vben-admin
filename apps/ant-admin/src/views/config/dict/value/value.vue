@@ -17,6 +17,9 @@ import {
   Table,
 } from 'ant-design-vue';
 
+import DictLabel from '#/components/dict/dict-label.vue';
+import { DictKeyEnum } from '#/store';
+
 import { AuthCode, dictionaryValueListApi } from './api';
 import { DictValueColumn } from './columns';
 import StoreValueModal from './storeModal.vue';
@@ -136,10 +139,11 @@ const handleEditDictValue = (item: any) => {
       @change="handleReload"
     >
       <template #bodyCell="{ column, record }">
-        <template v-if="column.dataIndex === 'status'">
-          <span v-if="record.status === 1" class="text-primary">启用</span>
-          <span v-if="record.status === 2" class="text-destructive">禁用</span>
-        </template>
+        <DictLabel
+          v-if="column.dataIndex === 'status'"
+          :code="DictKeyEnum.STATUS"
+          :value="record.status"
+        />
 
         <template v-if="column.dataIndex === 'default'">
           <span v-if="record.default === 1">是</span>

@@ -35,7 +35,7 @@ const isCreate = ref<boolean>(true);
 const [MenuForm, MenuFromApi] = useVbenForm({
   schema: MenuFormStoreSchema,
   wrapperClass: 'grid-cols-1 md:grid-cols-2',
-  actionWrapperClass: 'text-left ml-[108px]',
+  actionWrapperClass: 'text-left ml-[96px]',
   resetButtonOptions: { class: 'w-[100px]' },
   submitButtonOptions: { class: 'w-[100px]' },
   handleSubmit: async () => {
