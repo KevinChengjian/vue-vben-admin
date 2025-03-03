@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-import { Select, SelectOption } from 'ant-design-vue';
+import { Radio, RadioGroup } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import { useDictStore } from '#/store';
@@ -16,13 +16,9 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <Select v-bind="$attrs">
-    <SelectOption
-      v-for="(item, index) in options"
-      :value="item.value"
-      :key="index"
-    >
+  <RadioGroup v-bind="$attrs">
+    <Radio v-for="(item, index) in options" :value="item.value" :key="index">
       {{ item.label }}
-    </SelectOption>
-  </Select>
+    </Radio>
+  </RadioGroup>
 </template>

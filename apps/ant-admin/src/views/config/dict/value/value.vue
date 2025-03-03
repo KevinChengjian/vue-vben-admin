@@ -17,8 +17,8 @@ import {
   Table,
 } from 'ant-design-vue';
 
+import { Dict } from '#/api';
 import DictLabel from '#/components/dict/dict-label.vue';
-import { DictKeyEnum } from '#/store';
 
 import { AuthCode, dictionaryValueListApi } from './api';
 import { DictValueColumn } from './columns';
@@ -141,7 +141,7 @@ const handleEditDictValue = (item: any) => {
       <template #bodyCell="{ column, record }">
         <DictLabel
           v-if="column.dataIndex === 'status'"
-          :code="DictKeyEnum.STATUS"
+          :code="Dict.KeyEnum.STATUS"
           :value="record.status"
         />
 
@@ -159,13 +159,13 @@ const handleEditDictValue = (item: any) => {
             >
               编辑
             </div>
-            <div
+            <!-- <div
               class="text-destructive ml-[15px]"
               v-access:code="AuthCode.Delete"
               @click="showConfirm"
             >
               删除
-            </div>
+            </div> -->
           </div>
         </template>
       </template>

@@ -37,6 +37,9 @@ import {
   Upload,
 } from 'ant-design-vue';
 
+// 自定义组件
+import { DictRadio, DictSelect } from '#/components';
+
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
   type: 'input' | 'select',
@@ -56,6 +59,8 @@ export type ComponentType =
   | 'CheckboxGroup'
   | 'DatePicker'
   | 'DefaultButton'
+  | 'DictRadio'
+  | 'DictSelect'
   | 'Divider'
   | 'IconPicker'
   | 'Input'
@@ -148,6 +153,8 @@ async function initComponentAdapter() {
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
+    DictRadio,
+    DictSelect,
   };
 
   // 将组件注册到全局共享状态中

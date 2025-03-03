@@ -1,51 +1,45 @@
-import type { DictResApi } from '#/api';
-
 import { ref } from 'vue';
 
 import { defineStore } from 'pinia';
 
-import { DictApi } from '#/api';
-
-export enum DictKeyEnum {
-  STATUS = 'STATUS',
-}
+import { Dict } from '#/api';
 
 export const useDictStore = defineStore('dict', () => {
-  const dictList = ref<DictResApi.KeyItem[]>([] as DictResApi.KeyItem[]);
-  const dictMap: Map<string, DictResApi.ValueItem[]> = new Map();
+  const dictList = ref<Dict.KeyItem[]>([] as Dict.KeyItem[]);
+  const dictMap: Map<string, Dict.ValueItem[]> = new Map();
   const loading = ref<boolean>(false);
-  const resolveQueue = ref<{ reject: any; resolve: any }[]>([]);
+  const resolveQueue = ref<{ dk: Dict.KeyEnum; reject: any; resolve: any }[]>(
+    [],
+  );
 
   async function fetch() {
-    dictList.value = await DictApi();
+    dictList.value = await Dict.listApi();
   }
 
-  async function getDictByKey(
-    dk: DictKeyEnum,
-  ): Promise<DictResApi.ValueItem[]> {
-    return new Promise<DictResApi.ValueItem[]>((resolve, reject) => {
+  async function getDictByKey(dk: Dict.KeyEnum): Promise<Dict.ValueItem[]> {
+    return new Promise<Dict.ValueItem[]>((resolve, reject) => {
       if (dictList.value.length > 0) {
         return resolve(dictMap.get(dk) || []);
       }
 
       if (loading.value) {
-        resolveQueue.value.push({ resolve, reject });
+        resolveQueue.value.push({ resolve, reject, dk });
       }
 
       if (!loading.value) {
         loading.value = true;
-        DictApi()
+        Dict.listApi()
           .then((res) => {
             loading.value = false;
 
             dictList.value = res || [];
-            dictList.value.forEach((item: DictResApi.KeyItem) => {
+            dictList.value.forEach((item: Dict.KeyItem) => {
               dictMap.set(item.code, item.values);
             });
 
             resolve(dictMap.get(dk) || []);
             resolveQueue.value.forEach((item) => {
-              item.resolve(dictMap.get(dk) || []);
+              item.resolve(dictMap.get(item.dk) || []);
             });
             resolveQueue.value = [];
           })

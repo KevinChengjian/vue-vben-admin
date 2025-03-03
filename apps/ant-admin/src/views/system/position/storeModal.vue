@@ -5,13 +5,13 @@ import { useVbenModal } from '@vben/common-ui';
 
 import { useVbenForm } from '#/adapter/form';
 
-import { deptCreateApi, deptUpdateApi } from './dept.api';
-import { DeptFormStoreSchema } from './schema';
+import { positionCreateApi, positionUpdateApi } from './api';
+import { PositionFormStoreSchema } from './schema';
 
 const emit = defineEmits(['reload']);
 
-const [DeptForm, DeptFromApi] = useVbenForm({
-  schema: DeptFormStoreSchema,
+const [PositionForm, PositionFromApi] = useVbenForm({
+  schema: PositionFormStoreSchema,
   showDefaultActions: false,
   wrapperClass: 'grid-cols-2 mr-[25px]',
   commonConfig: {
@@ -22,40 +22,41 @@ const [DeptForm, DeptFromApi] = useVbenForm({
 const isUpdate = ref<boolean>(false);
 const [Modal, ModalApi] = useVbenModal({
   onOpenChange: (isOpen: boolean) => {
-    DeptFromApi.resetForm();
+    PositionFromApi.resetForm();
     if (!isOpen) return;
 
     const data = ModalApi.getData();
     ModalApi.setData({});
-    DeptFromApi.updateSchema([
+    PositionFromApi.updateSchema([
       {
         fieldName: 'pid',
         componentProps: {
-          treeData: data.deptTreeList,
+          treeData: data.positionTreeList,
         },
       },
     ]);
 
     isUpdate.value = data.isEdit;
-    data.record && DeptFromApi.setValues({ ...data.record });
+    data.record && PositionFromApi.setValues({ ...data.record });
     isUpdate.value &&
-      DeptFromApi.setValues({
+      PositionFromApi.setValues({
         ...data.record,
         status: `${data.record.status}`,
-        type: `${data.record.type}`,
         pid: data.record.pid || null,
       });
   },
   onConfirm: async () => {
     try {
-      await DeptFromApi.validate();
-      const values = await DeptFromApi.getValues();
+      await PositionFromApi.validate();
+      const values = await PositionFromApi.getValues();
       values.pid = values.pid || 0;
-      await (values?.id ? deptUpdateApi(values) : deptCreateApi(values));
+      await (values?.id
+        ? positionUpdateApi(values)
+        : positionCreateApi(values));
 
       ModalApi.close();
       ModalApi.setData({});
-      DeptFromApi.resetForm();
+      PositionFromApi.resetForm();
       emit('reload');
     } catch {}
   },
@@ -63,10 +64,10 @@ const [Modal, ModalApi] = useVbenModal({
 </script>
 <template>
   <Modal
-    :title="`${isUpdate ? '编辑组织' : '添加组织'}`"
+    :title="`${isUpdate ? '编辑职位' : '添加职位'}`"
     class="w-[780px]"
     content-class="pt-[20px] pb-0"
   >
-    <DeptForm />
+    <PositionForm />
   </Modal>
 </template>

@@ -1,26 +1,21 @@
 <script setup lang="ts">
-import type { DictResApi } from '#/api';
-import type { DictKeyEnum } from '#/store';
+import type { Dict } from '#/api';
 
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 import { useDictStore } from '#/store';
 
 const props = defineProps<{
-  code: DictKeyEnum;
+  code: Dict.KeyEnum;
   value: number | string;
 }>();
 
-const dictItemList = ref<DictResApi.ValueItem[]>([]);
+const dictItemList = ref<Dict.ValueItem[]>([]);
 const { getDictByKey } = useDictStore();
 
-watch(
-  () => props.code,
-  async (code) => {
-    dictItemList.value = await getDictByKey(code);
-  },
-  { immediate: true },
-);
+onMounted(async () => {
+  dictItemList.value = await getDictByKey(props.code);
+});
 
 const currentDictItem = computed(() => {
   const pv = `${props.value}`;

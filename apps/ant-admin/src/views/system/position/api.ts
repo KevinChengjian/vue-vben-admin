@@ -1,16 +1,27 @@
+import type { PositionItem } from './type';
+
 import { requestClient } from '#/api/request';
 
 /**
- * 职务列表
- * @param params
- * @returns any
+ * 操作权限标识
  */
-export async function positionListApi(params: any = null) {
-  return requestClient.post<any>('/admin/position/list', params);
+export enum AuthCode {
+  Create = 'admin.position.create',
+  Delete = 'admin.position.delete',
+  Update = 'admin.position.update',
 }
 
 /**
- * 添加职务
+ * 列表
+ * @param params any
+ * @returns ListResult
+ */
+export async function positionListApi(params: any = {}) {
+  return requestClient.post<PositionItem[]>('/admin/position/list', params);
+}
+
+/**
+ * 添加部门
  * @param params
  * @returns any
  */
@@ -19,7 +30,7 @@ export async function positionCreateApi(params: any) {
 }
 
 /**
- * 编辑职务
+ * 编辑部门
  * @param params
  * @returns any
  */
@@ -28,7 +39,7 @@ export async function positionUpdateApi(params: any) {
 }
 
 /**
- * 删除职务
+ * 删除部门
  * @param params
  * @returns any
  */

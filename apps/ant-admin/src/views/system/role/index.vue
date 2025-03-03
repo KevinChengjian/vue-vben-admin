@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DeptItem } from './dept.type';
+import type { RoleItem } from './type';
 
 import { onMounted, ref } from 'vue';
 
@@ -10,25 +10,25 @@ import { Card, Input, Table } from 'ant-design-vue';
 import { Dict } from '#/api';
 import DictLabel from '#/components/dict/dict-label.vue';
 
-import { DeptColumn } from './columns';
-import { AuthCode, deptListApi } from './dept.api';
-import deptStoreModal from './storeModal.vue';
+import { AuthCode, roleListApi } from './api';
+import { RoleColumn } from './columns';
+import roleStoreModal from './storeModal.vue';
 
-const deptList = ref<DeptItem[]>([]);
-const deptKeyword = ref<string>('');
-const getDeptList = async () => {
-  deptList.value = await deptListApi({
-    keyword: deptKeyword.value,
+const roleList = ref<RoleItem[]>([]);
+const roleKeyword = ref<string>('');
+const getRoleList = async () => {
+  roleList.value = await roleListApi({
+    keyword: roleKeyword.value,
   });
 };
 
 const [StoreModal, storeModalApi] = useVbenModal({
-  connectedComponent: deptStoreModal,
+  connectedComponent: roleStoreModal,
 });
 
-const handleStoreDept = (item: any = {}, edit: boolean = false) => {
+const handleStoreRole = (item: any = {}, edit: boolean = false) => {
   storeModalApi.setData({
-    deptTreeList: deptList.value,
+    roleTreeList: roleList.value,
     isEdit: edit,
     record: item,
   });
@@ -36,7 +36,7 @@ const handleStoreDept = (item: any = {}, edit: boolean = false) => {
 };
 
 onMounted(() => {
-  getDeptList();
+  getRoleList();
 });
 </script>
 
@@ -45,15 +45,15 @@ onMounted(() => {
     <Card
       :body-style="{ padding: '16px 24px 24px 24px' }"
       :bordered="false"
-      title="组织管理"
+      title="角色管理"
     >
       <div class="flex justify-between">
         <div class="left">
           <Input
-            v-model:value="deptKeyword"
+            v-model:value="roleKeyword"
             :allow-clear="true"
-            placeholder="组织名称/代码"
-            @press-enter="getDeptList"
+            placeholder="职务名称/编码"
+            @press-enter="getRoleList"
           >
             <template #suffix>
               <span class="icon-[ant-design--search-outlined]"></span>
@@ -65,33 +65,27 @@ onMounted(() => {
             v-access:code="AuthCode.Create"
             class="pl-[15px] pr-[15px] text-[14px]"
             size="sm"
-            @click="handleStoreDept"
+            @click="handleStoreRole"
           >
             <span
               class="icon-[ant-design--plus-outlined] mr-[1px] text-[#fff]"
             ></span>
-            新增组织
+            新增职务
           </VbenButton>
         </div>
       </div>
 
       <Table
-        v-if="deptList.length > 0"
+        v-if="roleList.length > 0"
         :default-expand-all-rows="true"
-        :columns="DeptColumn"
-        :data-source="deptList"
+        :columns="RoleColumn"
+        :data-source="roleList"
         :pagination="false"
         class="mt-[16px]"
         row-key="id"
         size="middle"
       >
         <template #bodyCell="{ column, record }">
-          <DictLabel
-            v-if="column.dataIndex === 'type'"
-            :code="Dict.KeyEnum.DEPT_TYPE"
-            :value="record.type"
-          />
-
           <DictLabel
             v-if="column.dataIndex === 'status'"
             :code="Dict.KeyEnum.STATUS"
@@ -103,16 +97,16 @@ onMounted(() => {
               <div
                 class="text-primary cursor-pointer"
                 v-access:code="AuthCode.Update"
-                @click="handleStoreDept(record, true)"
+                @click="handleStoreRole(record, true)"
               >
                 编辑
               </div>
               <div
                 class="text-primary ml-[15px] cursor-pointer"
                 v-access:code="AuthCode.Create"
-                @click="handleStoreDept({ pid: record.id })"
+                @click="handleStoreRole({ pid: record.id })"
               >
-                添加下级组织
+                添加下级职务
               </div>
               <div
                 class="text-destructive ml-[15px] cursor-pointer"
@@ -127,13 +121,13 @@ onMounted(() => {
 
       <Table
         v-else
-        :columns="DeptColumn"
+        :columns="RoleColumn"
         class="mt-[16px]"
         row-key="id"
         size="middle"
       />
     </Card>
 
-    <StoreModal @reload="getDeptList" />
+    <StoreModal @reload="getRoleList" />
   </Page>
 </template>

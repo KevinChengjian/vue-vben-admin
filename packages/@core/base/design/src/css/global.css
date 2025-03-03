@@ -111,6 +111,10 @@
       @apply hidden;
     }
   }
+
+  svg {
+    vertical-align: baseline;
+  }
 }
 
 @layer components {

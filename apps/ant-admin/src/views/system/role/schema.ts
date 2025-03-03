@@ -2,7 +2,7 @@ import type { VbenFormSchema } from '@vben/common-ui';
 
 import { Dict } from '#/api';
 
-export const DeptFormStoreSchema: VbenFormSchema[] = [
+export const PositionFormStoreSchema: VbenFormSchema[] = [
   {
     component: 'Input',
     fieldName: 'id',
@@ -17,36 +17,24 @@ export const DeptFormStoreSchema: VbenFormSchema[] = [
   {
     component: 'Input',
     fieldName: 'name',
-    label: '组织名称',
+    label: '职务名称',
     rules: 'required',
     componentProps: {
-      placeholder: '请输入组织名称',
+      placeholder: '请输入职务名称',
     },
   },
   {
     component: 'Input',
     fieldName: 'code',
-    label: '组织编码',
+    label: '职务编码',
     componentProps: {
-      placeholder: '请输入组织编码',
-    },
-  },
-  {
-    component: 'DictSelect',
-    fieldName: 'type',
-    label: '组织类型',
-    defaultValue: '1',
-    rules: 'required',
-    componentProps: {
-      class: 'w-full',
-      placeholder: '请选择组织类型',
-      code: Dict.KeyEnum.DEPT_TYPE,
+      placeholder: '请输入职务编码',
     },
   },
   {
     component: 'TreeSelect',
     fieldName: 'pid',
-    label: '上级组织',
+    label: '上级职务',
     componentProps: {
       fieldNames: {
         children: 'children',
@@ -54,18 +42,18 @@ export const DeptFormStoreSchema: VbenFormSchema[] = [
         value: 'id',
       },
       class: 'w-full',
-      placeholder: '请选择上级组织',
+      placeholder: '请选择上级职务',
     },
   },
   {
     component: 'DictRadio',
     fieldName: 'status',
-    label: '组织状态',
+    label: '职务状态',
     defaultValue: '1',
     rules: 'required',
     componentProps: {
       class: 'w-full',
-      placeholder: '请选择组织状态',
+      placeholder: '请选择职务状态',
       code: Dict.KeyEnum.STATUS,
     },
   },
@@ -83,9 +71,13 @@ export const DeptFormStoreSchema: VbenFormSchema[] = [
   {
     component: 'Input',
     fieldName: 'remark',
-    label: '组织备注',
+    label: '职务备注',
     componentProps: {
-      placeholder: '请输入组织备注',
+      placeholder: '请输入职务备注',
     },
   },
 ];
+
+//   `created_at` datetime NOT NULL COMMENT '创建时间',
+//   `updated_at` datetime NOT NULL COMMENT '更新时间',
+//   `deleted_at` int(11) unsign

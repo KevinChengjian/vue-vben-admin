@@ -1,6 +1,11 @@
 import { requestClient } from '#/api/request';
 
-export namespace DictResApi {
+export namespace Dict {
+  export enum KeyEnum {
+    DEPT_TYPE = 'DEPT_TYPE',
+    STATUS = 'STATUS',
+  }
+
   export interface ValueItem {
     label: string;
     value: string;
@@ -12,17 +17,14 @@ export namespace DictResApi {
     name: string;
     values: ValueItem[];
   }
-}
 
-/**
- * 获取字典列表
- *
- * @param params
- * @return
- */
-export async function DictApi(params: any = {}) {
-  return requestClient.get<DictResApi.KeyItem[]>(
-    '/admin/dictionary/value-all',
-    params,
-  );
+  /**
+   * 获取字典列表
+   *
+   * @param params
+   * @return
+   */
+  export async function listApi(params: any = {}) {
+    return requestClient.get<KeyItem[]>('/admin/dictionary/value-all', params);
+  }
 }
