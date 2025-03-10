@@ -14,13 +14,19 @@ import {
   Row,
   Select,
   SelectOption,
+  Space,
   Table,
 } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import DictLabel from '#/components/dict/dict-label.vue';
+import { useDelete } from '#/hooks';
 
-import { AuthCode, dictionaryValueListApi } from './api';
+import {
+  AuthCode,
+  dictionaryValueDeleteApi,
+  dictionaryValueListApi,
+} from './api';
 import { DictValueColumn } from './columns';
 import StoreValueModal from './storeModal.vue';
 
@@ -76,6 +82,13 @@ const handleEditDictValue = (item: any) => {
   ValueModalApi.setData(item);
   ValueModalApi.open();
 };
+
+const { destory } = useDelete({
+  api: dictionaryValueDeleteApi,
+  callback: () => {
+    getDictValueList();
+  },
+});
 </script>
 
 <template>
@@ -151,22 +164,22 @@ const handleEditDictValue = (item: any) => {
         </template>
 
         <template v-if="column.dataIndex === 'action'">
-          <div class="flex items-center justify-center text-[12px]">
+          <Space :size="15">
             <div
-              class="text-primary"
+              class="text-primary cursor-pointer"
               v-access:code="AuthCode.Update"
               @click="handleEditDictValue(record)"
             >
               编辑
             </div>
-            <!-- <div
-              class="text-destructive ml-[15px]"
+            <div
+              class="text-destructive cursor-pointer"
               v-access:code="AuthCode.Delete"
-              @click="showConfirm"
+              @click="destory({ id: record.id })"
             >
               删除
-            </div> -->
-          </div>
+            </div>
+          </Space>
         </template>
       </template>
     </Table>

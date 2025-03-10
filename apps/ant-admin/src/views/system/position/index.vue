@@ -9,8 +9,9 @@ import { Card, Input, Table } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import DictLabel from '#/components/dict/dict-label.vue';
+import { useDelete } from '#/hooks';
 
-import { AuthCode, positionListApi } from './api';
+import { AuthCode, positionDeleteApi, positionListApi } from './api';
 import { PositionColumn } from './columns';
 import positionStoreModal from './storeModal.vue';
 
@@ -34,6 +35,13 @@ const handleStorePosition = (item: any = {}, edit: boolean = false) => {
   });
   storeModalApi.open();
 };
+
+const { destory } = useDelete<PositionItem>({
+  api: positionDeleteApi,
+  callback: () => {
+    getPositionList();
+  },
+});
 
 onMounted(() => {
   getPositionList();
@@ -111,6 +119,7 @@ onMounted(() => {
               <div
                 class="text-destructive ml-[15px] cursor-pointer"
                 v-access:code="AuthCode.Delete"
+                @click="destory({ id: record.id })"
               >
                 删除
               </div>

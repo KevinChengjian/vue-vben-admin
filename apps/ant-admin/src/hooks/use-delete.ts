@@ -1,24 +1,25 @@
-import { createVNode } from 'vue';
+import { createVNode, ref } from 'vue';
 
 import { CircleAlert } from '@vben/icons';
 
 import { message, Modal } from 'ant-design-vue';
 
 interface DeleteProps<T> {
-  api: any;
+  api?: any;
   key?: string;
   title?: string;
   desc?: string;
-  callback: (params: T) => void;
+  callback?: (params?: T) => void;
 }
 
 export function useDelete<T>(props: DeleteProps<T>) {
+  const loading = ref<boolean>(false);
   /**
    * 删除确认
    * @param params
    * @param record
    */
-  function destory(params: any, record: T) {
+  function destory(params: any, record?: T) {
     Modal.confirm({
       title: createVNode(
         'span',
@@ -37,16 +38,29 @@ export function useDelete<T>(props: DeleteProps<T>) {
       }),
       cancelText: '取消',
       okText: '确认删除',
+      maskClosable: true,
       okButtonProps: {
         type: 'primary',
         danger: true,
+        loading: loading.value,
       },
       onOk: async () => {
-        await props.api(params);
-        message.success('删除成功');
-        props.callback(record);
+        if (loading.value) {
+          message.success('请勿频繁操作');
+          return;
+        }
+
+        loading.value = true;
+        try {
+          await props.api(params);
+          message.success('删除成功');
+          props.callback && props.callback(record);
+        } finally {
+          loading.value = false;
+        }
       },
     });
   }
+
   return { destory };
 }

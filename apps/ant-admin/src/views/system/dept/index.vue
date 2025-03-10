@@ -9,9 +9,10 @@ import { Card, Input, Table } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import DictLabel from '#/components/dict/dict-label.vue';
+import { useDelete } from '#/hooks';
 
 import { DeptColumn } from './columns';
-import { AuthCode, deptListApi } from './dept.api';
+import { AuthCode, deptDeleteApi, deptListApi } from './dept.api';
 import deptStoreModal from './storeModal.vue';
 
 const deptList = ref<DeptItem[]>([]);
@@ -34,6 +35,13 @@ const handleStoreDept = (item: any = {}, edit: boolean = false) => {
   });
   storeModalApi.open();
 };
+
+const { destory } = useDelete<DeptItem>({
+  api: deptDeleteApi,
+  callback: () => {
+    getDeptList();
+  },
+});
 
 onMounted(() => {
   getDeptList();
@@ -117,6 +125,7 @@ onMounted(() => {
               <div
                 class="text-destructive ml-[15px] cursor-pointer"
                 v-access:code="AuthCode.Delete"
+                @click="destory({ id: record.id })"
               >
                 删除
               </div>
