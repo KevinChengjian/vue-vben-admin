@@ -20,6 +20,7 @@ import {
 
 import { Dict } from '#/api';
 import DictLabel from '#/components/dict/dict-label.vue';
+import { Status } from '#/enums/StatusEnum';
 import { useDelete } from '#/hooks';
 
 import {
@@ -168,6 +169,7 @@ const { destory } = useDelete({
             <div
               class="text-primary cursor-pointer"
               v-access:code="AuthCode.Update"
+              v-if="record.fixed === Status.Disable"
               @click="handleEditDictValue(record)"
             >
               编辑
@@ -175,6 +177,7 @@ const { destory } = useDelete({
             <div
               class="text-destructive cursor-pointer"
               v-access:code="AuthCode.Delete"
+              v-if="record.fixed === Status.Disable"
               @click="destory({ id: record.id })"
             >
               删除

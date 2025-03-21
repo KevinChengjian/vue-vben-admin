@@ -36,6 +36,7 @@ export const PositionFormStoreSchema: VbenFormSchema[] = [
     fieldName: 'pid',
     label: '上级职务',
     componentProps: {
+      allowClear: true,
       fieldNames: {
         children: 'children',
         label: 'name',
@@ -77,7 +78,3 @@ export const PositionFormStoreSchema: VbenFormSchema[] = [
     },
   },
 ];
-
-//   `created_at` datetime NOT NULL COMMENT '创建时间',
-//   `updated_at` datetime NOT NULL COMMENT '更新时间',
-//   `deleted_at` int(11) unsign

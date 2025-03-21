@@ -54,6 +54,7 @@ onMounted(() => {
       :body-style="{ padding: '16px 24px 24px 24px' }"
       :bordered="false"
       title="职务管理"
+      class="h-full"
     >
       <div class="flex justify-between">
         <div class="left">
@@ -114,7 +115,7 @@ onMounted(() => {
                 v-access:code="AuthCode.Create"
                 @click="handleStorePosition({ pid: record.id })"
               >
-                添加下级职务
+                添加下级
               </div>
               <div
                 class="text-destructive ml-[15px] cursor-pointer"
@@ -127,14 +128,6 @@ onMounted(() => {
           </template>
         </template>
       </Table>
-
-      <Table
-        v-else
-        :columns="PositionColumn"
-        class="mt-[16px]"
-        row-key="id"
-        size="middle"
-      />
     </Card>
 
     <StoreModal @reload="getPositionList" />

@@ -54,13 +54,14 @@ onMounted(() => {
       :body-style="{ padding: '16px 24px 24px 24px' }"
       :bordered="false"
       title="组织管理"
+      class="h-full"
     >
       <div class="flex justify-between">
         <div class="left">
           <Input
             v-model:value="deptKeyword"
             :allow-clear="true"
-            placeholder="组织名称/代码"
+            placeholder="组织名称/编码"
             @press-enter="getDeptList"
           >
             <template #suffix>
@@ -107,7 +108,7 @@ onMounted(() => {
           />
 
           <template v-if="column.dataIndex === 'action'">
-            <div class="flex items-center justify-center text-[12px]">
+            <div class="flex items-center justify-center text-[14px]">
               <div
                 class="text-primary cursor-pointer"
                 v-access:code="AuthCode.Update"
@@ -120,7 +121,7 @@ onMounted(() => {
                 v-access:code="AuthCode.Create"
                 @click="handleStoreDept({ pid: record.id })"
               >
-                添加下级组织
+                添加下级
               </div>
               <div
                 class="text-destructive ml-[15px] cursor-pointer"

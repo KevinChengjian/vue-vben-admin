@@ -21,7 +21,7 @@ export async function positionListApi(params: any = {}) {
 }
 
 /**
- * 添加部门
+ * 添加职务
  * @param params
  * @returns any
  */
@@ -30,7 +30,7 @@ export async function positionCreateApi(params: any) {
 }
 
 /**
- * 编辑部门
+ * 编辑职务
  * @param params
  * @returns any
  */
@@ -39,7 +39,7 @@ export async function positionUpdateApi(params: any) {
 }
 
 /**
- * 删除部门
+ * 删除职务
  * @param params
  * @returns any
  */

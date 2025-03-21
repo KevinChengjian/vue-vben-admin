@@ -21,7 +21,7 @@ export async function roleListApi(params: any = {}) {
 }
 
 /**
- * 添加部门
+ * 添加角色
  * @param params
  * @returns any
  */
@@ -30,7 +30,7 @@ export async function roleCreateApi(params: any) {
 }
 
 /**
- * 编辑部门
+ * 编辑角色
  * @param params
  * @returns any
  */
@@ -39,10 +39,28 @@ export async function roleUpdateApi(params: any) {
 }
 
 /**
- * 删除部门
+ * 删除角色
  * @param params
  * @returns any
  */
 export async function roleDeleteApi(params: any) {
   return requestClient.post<any>('/admin/role/delete', params);
+}
+
+/**
+ * 角色权限
+ * @param params
+ * @returns any
+ */
+export async function roleRulesApi(params: any) {
+  return requestClient.post<any>('/admin/role/rules', params);
+}
+
+/**
+ * 保存角色权限
+ * @param params
+ * @returns any
+ */
+export async function roleSaveRulesApi(params: any) {
+  return requestClient.post<any>('/admin/role/save-rules', params);
 }

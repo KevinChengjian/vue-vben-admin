@@ -1,11 +1,21 @@
 import { requestClient } from '#/api/request';
 
 /**
+ * 操作权限标识
+ */
+export enum AuthCode {
+  Bind = 'admin.menu.bind',
+  Create = 'admin.menu.create',
+  Delete = 'admin.menu.delete',
+  Update = 'admin.menu.update',
+}
+
+/**
  * 菜单列表
  * @param params
  * @returns any
  */
-export async function menuListApi(params: any = null) {
+export async function menuListApi(params: any = {}) {
   return requestClient.post<any>('/admin/menu/list', params);
 }
 

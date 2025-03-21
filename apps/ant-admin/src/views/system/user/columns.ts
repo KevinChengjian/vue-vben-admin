@@ -1,8 +1,8 @@
 import type { TableColumnType } from 'ant-design-vue';
 
-import type { RoleItem } from './type';
+import type { UserItem } from './type';
 
-export const RoleColumn: TableColumnType<RoleItem>[] = [
+export const RoleColumn: TableColumnType<UserItem>[] = [
   { title: '角色名称', dataIndex: 'name', align: 'left', width: '15' },
   // { title: '状态', dataIndex: 'status', align: 'center', width: '10' },
   // { title: '排序', dataIndex: 'sorting', align: 'center', width: '10' },

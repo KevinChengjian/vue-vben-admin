@@ -6,12 +6,12 @@ import { useVbenModal } from '@vben/common-ui';
 import { useVbenForm } from '#/adapter/form';
 
 import { roleCreateApi, roleUpdateApi } from './api';
-import { PositionFormStoreSchema } from './schema';
+import { RoleFormStoreSchema } from './schema';
 
 const emit = defineEmits(['reload']);
 
-const [PositionForm, PositionFromApi] = useVbenForm({
-  schema: PositionFormStoreSchema,
+const [RoleForm, RoleFromApi] = useVbenForm({
+  schema: RoleFormStoreSchema,
   showDefaultActions: false,
   wrapperClass: 'grid-cols-2 mr-[25px]',
   commonConfig: {
@@ -22,24 +22,24 @@ const [PositionForm, PositionFromApi] = useVbenForm({
 const isUpdate = ref<boolean>(false);
 const [Modal, ModalApi] = useVbenModal({
   onOpenChange: (isOpen: boolean) => {
-    PositionFromApi.resetForm();
+    RoleFromApi.resetForm();
     if (!isOpen) return;
 
     const data = ModalApi.getData();
     ModalApi.setData({});
-    PositionFromApi.updateSchema([
+    RoleFromApi.updateSchema([
       {
         fieldName: 'pid',
         componentProps: {
-          treeData: data.positionTreeList,
+          treeData: data.roleTreeList,
         },
       },
     ]);
 
     isUpdate.value = data.isEdit;
-    data.record && PositionFromApi.setValues({ ...data.record });
+    data.record && RoleFromApi.setValues({ ...data.record });
     isUpdate.value &&
-      PositionFromApi.setValues({
+      RoleFromApi.setValues({
         ...data.record,
         status: `${data.record.status}`,
         pid: data.record.pid || null,
@@ -47,14 +47,14 @@ const [Modal, ModalApi] = useVbenModal({
   },
   onConfirm: async () => {
     try {
-      await PositionFromApi.validate();
-      const values = await PositionFromApi.getValues();
+      await RoleFromApi.validate();
+      const values = await RoleFromApi.getValues();
       values.pid = values.pid || 0;
       await (values?.id ? roleUpdateApi(values) : roleCreateApi(values));
 
       ModalApi.close();
       ModalApi.setData({});
-      PositionFromApi.resetForm();
+      RoleFromApi.resetForm();
       emit('reload');
     } catch {}
   },
@@ -62,10 +62,10 @@ const [Modal, ModalApi] = useVbenModal({
 </script>
 <template>
   <Modal
-    :title="`${isUpdate ? '编辑职位' : '添加职位'}`"
+    :title="`${isUpdate ? '编辑角色' : '添加角色'}`"
     class="w-[780px]"
     content-class="pt-[20px] pb-0"
   >
-    <PositionForm />
+    <RoleForm />
   </Modal>
 </template>

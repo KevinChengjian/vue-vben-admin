@@ -46,15 +46,16 @@ export const DeptFormStoreSchema: VbenFormSchema[] = [
   {
     component: 'TreeSelect',
     fieldName: 'pid',
-    label: '上级组织',
+    label: '所属上级',
     componentProps: {
+      allowClear: true,
       fieldNames: {
         children: 'children',
         label: 'name',
         value: 'id',
       },
       class: 'w-full',
-      placeholder: '请选择上级组织',
+      placeholder: '请选择所属上级',
     },
   },
   {

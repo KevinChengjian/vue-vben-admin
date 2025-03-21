@@ -3,22 +3,12 @@ import { onMounted, ref } from 'vue';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 
-import {
-  Button,
-  Card,
-  Col,
-  Dropdown,
-  Menu,
-  MenuItem,
-  message,
-  Row,
-  Select,
-  Tree,
-} from 'ant-design-vue';
+import { Button, Card, Col, message, Row, Select, Tree } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 
 import {
+  AuthCode,
   menuBindApi,
   menuCreateApi,
   menuDeleteApi,
@@ -44,14 +34,14 @@ const [MenuForm, MenuFromApi] = useVbenForm({
       const values = await MenuFromApi.getValues();
       await (values?.id ? menuUpdateApi(values) : menuCreateApi(values));
       MenuFromApi.resetForm();
-      // eslint-disable-next-line no-use-before-define
+
       await getMenuList();
     } catch {}
   },
 });
 
 const getMenuList = async () => {
-  menuTree.value = await menuListApi();
+  menuTree.value = await menuListApi({});
   MenuFromApi.updateSchema([
     {
       fieldName: 'pid',
@@ -145,7 +135,13 @@ onMounted(() => {
       <Col :lg="8" :span="8" :xs="24">
         <Card :bordered="false" class="h-full" title="菜单管理">
           <template #extra>
-            <Button type="primary" @click="handleAddMenu"> 添加 </Button>
+            <Button
+              type="primary"
+              v-access:code="AuthCode.Create"
+              @click="handleAddMenu"
+            >
+              添加
+            </Button>
           </template>
 
           <Tree
@@ -153,23 +149,33 @@ onMounted(() => {
             :field-names="{ children: 'children', title: 'title', key: 'id' }"
             :show-icon="false"
             :show-line="true"
+            :block-node="true"
             :tree-data="menuTree"
             @select="handleEditMenu"
           >
-            <template #title="{ title, id }">
-              <Dropdown :trigger="['contextmenu']">
-                <span>{{ title }}</span>
-                <template #overlay>
-                  <Menu>
-                    <MenuItem key="1" @click="handleDestroy(id)">
-                      删除菜单
-                    </MenuItem>
-                    <MenuItem key="2" @click="handleBind(id)">
-                      关联权限
-                    </MenuItem>
-                  </Menu>
-                </template>
-              </Dropdown>
+            <template #title="{ title, data }">
+              <div class="flex items-center justify-between">
+                <div :class="{ 'text-destructive': data.status !== 1 }">
+                  {{ title }}
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="text-primary cursor-pointer"
+                    v-access:code="AuthCode.Bind"
+                    @click.stop="handleBind(data.id)"
+                    v-if="data.type === 'menu'"
+                  >
+                    关联权限
+                  </div>
+                  <div
+                    class="text-destructive ml-[15px] cursor-pointer"
+                    v-access:code="AuthCode.Delete"
+                    @click.stop="handleDestroy(data.id)"
+                  >
+                    删除
+                  </div>
+                </div>
+              </div>
             </template>
           </Tree>
         </Card>

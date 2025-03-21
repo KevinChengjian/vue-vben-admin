@@ -3,23 +3,25 @@ import type { RoleItem } from './type';
 
 import { onMounted, ref } from 'vue';
 
-import { Page, useVbenModal, VbenButton } from '@vben/common-ui';
+import { Page, useVbenModal } from '@vben/common-ui';
 
-import { Card, Input, Table } from 'ant-design-vue';
+import { Button, Card, Col, Input, Row, Tree } from 'ant-design-vue';
 
-import { Dict } from '#/api';
-import DictLabel from '#/components/dict/dict-label.vue';
+import { useDelete } from '#/hooks';
 
-import { AuthCode, roleListApi } from './api';
-import { RoleColumn } from './columns';
+import { AuthCode, roleDeleteApi, roleListApi, roleUpdateApi } from './api';
+import AuthModal from './authModal.vue';
 import roleStoreModal from './storeModal.vue';
 
-const roleList = ref<RoleItem[]>([]);
+const roleList = ref<any>([]);
 const roleKeyword = ref<string>('');
 const getRoleList = async () => {
-  roleList.value = await roleListApi({
-    keyword: roleKeyword.value,
-  });
+  roleList.value = await roleListApi({ keyword: roleKeyword.value });
+
+  if (selectRoleKeys.value.length === 0 && roleList.value.length > 0) {
+    selectRoleKeys.value = [roleList.value[0].id];
+    handleRoleAuth(roleList.value[0]);
+  }
 };
 
 const [StoreModal, storeModalApi] = useVbenModal({
@@ -30,9 +32,45 @@ const handleStoreRole = (item: any = {}, edit: boolean = false) => {
   storeModalApi.setData({
     roleTreeList: roleList.value,
     isEdit: edit,
-    record: item,
+    record: edit
+      ? {
+          id: item.id,
+          name: item.name,
+          pid: item.pid,
+          status: item.status,
+          sorting: item.sorting,
+          remark: item.remark,
+        }
+      : {},
   });
   storeModalApi.open();
+};
+
+const handleRoleStatus = async (item: RoleItem) => {
+  try {
+    await roleUpdateApi({
+      id: item.id,
+      name: item.name,
+      pid: item.pid,
+      status: item.status === 1 ? 2 : 1,
+      sorting: item.sorting,
+      remark: item.remark,
+    });
+    item.status = item.status === 1 ? 2 : 1;
+  } catch {}
+};
+
+const { destory } = useDelete<RoleItem>({
+  api: roleDeleteApi,
+  callback: () => {
+    getRoleList();
+  },
+});
+
+const selectRoleKeys = ref<number[]>([]);
+const authRef = ref<InstanceType<typeof AuthModal>>();
+const handleRoleAuth = (record: RoleItem) => {
+  authRef.value && authRef.value.handleRoleRules(record);
 };
 
 onMounted(() => {
@@ -41,93 +79,95 @@ onMounted(() => {
 </script>
 
 <template>
-  <Page class="h-full">
-    <Card
-      :body-style="{ padding: '16px 24px 24px 24px' }"
-      :bordered="false"
-      title="角色管理"
-    >
-      <div class="flex justify-between">
-        <div class="left">
+  <Page class="role-wrap h-full">
+    <Row :gutter="15" class="h-full">
+      <Col :span="7">
+        <Card
+          :bordered="false"
+          class="h-full"
+          title="角色管理"
+          :body-style="{ padding: '15px 24px 24px 24px' }"
+        >
+          <template #extra>
+            <Button
+              type="primary"
+              v-access:code="AuthCode.Create"
+              @click="handleStoreRole"
+            >
+              添加
+            </Button>
+          </template>
+
           <Input
-            v-model:value="roleKeyword"
             :allow-clear="true"
-            placeholder="职务名称/编码"
+            placeholder="角色名称"
             @press-enter="getRoleList"
           >
             <template #suffix>
               <span class="icon-[ant-design--search-outlined]"></span>
             </template>
           </Input>
-        </div>
-        <div class="right">
-          <VbenButton
-            v-access:code="AuthCode.Create"
-            class="pl-[15px] pr-[15px] text-[14px]"
-            size="sm"
-            @click="handleStoreRole"
+
+          <Tree
+            v-if="roleList.length > 0"
+            class="mt-[14px] w-full"
+            :field-names="{ children: 'children', title: 'name', key: 'id' }"
+            :show-icon="false"
+            :show-line="true"
+            :block-node="true"
+            :tree-data="roleList"
+            v-model:selected-keys="selectRoleKeys"
+            :default-expand-all="true"
           >
-            <span
-              class="icon-[ant-design--plus-outlined] mr-[1px] text-[#fff]"
-            ></span>
-            新增职务
-          </VbenButton>
-        </div>
-      </div>
+            <template #title="{ name, data }">
+              <div class="flex items-center justify-between">
+                <div
+                  :class="{ 'text-destructive': data.status !== 1 }"
+                  @click="handleRoleAuth(data)"
+                >
+                  {{ name }}
+                </div>
+                <div class="flex items-center" v-if="data.super === 2">
+                  <div
+                    class="text-primary cursor-pointer"
+                    v-access:code="AuthCode.Update"
+                    @click.stop="handleStoreRole(data, true)"
+                  >
+                    编辑
+                  </div>
 
-      <Table
-        v-if="roleList.length > 0"
-        :default-expand-all-rows="true"
-        :columns="RoleColumn"
-        :data-source="roleList"
-        :pagination="false"
-        class="mt-[16px]"
-        row-key="id"
-        size="middle"
-      >
-        <template #bodyCell="{ column, record }">
-          <DictLabel
-            v-if="column.dataIndex === 'status'"
-            :code="Dict.KeyEnum.STATUS"
-            :value="record.status"
-          />
+                  <div
+                    class="ml-[15px] cursor-pointer"
+                    :class="{
+                      'text-destructive !important': data.status === 1,
+                      'text-primary': data.status !== 1,
+                    }"
+                    v-access:code="AuthCode.Update"
+                    @click.stop="handleRoleStatus(data)"
+                  >
+                    {{ data.status === 1 ? '禁用' : '启用' }}
+                  </div>
 
-          <template v-if="column.dataIndex === 'action'">
-            <div class="flex items-center justify-center text-[12px]">
-              <div
-                class="text-primary cursor-pointer"
-                v-access:code="AuthCode.Update"
-                @click="handleStoreRole(record, true)"
-              >
-                编辑
+                  <div
+                    class="text-destructive ml-[15px] cursor-pointer"
+                    v-access:code="AuthCode.Update"
+                    @click.stop="destory({ id: data.id })"
+                  >
+                    删除
+                  </div>
+                </div>
               </div>
-              <div
-                class="text-primary ml-[15px] cursor-pointer"
-                v-access:code="AuthCode.Create"
-                @click="handleStoreRole({ pid: record.id })"
-              >
-                添加下级职务
-              </div>
-              <div
-                class="text-destructive ml-[15px] cursor-pointer"
-                v-access:code="AuthCode.Delete"
-              >
-                删除
-              </div>
-            </div>
-          </template>
-        </template>
-      </Table>
-
-      <Table
-        v-else
-        :columns="RoleColumn"
-        class="mt-[16px]"
-        row-key="id"
-        size="middle"
-      />
-    </Card>
+            </template>
+          </Tree>
+        </Card>
+      </Col>
+      <Col :span="17" class="h-full">
+        <AuthModal ref="authRef" @reload="getRoleList" />
+      </Col>
+    </Row>
 
     <StoreModal @reload="getRoleList" />
   </Page>
 </template>
+
+<style></style>

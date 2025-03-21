@@ -22,7 +22,7 @@ export namespace AuthApi {
  * 登录
  */
 export async function loginApi(data: AuthApi.LoginParams) {
-  return requestClient.post<AuthApi.LoginResult>('/admin/login/login', data);
+  return requestClient.post<AuthApi.LoginResult>('/admin/auth/login', data);
 }
 
 /**
@@ -38,7 +38,7 @@ export async function refreshTokenApi() {
  * 退出登录
  */
 export async function logoutApi() {
-  return baseRequestClient.post('/admin/login/logout', {
+  return baseRequestClient.post('/admin/auth/logout', {
     withCredentials: true,
   });
 }
