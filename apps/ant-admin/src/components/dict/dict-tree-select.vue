@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { defineOptions, onMounted, ref } from 'vue';
 
-import { Select, SelectOption } from 'ant-design-vue';
+import { TreeSelect } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import { useDictStore } from '#/store';
 
-defineOptions({ customOptions: { name: 'DictSelect' } });
+defineOptions({ customOptions: { name: 'DictTreeSelect' } });
 
 const props = defineProps<{ code: Dict.KeyEnum }>();
 
@@ -18,13 +18,10 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <Select v-bind="$attrs">
-    <SelectOption
-      v-for="(item, index) in options"
-      :value="item.value"
-      :key="index"
-    >
-      {{ item.label }}
-    </SelectOption>
-  </Select>
+  <TreeSelect
+    v-bind="$attrs"
+    :tree-data="options"
+    tree-node-filter-prop="label"
+    tree-default-expand-all
+  />
 </template>

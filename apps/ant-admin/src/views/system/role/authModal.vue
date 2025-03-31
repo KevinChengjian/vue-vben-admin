@@ -13,24 +13,27 @@ import {
   Tree,
 } from 'ant-design-vue';
 
-import { roleRulesApi, roleSaveRulesApi } from './api';
+import { Status } from '#/enums/StatusEnum';
+
+import { roleBindApi, roleRulesApi } from './api';
 
 const emit = defineEmits(['reload']);
 const role = ref<RoleItem>();
 const menuTree = ref<any>([]);
 const ruleList = ref<RuleItem[]>([]);
-const menuTreeSk = ref<any>([]);
+const menuTreeSk = ref<number[]>([]);
+const selectIds = ref<number[]>([]);
 
 const handleRoleRules = async (item: RoleItem) => {
   role.value = item;
-  const res = await roleRulesApi({});
+  const res = await roleRulesApi({ id: item.id });
   menuTree.value = res.menus || [];
   ruleList.value = res.actions || [];
+  selectIds.value = res.menuIds || [];
 };
 defineExpose({ handleRoleRules });
 
 const activeIndex = ref<number>(0);
-const selectIds = ref<number[]>([]);
 const handleSelMenu = (menu: any) => {
   activeIndex.value = 0;
   if (menu.length > 0) {
@@ -40,7 +43,7 @@ const handleSelMenu = (menu: any) => {
 
 const handleSubmit = async () => {
   try {
-    await roleSaveRulesApi({ rules: selectIds.value, id: role.value?.id });
+    await roleBindApi({ rules: selectIds.value, id: role.value?.id });
     emit('reload');
   } catch {}
 };
@@ -179,6 +182,7 @@ const handleSelectActionItem = (
             >
               <div class="w-[160px] flex-shrink-0">
                 <Checkbox
+                  :disabled="item.status === Status.Disable"
                   :value="item.id"
                   @change="handleSelectMenuItem($event, item.id, mi)"
                 >
@@ -201,7 +205,10 @@ const handleSelectActionItem = (
                   :key="act.id"
                   @change="handleSelectActionItem($event, act.id, item.id, mi)"
                 >
-                  <Checkbox :value="act.id">
+                  <Checkbox
+                    :value="act.id"
+                    :disabled="act.status === Status.Disable"
+                  >
                     <span class="select-none text-[14px] text-[#666]">
                       {{ act.title }}
                     </span>

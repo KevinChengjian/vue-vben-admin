@@ -51,25 +51,13 @@ onMounted(() => {
 <template>
   <Page class="h-full">
     <Card
-      :body-style="{ padding: '16px 24px 24px 24px' }"
+      :body-style="{ padding: '15px' }"
       :bordered="false"
-      title="职务管理"
+      :title="false"
       class="h-full"
     >
       <div class="flex justify-between">
-        <div class="left">
-          <Input
-            v-model:value="positionKeyword"
-            :allow-clear="true"
-            placeholder="职务名称/编码"
-            @press-enter="getPositionList"
-          >
-            <template #suffix>
-              <span class="icon-[ant-design--search-outlined]"></span>
-            </template>
-          </Input>
-        </div>
-        <div class="right">
+        <div>
           <VbenButton
             v-access:code="AuthCode.Create"
             class="pl-[15px] pr-[15px] text-[14px]"
@@ -81,6 +69,18 @@ onMounted(() => {
             ></span>
             新增职务
           </VbenButton>
+        </div>
+        <div>
+          <Input
+            v-model:value="positionKeyword"
+            :allow-clear="true"
+            placeholder="职务名称/编码"
+            @press-enter="getPositionList"
+          >
+            <template #suffix>
+              <span class="icon-[ant-design--search-outlined]"></span>
+            </template>
+          </Input>
         </div>
       </div>
 
@@ -128,6 +128,8 @@ onMounted(() => {
           </template>
         </template>
       </Table>
+
+      <Table v-else :columns="PositionColumn" class="mt-[16px]" size="middle" />
     </Card>
 
     <StoreModal @reload="getPositionList" />

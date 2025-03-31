@@ -61,6 +61,6 @@ export async function roleRulesApi(params: any) {
  * @param params
  * @returns any
  */
-export async function roleSaveRulesApi(params: any) {
-  return requestClient.post<any>('/admin/role/save-rules', params);
+export async function roleBindApi(params: any) {
+  return requestClient.post<any>('/admin/role/bind', params);
 }

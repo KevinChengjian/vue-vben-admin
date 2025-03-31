@@ -38,7 +38,12 @@ import {
 } from 'ant-design-vue';
 
 // 自定义组件
-import { DictRadio, DictSelect } from '#/components';
+import {
+  DictCascader,
+  DictRadio,
+  DictSelect,
+  DictTreeSelect,
+} from '#/components';
 
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
@@ -59,8 +64,10 @@ export type ComponentType =
   | 'CheckboxGroup'
   | 'DatePicker'
   | 'DefaultButton'
+  | 'DictCascader'
   | 'DictRadio'
   | 'DictSelect'
+  | 'DictTreeSelect'
   | 'Divider'
   | 'IconPicker'
   | 'Input'
@@ -155,6 +162,8 @@ async function initComponentAdapter() {
     Upload,
     DictRadio,
     DictSelect,
+    DictCascader,
+    DictTreeSelect,
   };
 
   // 将组件注册到全局共享状态中

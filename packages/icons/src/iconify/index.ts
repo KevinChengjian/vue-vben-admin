@@ -13,3 +13,11 @@ export const MdiGoogle = createIconifyIcon('mdi:google');
 export const MdiQqchat = createIconifyIcon('mdi:qqchat');
 
 export const CircleAlert = createIconifyIcon('lucide:circle-alert');
+
+export const SettingOutlined = createIconifyIcon('ant-design:setting-outlined');
+
+export const ReloadOutlined = createIconifyIcon('ant-design:redo-outlined');
+
+export const DownloadOutlined = createIconifyIcon(
+  'ant-design:download-outlined',
+);

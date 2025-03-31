@@ -1,4 +1,5 @@
 import type { BasicFetchResult } from '#/api/model';
+import type { Status } from '#/enums/StatusEnum';
 
 export interface RoleItem {
   id: number;
@@ -18,6 +19,7 @@ export interface RuleItem {
   pid: number;
   title: string;
   type: string;
+  status: Status;
   children: RuleItem[];
 }
 

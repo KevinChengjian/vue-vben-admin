@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-import { Select, SelectOption } from 'ant-design-vue';
+import { Cascader } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import { useDictStore } from '#/store';
 
-defineOptions({ customOptions: { name: 'DictSelect' } });
+defineOptions({ customOptions: { name: 'DictCascader' } });
 
 const props = defineProps<{ code: Dict.KeyEnum }>();
 
@@ -18,13 +18,5 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <Select v-bind="$attrs">
-    <SelectOption
-      v-for="(item, index) in options"
-      :value="item.value"
-      :key="index"
-    >
-      {{ item.label }}
-    </SelectOption>
-  </Select>
+  <Cascader v-bind="$attrs" :options="options" expand-trigger="hover" />
 </template>

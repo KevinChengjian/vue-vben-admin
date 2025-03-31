@@ -5,6 +5,8 @@ import { computed, onMounted, ref } from 'vue';
 
 import { useDictStore } from '#/store';
 
+defineOptions({ customOptions: { name: 'DictLabel' } });
+
 const props = defineProps<{
   code: Dict.KeyEnum;
   value: number | string;

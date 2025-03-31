@@ -6,6 +6,8 @@ import { Radio, RadioGroup } from 'ant-design-vue';
 import { Dict } from '#/api';
 import { useDictStore } from '#/store';
 
+defineOptions({ customOptions: { name: 'DictRadio' } });
+
 const props = defineProps<{ code: Dict.KeyEnum }>();
 
 const { getDictByKey } = useDictStore();

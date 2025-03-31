@@ -326,7 +326,7 @@ onUnmounted(() => {
       ref="gridRef"
       :class="
         cn(
-          'p-2',
+          'p-[15px]',
           {
             'pt-0': showToolbar && !formOptions,
           },
@@ -369,7 +369,6 @@ onUnmounted(() => {
           @click="onSearchBtnClick"
         />
       </template>
-
       <!-- form表单 -->
       <template #form>
         <div
@@ -404,7 +403,7 @@ onUnmounted(() => {
             </Form>
           </slot>
           <div
-            class="bg-background-deep z-100 absolute -left-2 bottom-1 h-2 w-[calc(100%+1rem)] overflow-hidden md:bottom-2 md:h-3"
+            class="bg-background-deep z-100 absolute -left-[15px] bottom-1 h-2 w-[calc(100%+30px)] overflow-hidden md:bottom-2 md:h-3"
           ></div>
         </div>
       </template>
@@ -417,8 +416,10 @@ onUnmounted(() => {
       <!-- 统一控状态 -->
       <template #empty>
         <slot name="empty">
-          <EmptyIcon class="mx-auto" />
-          <div class="mt-2">{{ $t('common.noData') }}</div>
+          <div class="m-[32px]">
+            <EmptyIcon class="mx-auto" />
+            <div class="mt-2">{{ $t('common.noData') }}</div>
+          </div>
         </slot>
       </template>
     </VxeGrid>

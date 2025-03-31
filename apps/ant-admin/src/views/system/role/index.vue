@@ -20,7 +20,7 @@ const getRoleList = async () => {
 
   if (selectRoleKeys.value.length === 0 && roleList.value.length > 0) {
     selectRoleKeys.value = [roleList.value[0].id];
-    handleRoleAuth(roleList.value[0]);
+    authRef.value && authRef.value.handleRoleRules(roleList.value[0]);
   }
 };
 
@@ -69,8 +69,10 @@ const { destory } = useDelete<RoleItem>({
 
 const selectRoleKeys = ref<number[]>([]);
 const authRef = ref<InstanceType<typeof AuthModal>>();
-const handleRoleAuth = (record: RoleItem) => {
-  authRef.value && authRef.value.handleRoleRules(record);
+const handleRoleAuth = (_: any, e: any) => {
+  if (e.selected && e.node) {
+    authRef.value && authRef.value.handleRoleRules(e.node);
+  }
 };
 
 onMounted(() => {
@@ -86,7 +88,7 @@ onMounted(() => {
           :bordered="false"
           class="h-full"
           title="角色管理"
-          :body-style="{ padding: '15px 24px 24px 24px' }"
+          :body-style="{ padding: '15px 24px 24px 20px' }"
         >
           <template #extra>
             <Button
@@ -118,13 +120,11 @@ onMounted(() => {
             :tree-data="roleList"
             v-model:selected-keys="selectRoleKeys"
             :default-expand-all="true"
+            @select="handleRoleAuth"
           >
             <template #title="{ name, data }">
               <div class="flex items-center justify-between">
-                <div
-                  :class="{ 'text-destructive': data.status !== 1 }"
-                  @click="handleRoleAuth(data)"
-                >
+                <div :class="{ 'text-destructive': data.status !== 1 }">
                   {{ name }}
                 </div>
                 <div class="flex items-center" v-if="data.super === 2">

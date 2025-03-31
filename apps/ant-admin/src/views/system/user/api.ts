@@ -8,6 +8,7 @@ import { requestClient } from '#/api/request';
 export enum AuthCode {
   Create = 'admin.user.create',
   Delete = 'admin.user.delete',
+  ResetPwd = 'admin.user.reset-pwd',
   Update = 'admin.user.update',
 }
 
@@ -45,4 +46,13 @@ export async function userUpdateApi(params: any) {
  */
 export async function userDeleteApi(params: any) {
   return requestClient.post<any>('/admin/user/delete', params);
+}
+
+/**
+ * 删除
+ * @param params
+ * @returns any
+ */
+export async function userResetPwdApi(params: any) {
+  return requestClient.post<any>('/admin/user/reset-pwd', params);
 }
