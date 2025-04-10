@@ -1,29 +1,13 @@
 <script setup lang="ts">
-import { computed, type HTMLAttributes } from 'vue';
+import type { AlertDialogCancelProps } from 'radix-vue';
 
-import { buttonVariants } from '@vben-core/shadcn-ui/components/ui/button';
-import { cn } from '@vben-core/shared/utils';
+import { AlertDialogCancel } from 'radix-vue';
 
-import { AlertDialogCancel, type AlertDialogCancelProps } from 'radix-vue';
-
-const props = defineProps<
-  { class?: HTMLAttributes['class'] } & AlertDialogCancelProps
->();
-
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props;
-
-  return delegated;
-});
+const props = defineProps<AlertDialogCancelProps>();
 </script>
 
 <template>
-  <AlertDialogCancel
-    v-bind="delegatedProps"
-    :class="
-      cn(buttonVariants({ variant: 'outline' }), 'mt-2 sm:mt-0', props.class)
-    "
-  >
+  <AlertDialogCancel v-bind="props">
     <slot></slot>
   </AlertDialogCancel>
 </template>

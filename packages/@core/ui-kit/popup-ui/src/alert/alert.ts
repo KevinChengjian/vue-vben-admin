@@ -1,137 +1,66 @@
-export interface AlertProps {
+import type { Component, VNode, VNodeArrayChildren } from 'vue';
+
+import type { Recordable } from '@vben-core/typings';
+
+export type IconType = 'error' | 'info' | 'question' | 'success' | 'warning';
+
+export type BeforeCloseScope = {
+  isConfirm: boolean;
+};
+
+export type AlertProps = {
+  /** 关闭前的回调，如果返回false，则终止关闭 */
+  beforeClose?: (
+    scope: BeforeCloseScope,
+  ) => boolean | Promise<boolean | undefined> | undefined;
+  /** 边框 */
+  bordered?: boolean;
   /**
-   * 取消按钮文字
+   * 按钮对齐方式
+   * @default 'end'
    */
+  buttonAlign?: 'center' | 'end' | 'start';
+  /** 取消按钮的标题 */
   cancelText?: string;
-
-  class?: string;
-
-  /**
-   * 是否显示右上角的关闭按钮
-   * @default true
-   */
-  closable?: boolean;
-
-  /**
-   * 点击弹窗遮罩是否关闭弹窗
-   * @default true
-   */
-  closeOnClickModal?: boolean;
-
-  /**
-   * 按下 ESC 键是否关闭弹窗
-   * @default true
-   */
-  closeOnPressEscape?: boolean;
-
-  /**
-   * 禁用确认按钮
-   */
-  confirmDisabled?: boolean;
-
-  /**
-   * 确定按钮 loading
-   * @default false
-   */
-  confirmLoading?: boolean;
-
-  /**
-   * 确定按钮文字
-   */
+  /** 是否居中显示 */
+  centered?: boolean;
+  /** 确认按钮的标题 */
   confirmText?: string;
-
+  /** 弹窗容器的额外样式 */
+  containerClass?: string;
+  /** 弹窗提示内容 */
+  content: Component | string;
+  /** 弹窗内容的额外样式 */
   contentClass?: string;
-  /**
-   * 弹窗描述
-   */
-  description?: string;
-
-  /**
-   * 是否显示底部
-   * @default true
-   */
-  footer?: boolean;
-
-  footerClass?: string;
-  /**
-   * 是否显示顶栏
-   * @default true
-   */
-  header?: boolean;
-  headerClass?: string;
-  /**
-   * 弹窗是否显示
-   * @default false
-   */
-  loading?: boolean;
-  /**
-   * 是否显示遮罩
-   * @default true
-   */
-  modal?: boolean;
-  /**
-   * 是否自动聚焦
-   */
-  openAutoFocus?: boolean;
-  /**
-   * 是否显示取消按钮
-   * @default true
-   */
-  showCancelButton?: boolean;
-  /**
-   * 是否显示确认按钮
-   * @default true
-   */
-  showConfirmButton?: boolean;
-  /**
-   * 弹窗标题
-   */
+  /** 执行beforeClose回调期间，在内容区域显示一个loading遮罩*/
+  contentMasking?: boolean;
+  /** 弹窗的图标（在标题的前面） */
+  icon?: Component | IconType;
+  /** 是否显示取消按钮 */
+  showCancel?: boolean;
+  /** 弹窗标题 */
   title?: string;
-}
+};
 
-export interface AlertState extends AlertProps {
-  /** 弹窗打开状态 */
-  isOpen?: boolean;
-  /**
-   * 共享数据
-   */
-  sharedData?: Record<string, any>;
-}
-
-// export type ExtendedModalApi = {
-//   useStore: <T = NoInfer<ModalState>>(
-//     selector?: (state: NoInfer<ModalState>) => T,
-//   ) => Readonly<Ref<T>>;
-// } & ModalApi;
-
-export interface AlertApiOptions extends AlertState {
-  /**
-   * 关闭前的回调，返回 false 可以阻止关闭
-   * @returns
-   */
-  onBeforeClose?: () => void;
-  /**
-   * 点击取消按钮的回调
-   */
-  onCancel?: () => void;
-  /**
-   * 弹窗关闭动画结束的回调
-   * @returns
-   */
-  onClosed?: () => void;
-  /**
-   * 点击确定按钮的回调
-   */
-  onConfirm?: () => void;
-  /**
-   * 弹窗状态变化回调
-   * @param isOpen
-   * @returns
-   */
-  onOpenChange?: (isOpen: boolean) => void;
-  /**
-   * 弹窗打开动画结束的回调
-   * @returns
-   */
-  onOpened?: () => void;
-}
+/** Prompt属性 */
+export type PromptProps<T = any> = {
+  /** 关闭前的回调，如果返回false，则终止关闭 */
+  beforeClose?: (scope: {
+    isConfirm: boolean;
+    value: T | undefined;
+  }) => boolean | Promise<boolean | undefined> | undefined;
+  /** 用于接受用户输入的组件 */
+  component?: Component;
+  /** 输入组件的属性 */
+  componentProps?: Recordable<any>;
+  /** 输入组件的插槽 */
+  componentSlots?:
+    | (() => any)
+    | Recordable<unknown>
+    | VNode
+    | VNodeArrayChildren;
+  /** 默认值 */
+  defaultValue?: T;
+  /** 输入组件的值属性名 */
+  modelPropName?: string;
+} & Omit<AlertProps, 'beforeClose'>;

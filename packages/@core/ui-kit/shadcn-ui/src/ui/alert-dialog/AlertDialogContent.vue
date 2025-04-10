@@ -1,41 +1,86 @@
 <script setup lang="ts">
-import { computed, type HTMLAttributes } from 'vue';
+import type {
+  AlertDialogContentEmits,
+  AlertDialogContentProps,
+} from 'radix-vue';
+
+import type { ClassType } from '@vben-core/typings';
+
+import { computed, ref } from 'vue';
 
 import { cn } from '@vben-core/shared/utils';
 
 import {
   AlertDialogContent,
-  type AlertDialogContentEmits,
-  type AlertDialogContentProps,
-  AlertDialogOverlay,
   AlertDialogPortal,
   useForwardPropsEmits,
 } from 'radix-vue';
 
-const props = defineProps<
-  { class?: HTMLAttributes['class'] } & AlertDialogContentProps
+import AlertDialogOverlay from './AlertDialogOverlay.vue';
+
+const props = withDefaults(
+  defineProps<
+    AlertDialogContentProps & {
+      centered?: boolean;
+      class?: ClassType;
+      modal?: boolean;
+      open?: boolean;
+      overlayBlur?: number;
+      zIndex?: number;
+    }
+  >(),
+  { modal: true },
+);
+const emits = defineEmits<
+  AlertDialogContentEmits & { close: []; closed: []; opened: [] }
 >();
-const emits = defineEmits<AlertDialogContentEmits>();
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props;
+  const { class: _, modal: _modal, open: _open, ...delegated } = props;
 
   return delegated;
 });
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits);
+
+const contentRef = ref<InstanceType<typeof AlertDialogContent> | null>(null);
+function onAnimationEnd(event: AnimationEvent) {
+  // 只有在 contentRef 的动画结束时才触发 opened/closed 事件
+  if (event.target === contentRef.value?.$el) {
+    if (props.open) {
+      emits('opened');
+    } else {
+      emits('closed');
+    }
+  }
+}
+defineExpose({
+  getContentRef: () => contentRef.value,
+});
 </script>
 
 <template>
   <AlertDialogPortal>
-    <AlertDialogOverlay
-      class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/80"
-    />
+    <Transition name="fade">
+      <AlertDialogOverlay
+        v-if="open && modal"
+        :style="{
+          ...(zIndex ? { zIndex } : {}),
+          position: 'fixed',
+          backdropFilter:
+            overlayBlur && overlayBlur > 0 ? `blur(${overlayBlur}px)` : 'none',
+        }"
+        @click="() => emits('close')"
+      />
+    </Transition>
     <AlertDialogContent
+      ref="contentRef"
+      :style="{ ...(zIndex ? { zIndex } : {}), position: 'fixed' }"
+      @animationend="onAnimationEnd"
       v-bind="forwarded"
       :class="
         cn(
-          'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border p-6 shadow-lg duration-200 sm:rounded-lg',
+          'z-popup bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-top-[48%] w-full p-6 shadow-lg outline-none sm:rounded-xl',
           props.class,
         )
       "
