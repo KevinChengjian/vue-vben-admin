@@ -49,11 +49,11 @@ export const MenuFormStoreSchema: VbenFormSchema[] = [
     },
   },
   {
-    component: 'Input',
+    component: 'IconPicker',
     fieldName: 'icon',
     label: '菜单图标',
     componentProps: {
-      placeholder: '请输入菜单名称',
+      placeholder: '请选择菜单图标',
     },
     dependencies: {
       triggerFields: ['type'],

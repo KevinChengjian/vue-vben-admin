@@ -51,5 +51,9 @@ export const useDictStore = defineStore('dict', () => {
     });
   }
 
-  return { fetch, getDictByKey };
+  function $reset() {
+    loading.value = false;
+  }
+
+  return { fetch, getDictByKey, $reset };
 });

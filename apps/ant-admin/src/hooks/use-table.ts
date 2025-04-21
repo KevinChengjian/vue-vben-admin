@@ -27,10 +27,6 @@ export function useTable(props: Props) {
   };
 
   const gridOptions: VxeGridProps<any> = {
-    checkboxConfig: {
-      highlight: true,
-      labelField: 'name',
-    },
     columns: props.colums || [],
     keepSource: true,
     pagerConfig: {},

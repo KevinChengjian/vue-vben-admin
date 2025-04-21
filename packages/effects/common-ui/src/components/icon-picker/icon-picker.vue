@@ -172,6 +172,7 @@ defineExpose({ toggleOpenState, open, close });
     v-model:open="visible"
     :content-props="{ align: 'end', alignOffset: -11, sideOffset: 8 }"
     content-class="p-0 pt-3"
+    class="w-full"
   >
     <template #trigger>
       <template v-if="props.type === 'input'">

@@ -137,11 +137,40 @@ const handleSelectActionItem = (
   <Card
     :bordered="false"
     class="h-full"
-    title="角色权限"
-    :body-style="{ padding: '15px 24px 24px 12px' }"
+    :body-style="{ padding: '18px 24px 24px 12px' }"
   >
+    <template #title>
+      <div class="flex items-center">
+        <div
+          class="border-[#f0f0f0] pr-[30px]"
+          :class="{ 'border-r': role?.super === Status.Disable }"
+        >
+          角色权限
+        </div>
+        <div class="flex items-center" v-if="role?.super === Status.Disable">
+          <div class="ml-[30px]">
+            <Checkbox :checked="checkAll" @change="handleSelectAll">
+              <span class="text-primary select-none text-[15px]">全选</span>
+            </Checkbox>
+          </div>
+
+          <div class="ml-[40px]">
+            <Checkbox :checked="readonlyAll" @change="handleSelectReadonly">
+              <span class="text-primary select-none text-[15px]">仅查看</span>
+            </Checkbox>
+          </div>
+        </div>
+      </div>
+    </template>
+
     <template #extra>
-      <Button type="primary" @click="handleSubmit"> 保存权限 </Button>
+      <Button
+        v-if="role?.super === Status.Disable"
+        type="primary"
+        @click="handleSubmit"
+      >
+        保存权限
+      </Button>
     </template>
 
     <div class="flex items-start">
@@ -158,31 +187,20 @@ const handleSelectActionItem = (
       </div>
 
       <div class="flex flex-1 flex-col">
-        <div class="mb-[15px] flex items-center">
-          <div class="ml-[5px] w-[160px]">
-            <Checkbox :checked="checkAll" @change="handleSelectAll">
-              <span class="text-primary select-none text-[16px]">全选</span>
-            </Checkbox>
-          </div>
-
-          <div class="w-[160px]">
-            <Checkbox :checked="readonlyAll" @change="handleSelectReadonly">
-              <span class="text-primary select-none text-[16px]">仅查看</span>
-            </Checkbox>
-          </div>
-        </div>
-
         <CheckboxGroup class="w-full" v-model:value="selectIds">
           <div class="w-full">
             <div
-              class="mt-[24px] flex items-start border-b border-[#f0f0f0] pb-[15px] pl-[5px]"
+              class="mb-[24px] flex items-start border-b border-[#f0f0f0] pb-[15px] pl-[5px]"
               v-for="(item, mi) in ruleList"
               :key="mi"
               :class="{ 'menu-bg': item.id === activeIndex }"
             >
               <div class="w-[160px] flex-shrink-0">
                 <Checkbox
-                  :disabled="item.status === Status.Disable"
+                  :disabled="
+                    item.status === Status.Disable ||
+                    role?.super === Status.Enable
+                  "
                   :value="item.id"
                   @change="handleSelectMenuItem($event, item.id, mi)"
                 >
@@ -207,7 +225,10 @@ const handleSelectActionItem = (
                 >
                   <Checkbox
                     :value="act.id"
-                    :disabled="act.status === Status.Disable"
+                    :disabled="
+                      act.status === Status.Disable ||
+                      role?.super === Status.Enable
+                    "
                   >
                     <span class="select-none text-[14px] text-[#666]">
                       {{ act.title }}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineOptions, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import { TreeSelect } from 'ant-design-vue';
 

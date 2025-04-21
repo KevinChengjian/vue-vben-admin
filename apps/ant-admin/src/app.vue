@@ -25,7 +25,10 @@ const tokenTheme = computed(() => {
 
   return {
     algorithm,
-    token: tokens,
+    token: {
+      ...tokens,
+      colorSplit: tokens.colorBorderSecondary,
+    },
     hashed: false,
   };
 });

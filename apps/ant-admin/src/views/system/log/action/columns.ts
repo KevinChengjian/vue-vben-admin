@@ -7,10 +7,5 @@ export const LogColumn: any = [
   { title: '客户端IP', field: 'client_ip', align: 'center' },
   { title: '操作地址', field: 'address', align: 'center' },
   { title: '操作时间', field: 'operation_at', align: 'center' },
-  {
-    title: '操作状态',
-    field: 'result_code',
-    align: 'center',
-    slots: { default: 'result_code' },
-  },
+  { title: '操作状态', field: 'result_msg', align: 'center' },
 ];

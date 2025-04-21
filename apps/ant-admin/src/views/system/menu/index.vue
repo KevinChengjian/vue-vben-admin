@@ -133,7 +133,12 @@ onMounted(() => {
   <Page class="h-full">
     <Row :gutter="12" class="h-full">
       <Col :lg="8" :span="8" :xs="24">
-        <Card :bordered="false" class="h-full" title="菜单管理">
+        <Card
+          :bordered="false"
+          class="h-full"
+          title="菜单管理"
+          :body-style="{ padding: '24px 0 24px 24px' }"
+        >
           <template #extra>
             <Button
               type="primary"
@@ -152,6 +157,7 @@ onMounted(() => {
             :block-node="true"
             :tree-data="menuTree"
             @select="handleEditMenu"
+            style="height: calc(100vh - 240px); overflow-y: scroll"
           >
             <template #title="{ title, data }">
               <div class="flex items-center justify-between">
@@ -168,7 +174,7 @@ onMounted(() => {
                     关联权限
                   </div>
                   <div
-                    class="text-destructive ml-[15px] cursor-pointer"
+                    class="text-destructive ml-[15px] mr-[20px] cursor-pointer"
                     v-access:code="AuthCode.Delete"
                     @click.stop="handleDestroy(data.id)"
                   >
@@ -187,7 +193,7 @@ onMounted(() => {
           :title="`${isCreate ? '添加菜单' : '编辑菜单'}`"
           class="h-full"
         >
-          <MenuForm />
+          <MenuForm class="menu-from" />
         </Card>
       </Col>
     </Row>
@@ -220,3 +226,12 @@ onMounted(() => {
     </BindActionModal>
   </Page>
 </template>
+
+<style lang="less">
+.menu-from {
+  button[aria-haspopup='dialog'] {
+    display: flex !important;
+    flex: 1 !important;
+  }
+}
+</style>

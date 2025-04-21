@@ -65,11 +65,6 @@ const [Grid] = useTable({
 
 <template>
   <Page class="h-full">
-    <Grid>
-      <template #result_code="{ row }">
-        <span class="text-primary" v-if="row.result_code === 0">成功</span>
-        <span class="text-destructive" v-else>失败</span>
-      </template>
-    </Grid>
+    <Grid />
   </Page>
 </template>

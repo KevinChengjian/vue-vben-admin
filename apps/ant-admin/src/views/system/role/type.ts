@@ -10,6 +10,7 @@ export interface RoleItem {
   status_text: string;
   sorting: number;
   remark: string;
+  super: Status;
   created_at: string;
   updated_at: string;
 }

@@ -38,6 +38,27 @@ const coreRoutes: RouteRecordRaw[] = [
     children: [],
   },
   {
+    component: BasicLayout,
+    meta: {
+      hideInBreadcrumb: true,
+      title: '账户中心',
+    },
+    name: 'UserAccountRoot',
+    path: '/userAccountRoot',
+    redirect: '/userAccount',
+    children: [
+      {
+        name: 'userAccount',
+        path: '/userAccount',
+        component: () => import('#/views/_core/account/index.vue'),
+        meta: {
+          hideInMenu: true,
+          title: '账户中心',
+        },
+      },
+    ],
+  },
+  {
     component: AuthPageLayout,
     meta: {
       hideInTab: true,

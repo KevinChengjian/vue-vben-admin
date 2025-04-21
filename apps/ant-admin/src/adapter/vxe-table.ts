@@ -11,9 +11,6 @@ import { useVbenForm } from './form';
 setupVbenVxeTable({
   configVxeTable: (vxeUI) => {
     vxeUI.setConfig({
-      table: {
-        loading: false,
-      },
       grid: {
         align: 'center',
         border: 'inner',
@@ -23,7 +20,7 @@ setupVbenVxeTable({
         rowConfig: {
           isHover: true,
         },
-        minHeight: 180,
+        minHeight: 350,
         formConfig: {
           // 全局禁用vxe-table的表单配置，使用formOptions
           enabled: false,

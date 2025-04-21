@@ -12,7 +12,7 @@ const [Grid] = useTable({
   searhcSchema: [
     {
       component: 'Input',
-      fieldName: 'nickname',
+      fieldName: 'username',
       label: '登录账号',
       componentProps: {
         allowClear: true,
@@ -48,9 +48,11 @@ const [Grid] = useTable({
 <template>
   <Page class="h-full">
     <Grid>
-      <template #result_code="{ row }">
-        <span class="text-primary" v-if="row.result_code === 0">成功</span>
-        <span class="text-destructive" v-else>失败</span>
+      <template #resultCode="{ row }">
+        <span class="text-primary" v-if="row.result_code === '0'">
+          登录成功
+        </span>
+        <span class="text-destructive" v-else>登录失败</span>
       </template>
     </Grid>
   </Page>

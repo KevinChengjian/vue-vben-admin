@@ -88,7 +88,7 @@ onMounted(() => {
           :bordered="false"
           class="h-full"
           title="角色管理"
-          :body-style="{ padding: '15px 24px 24px 20px' }"
+          :body-style="{ padding: '20px 24px 24px 20px' }"
         >
           <template #extra>
             <Button
