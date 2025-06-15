@@ -5,8 +5,8 @@ import { useVbenModal } from '@vben/common-ui';
 
 import { useVbenForm } from '#/adapter/form';
 
-import { userCreateApi, userUpdateApi } from './api';
-import { UserFormStoreSchema } from './schema';
+import { roleTreeApi, userCreateApi, userUpdateApi } from './api';
+import { UserFormStoreSchema } from './storeSchema';
 
 const emit = defineEmits(['reload']);
 
@@ -19,11 +19,27 @@ const [UserForm, UserFromApi] = useVbenForm({
   },
 });
 
+const roleTree = ref<any>([]);
+const getRoleTree = async () => {
+  roleTree.value = await roleTreeApi();
+
+  UserFromApi.updateSchema([
+    {
+      fieldName: 'role_ids',
+      componentProps: {
+        treeData: roleTree.value,
+      },
+    },
+  ]);
+};
+
 const isUpdate = ref<boolean>(false);
 const [Modal, ModalApi] = useVbenModal({
+  closeOnClickModal: false,
   onOpenChange: (isOpen: boolean) => {
     UserFromApi.resetForm();
     if (!isOpen) return;
+    roleTree.value.length === 0 && getRoleTree();
 
     const data = ModalApi.getData();
     ModalApi.setData({});

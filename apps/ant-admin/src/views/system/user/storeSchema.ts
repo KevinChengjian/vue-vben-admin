@@ -99,6 +99,24 @@ export const UserFormStoreSchema: VbenFormSchema[] = [
     },
   },
   {
+    component: 'TreeSelect',
+    fieldName: 'role_ids',
+    label: '操作权限',
+    componentProps: {
+      class: 'w-full',
+      placeholder: '请选择操作权限',
+      multiple: true,
+      treeDefaultExpandAll: true,
+      showCheckedStrategy: 'SHOW_ALL',
+      fieldNames: {
+        children: 'children',
+        label: 'name',
+        key: 'id',
+        value: 'id',
+      },
+    },
+  },
+  {
     component: 'InputNumber',
     fieldName: 'sorting',
     label: '显示顺序',

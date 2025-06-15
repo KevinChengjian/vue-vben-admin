@@ -10,9 +10,14 @@ export const overridesPreferences = defineOverridesPreferences({
   app: {
     accessMode: 'backend',
     name: import.meta.env.VITE_APP_TITLE,
+    layout: 'sidebar-mixed-nav',
   },
   theme: {
     mode: 'light',
     radius: '0.2',
+  },
+  sidebar: {
+    width: 75,
+    fixedButton: false,
   },
 });

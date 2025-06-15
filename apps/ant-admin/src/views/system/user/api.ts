@@ -56,3 +56,11 @@ export async function userDeleteApi(params: any) {
 export async function userResetPwdApi(params: any) {
   return requestClient.post<any>('/admin/user/reset-pwd', params);
 }
+
+/**
+ * 角色
+ * @returns any
+ */
+export async function roleTreeApi() {
+  return requestClient.post<any>('/admin/role/all');
+}
