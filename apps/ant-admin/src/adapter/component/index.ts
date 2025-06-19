@@ -42,7 +42,9 @@ import {
   DictCascader,
   DictRadio,
   DictSelect,
+  DictSelectWithAdd,
   DictTreeSelect,
+  MaterialSnInput,
 } from '#/components';
 
 const withDefaultPlaceholder = <T extends Component>(
@@ -67,12 +69,14 @@ export type ComponentType =
   | 'DictCascader'
   | 'DictRadio'
   | 'DictSelect'
+  | 'DictSelectWithAdd'
   | 'DictTreeSelect'
   | 'Divider'
   | 'IconPicker'
   | 'Input'
   | 'InputNumber'
   | 'InputPassword'
+  | 'MaterialSnInput'
   | 'Mentions'
   | 'PrimaryButton'
   | 'Radio'
@@ -162,8 +166,10 @@ async function initComponentAdapter() {
     Upload,
     DictRadio,
     DictSelect,
+    DictSelectWithAdd,
     DictCascader,
     DictTreeSelect,
+    MaterialSnInput,
   };
 
   // 将组件注册到全局共享状态中

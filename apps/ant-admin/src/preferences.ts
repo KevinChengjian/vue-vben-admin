@@ -11,13 +11,19 @@ export const overridesPreferences = defineOverridesPreferences({
     accessMode: 'backend',
     name: import.meta.env.VITE_APP_TITLE,
     layout: 'sidebar-mixed-nav',
+    enableCheckUpdates: false,
   },
   theme: {
     mode: 'light',
     radius: '0.2',
   },
   sidebar: {
-    width: 75,
+    width: 140,
+    mixedWidth: 75,
     fixedButton: false,
+  },
+  copyright: {
+    companyName: '杭州临安农新生物科技有限公司',
+    companySiteLink: '',
   },
 });

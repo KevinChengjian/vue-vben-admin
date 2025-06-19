@@ -18,11 +18,12 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <Select v-bind="$attrs">
+  <Select show-search option-filter-prop="label" v-bind="$attrs">
     <SelectOption
-      v-for="(item, index) in options"
+      v-for="item in options"
       :value="item.value"
-      :key="index"
+      :key="item.value"
+      :label="item.label"
     >
       {{ item.label }}
     </SelectOption>

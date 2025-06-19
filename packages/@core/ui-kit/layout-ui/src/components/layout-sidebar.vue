@@ -269,6 +269,13 @@ function handleMouseleave() {
     ]"
     :style="style"
     class="fixed left-0 top-0 h-full transition-all duration-150"
+    style="
+      background-image: url('http://july-mall.com/mbg.svg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: 0% 0%;
+      background-size: 75px 100%;
+    "
     @mouseenter="handleMouseenter"
     @mouseleave="handleMouseleave"
   >

@@ -16,9 +16,12 @@ export const useDictStore = defineStore('dict', () => {
     dictList.value = await Dict.listApi();
   }
 
-  async function getDictByKey(dk: Dict.KeyEnum): Promise<Dict.ValueItem[]> {
+  async function getDictByKey(
+    dk: Dict.KeyEnum,
+    force: boolean = false,
+  ): Promise<Dict.ValueItem[]> {
     return new Promise<Dict.ValueItem[]>((resolve, reject) => {
-      if (dictList.value.length > 0) {
+      if (!force && dictList.value.length > 0) {
         return resolve(dictMap.get(dk) || []);
       }
 
@@ -51,9 +54,13 @@ export const useDictStore = defineStore('dict', () => {
     });
   }
 
+  const addDictItem = async (params: Dict.AddDictItemParams) => {
+    await Dict.addDictByCodeApi(params);
+  };
+
   function $reset() {
     loading.value = false;
   }
 
-  return { fetch, getDictByKey, $reset };
+  return { fetch, getDictByKey, addDictItem, $reset };
 });

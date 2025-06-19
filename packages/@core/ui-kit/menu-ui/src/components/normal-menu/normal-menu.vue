@@ -114,22 +114,27 @@ $namespace: vben;
     justify-content: center;
     // max-width: 64px;
     // max-height: 64px;
-    padding: var(--menu-item-padding-y) var(--menu-item-padding-x);
-    margin: var(--menu-item-margin-y) var(--menu-item-margin-x);
-    color: hsl(var(--foreground) / 90%);
+
+    // padding: var(--menu-item-padding-y) var(--menu-item-padding-x);
+    padding: var(--menu-item-padding-y) 0;
+    margin: 0;
+    //  var(--menu-item-margin-y) var(--menu-item-margin-x);
+    // color: hsl(var(--foreground) / 90%);
+    color: #fff;
     cursor: pointer;
-    border-radius: var(--menu-item-radius);
+    // border-radius: var(--menu-item-radius);
+    border-radius: 0;
     transition:
       background 0.15s ease,
       padding 0.15s ease,
       border-color 0.15s ease;
 
     &.is-active {
-      @apply text-primary bg-primary dark:bg-accent;
+      @apply bg-primary dark:bg-accent text-[#fff];
 
       .#{$namespace}-normal-menu__name,
       .#{$namespace}-normal-menu__icon {
-        @apply text-primary-foreground font-semibold;
+        @apply text-primary-foreground;
       }
     }
 
@@ -139,7 +144,7 @@ $namespace: vben;
 
     &:hover {
       .#{$namespace}-normal-menu__icon {
-        transform: scale(1.2);
+        transform: scale(1);
       }
     }
   }
@@ -151,7 +156,7 @@ $namespace: vben;
   }
 
   &__name {
-    margin-top: 8px;
+    margin-top: 6px;
     margin-bottom: 0;
     font-size: 12px;
     font-weight: 400;

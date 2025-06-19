@@ -90,12 +90,11 @@ defineExpose({
   <div
     :class="
       cn(
-        'col-span-full w-full text-right',
+        'w-full',
         rootProps.compact ? 'pb-2' : 'pb-6',
         rootProps.actionWrapperClass,
       )
     "
-    :style="queryFormStyle"
   >
     <template v-if="rootProps.actionButtonsReverse">
       <!-- 提交按钮前 -->

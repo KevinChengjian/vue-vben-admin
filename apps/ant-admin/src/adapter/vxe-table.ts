@@ -5,6 +5,7 @@ import { h } from 'vue';
 import { setupVbenVxeTable, useVbenVxeGrid } from '@vben/plugins/vxe-table';
 
 import DictLabel from '#/components/dict/dict-label.vue';
+import { format } from '#/utils/money';
 
 import { useVbenForm } from './form';
 
@@ -49,6 +50,18 @@ setupVbenVxeTable({
           value: row[column.field],
           code: _renderOpts?.code as Dict.KeyEnum,
         });
+      },
+    });
+
+    // 金额渲染
+    vxeUI.renderer.add('money', {
+      renderTableDefault(_renderOpts: any, params) {
+        const { column, row } = params;
+        return h(
+          'span',
+          { class: ['text-primary'] },
+          format(row[column.field]),
+        );
       },
     });
   },

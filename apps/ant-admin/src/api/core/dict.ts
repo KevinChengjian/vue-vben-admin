@@ -4,9 +4,14 @@ export namespace Dict {
   export enum KeyEnum {
     DEPT = 'DEPT',
     DEPT_TYPE = 'DEPT_TYPE',
+    MATERIAL = 'MATERIAL',
+    MATERIAL_MACHINE = 'MATERIAL_MACHINE',
+    MATERIAL_SPEC = 'MATERIAL_SPEC',
     STATUS = 'STATUS',
     SYS_DEPT = 'SYS_DEPT',
     SYS_POSITION = 'SYS_POSITION',
+    SYS_USER = 'SYS_USER',
+    UNIT = 'UNIT',
   }
 
   export interface ValueItem {
@@ -22,6 +27,11 @@ export namespace Dict {
     values: ValueItem[];
   }
 
+  export interface AddDictItemParams {
+    label: string;
+    code: KeyEnum;
+  }
+
   /**
    * 获取字典列表
    *
@@ -30,6 +40,13 @@ export namespace Dict {
    */
   export async function listApi(params: any = {}) {
     return requestClient.get<KeyItem[]>('/admin/dictionary/value-all', params);
+  }
+
+  export async function addDictByCodeApi(params: AddDictItemParams) {
+    return requestClient.post<any>(
+      '/admin/dictionary/value-create-by-code',
+      params,
+    );
   }
 
   /**

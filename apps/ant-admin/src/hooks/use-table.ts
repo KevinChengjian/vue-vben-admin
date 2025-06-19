@@ -29,7 +29,19 @@ export function useTable(props: Props) {
   const gridOptions: VxeGridProps<any> = {
     columns: props.colums || [],
     keepSource: true,
-    pagerConfig: {},
+    pagerConfig: {
+      pageSize: 15,
+      total: 0,
+      currentPage: 1,
+      pageSizes: [10, 15, 20, 30, 40, 50, 100],
+    },
+    seqConfig: {
+      seqMethod({ $table, rowIndex }) {
+        const pageSize = $table.xeGrid?.reactData.tablePage.pageSize || 15;
+        const currentPage = $table.xeGrid?.reactData.tablePage.currentPage || 1;
+        return (currentPage - 1) * pageSize + rowIndex + 1;
+      },
+    },
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) => {
