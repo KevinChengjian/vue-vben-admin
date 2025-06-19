@@ -44,7 +44,7 @@ const [Grid, gridApi] = useTable({
         class: 'w-full',
         showSearch: true,
         allowClear: true,
-        placeholder: '请输入创建人员',
+        placeholder: '请选择创建人员',
         code: Dict.KeyEnum.SYS_USER,
       },
     },
