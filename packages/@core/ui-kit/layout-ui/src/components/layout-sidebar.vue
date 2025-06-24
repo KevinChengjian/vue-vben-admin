@@ -162,7 +162,7 @@ const contentStyle = computed((): CSSProperties => {
   const { collapseHeight, headerHeight } = props;
 
   return {
-    height: `calc(100% - ${headerHeight + collapseHeight}px)`,
+    height: `calc(100% - ${headerHeight + collapseHeight + 24}px)`,
     paddingTop: '8px',
     ...contentWidthStyle.value,
   };
@@ -174,6 +174,7 @@ const headerStyle = computed((): CSSProperties => {
   return {
     ...(isSidebarMixed ? { display: 'flex', justifyContent: 'center' } : {}),
     height: `${headerHeight - 1}px`,
+    marginTop: '24px',
     ...contentWidthStyle.value,
   };
 });
@@ -269,16 +270,14 @@ function handleMouseleave() {
     ]"
     :style="style"
     class="fixed left-0 top-0 h-full transition-all duration-150"
-    style="
-      background-image: url('http://july-mall.com/mbg.svg');
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-position: 0% 0%;
-      background-size: 75px 100%;
-    "
     @mouseenter="handleMouseenter"
     @mouseleave="handleMouseleave"
   >
+    <div
+      class="fixed left-0 top-0 min-h-[100vh] rounded-tr-[60px] bg-[url(http://july-mall.com/mbg.svg)] bg-cover bg-no-repeat"
+      :style="{ width: `${props.width}px` }"
+    ></div>
+
     <SidebarFixedButton
       v-if="!collapse && !isSidebarMixed && showFixedButton"
       v-model:expand-on-hover="expandOnHover"
@@ -298,11 +297,8 @@ function handleMouseleave() {
     <div
       v-if="isSidebarMixed"
       ref="asideRef"
-      :class="{
-        'border-l': extraVisible,
-      }"
       :style="extraStyle"
-      class="border-border bg-sidebar fixed top-0 h-full overflow-hidden border-r transition-all duration-200"
+      class="border-border bg-sidebar fixed top-0 h-full overflow-hidden transition-all duration-200"
     >
       <SidebarCollapseButton
         v-if="isSidebarMixed && expandOnHover"

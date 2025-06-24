@@ -63,7 +63,7 @@ $namespace: vben;
 .#{$namespace}-normal-menu {
   --menu-item-margin-y: 4px;
   --menu-item-margin-x: 0px;
-  --menu-item-padding-y: 9px;
+  --menu-item-padding-y: 10px;
   --menu-item-padding-x: 0px;
   --menu-item-radius: 0px;
 
@@ -150,15 +150,15 @@ $namespace: vben;
   }
 
   &__icon {
-    max-height: 20px;
-    font-size: 20px;
+    max-height: 24px;
+    font-size: 24px;
     transition: all 0.25s ease;
   }
 
   &__name {
-    margin-top: 6px;
+    margin-top: 4px;
     margin-bottom: 0;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     transition: all 0.25s ease;
   }

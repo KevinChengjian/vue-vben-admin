@@ -42,6 +42,7 @@ const coreRoutes: RouteRecordRaw[] = [
     component: BasicLayout,
     meta: {
       hideInBreadcrumb: true,
+      noBasicLayout: true,
       title: '账户中心',
     },
     name: 'UserAccountRoot',
@@ -53,6 +54,8 @@ const coreRoutes: RouteRecordRaw[] = [
         path: '/userAccount',
         component: () => import('#/views/_core/account/index.vue'),
         meta: {
+          hideInBreadcrumb: true,
+          hideInTab: true,
           hideInMenu: true,
           title: '账户中心',
         },
