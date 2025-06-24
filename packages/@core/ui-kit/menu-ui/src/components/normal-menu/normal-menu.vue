@@ -156,7 +156,7 @@ $namespace: vben;
   }
 
   &__name {
-    margin-top: 4px;
+    margin-top: 2px;
     margin-bottom: 0;
     font-size: 14px;
     font-weight: 400;

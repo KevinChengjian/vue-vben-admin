@@ -314,7 +314,7 @@ function handleMouseleave() {
       </div>
       <VbenScrollbar
         :style="extraContentStyle"
-        class="border-border py-2"
+        class="border-border border-t-[1px] py-2"
         shadow
         shadow-border
       >

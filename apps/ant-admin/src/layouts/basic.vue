@@ -124,6 +124,9 @@ watch(
 
 <template>
   <BasicLayout @clear-preferences-and-logout="handleLogout">
+    <template #logo-text>
+      <span class="truncate text-nowrap"> 农新生物科技 </span>
+    </template>
     <template #user-dropdown>
       <UserDropdown
         :avatar

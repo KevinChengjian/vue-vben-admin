@@ -22,6 +22,9 @@ export const overridesPreferences = defineOverridesPreferences({
     mixedWidth: 75,
     fixedButton: false,
   },
+  tabbar: {
+    showIcon: false,
+  },
   copyright: {
     companyName: '杭州临安农新生物科技有限公司',
     companySiteLink: '',
