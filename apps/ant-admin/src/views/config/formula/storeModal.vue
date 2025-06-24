@@ -125,7 +125,7 @@ const [Modal, ModalApi] = useVbenModal({
       </template>
       <div class="ml-[100px] pb-[24px]">
         <Row :gutter="15" class="mb-[15px]">
-          <Col class="text-center" :span="8">原料名称</Col>
+          <Col class="text-center" :span="8">原料</Col>
           <Col class="text-center" :span="6">比例</Col>
           <Col class="text-center" :span="10">备注</Col>
         </Row>

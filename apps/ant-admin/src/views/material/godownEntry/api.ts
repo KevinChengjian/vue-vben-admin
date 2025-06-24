@@ -6,6 +6,7 @@ import { requestClient } from '#/api/request';
  * 操作权限标识
  */
 export enum AuthCode {
+  BatchCreate = 'admin.material-in.batch-create',
   Create = 'admin.material-in.create',
   Delete = 'admin.material-in.delete',
   Update = 'admin.material-in.update',
@@ -21,6 +22,15 @@ export async function materialInListApi(params: any = {}) {
     '/admin/material-in/list',
     params,
   );
+}
+
+/**
+ * 批量添加
+ * @param params
+ * @returns any
+ */
+export async function materialInBatchCreateApi(params: any) {
+  return requestClient.post<any>('/admin/material-in/batch-create', params);
 }
 
 /**

@@ -14,14 +14,3 @@ export interface MaterialInItem {
 }
 
 export type ListResult = BasicFetchResult<MaterialInItem[]>;
-
-export interface BatchMaterialItem {
-  material_id: number | string;
-  material: string;
-  spec_id: null | number | string;
-  num: number;
-  unit_id: null | number | string;
-  price: number;
-  amount: number;
-  remark: string;
-}

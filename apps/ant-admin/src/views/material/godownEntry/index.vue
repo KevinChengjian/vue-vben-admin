@@ -10,8 +10,9 @@ import { useDelete, useTable } from '#/hooks';
 import { format } from '#/utils/money';
 
 import { AuthCode, materialInDeleteApi, materialInListApi } from './api';
+import BatchStoreModal from './batchModal.vue';
 import { TableColumn } from './columns';
-import UserStoreModal from './storeModal.vue';
+import MaterialStoreModal from './storeModal.vue';
 
 const [Grid, gridApi] = useTable({
   colums: TableColumn,
@@ -74,7 +75,7 @@ const [Grid, gridApi] = useTable({
 
 // 添加|编辑
 const [StoreModal, storeModalApi] = useVbenModal({
-  connectedComponent: UserStoreModal,
+  connectedComponent: MaterialStoreModal,
 });
 
 const handleStore = (item: any = {}, edit: boolean = false) => {
@@ -84,6 +85,14 @@ const handleStore = (item: any = {}, edit: boolean = false) => {
       record: item,
     })
     .open();
+};
+
+// 批量添加
+const [BatchModal, batchModalApi] = useVbenModal({
+  connectedComponent: BatchStoreModal,
+});
+const handleBatchStore = () => {
+  batchModalApi.open();
 };
 
 // 删除
@@ -99,6 +108,14 @@ const { destory } = useDelete<MaterialInItem>({
   <Page class="h-full">
     <Grid>
       <template #toolbar-actions>
+        <Button
+          type="primary"
+          v-access:code="AuthCode.BatchCreate"
+          @click="handleBatchStore"
+          class="mr-[12px]"
+        >
+          批量新增
+        </Button>
         <Button
           type="primary"
           v-access:code="AuthCode.Create"
@@ -133,5 +150,6 @@ const { destory } = useDelete<MaterialInItem>({
     </Grid>
 
     <StoreModal @reload="gridApi.reload" />
+    <BatchModal @reload="gridApi.reload" />
   </Page>
 </template>

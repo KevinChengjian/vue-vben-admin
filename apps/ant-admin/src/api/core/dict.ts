@@ -4,19 +4,22 @@ export namespace Dict {
   export enum KeyEnum {
     DEPT = 'DEPT',
     DEPT_TYPE = 'DEPT_TYPE',
+    FORMULA = 'FORMULA',
     MATERIAL = 'MATERIAL',
     MATERIAL_MACHINE = 'MATERIAL_MACHINE',
     MATERIAL_SPEC = 'MATERIAL_SPEC',
     STATUS = 'STATUS',
+    STRAIN_CATEGORY = 'STRAIN_CATEGORY',
     SYS_DEPT = 'SYS_DEPT',
     SYS_POSITION = 'SYS_POSITION',
     SYS_USER = 'SYS_USER',
     UNIT = 'UNIT',
+    VACCINATION_TYPE = 'VACCINATION_TYPE',
   }
 
   export interface ValueItem {
     label: string;
-    value: string;
+    value: number | string;
     color: string;
     children?: ValueItem[];
   }

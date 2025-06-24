@@ -60,7 +60,7 @@ setupVbenVxeTable({
         return h(
           'span',
           { class: ['text-primary'] },
-          format(row[column.field]),
+          format(Number.parseFloat(row[column.field])),
         );
       },
     });

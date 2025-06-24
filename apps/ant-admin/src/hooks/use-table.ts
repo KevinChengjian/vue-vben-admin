@@ -3,7 +3,7 @@ import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
-interface Props {
+interface Props extends VxeGridProps<any> {
   colums: any[];
   api: any;
   searhcSchema?: any;
@@ -53,6 +53,7 @@ export function useTable(props: Props) {
         },
       },
     },
+    ...props,
   };
 
   return useVbenVxeGrid({ formOptions, gridOptions });

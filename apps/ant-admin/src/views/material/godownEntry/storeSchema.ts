@@ -77,7 +77,7 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
   {
     component: 'InputNumber',
     fieldName: 'price',
-    label: '入库单价',
+    label: '单价',
     rules: 'required',
     componentProps: {
       suffix: '元',
@@ -88,7 +88,7 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
   {
     component: 'InputNumber',
     fieldName: 'amount',
-    label: '入库总价',
+    label: '合计金额',
     rules: 'required',
     dependencies: {
       triggerFields: ['num', 'price'],
@@ -114,7 +114,7 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
     rules: 'required',
     componentProps: {
       class: 'w-full',
-      placeholder: '请选中采购人员',
+      placeholder: '请选择采购人员',
       code: Dict.KeyEnum.SYS_USER,
     },
   },
