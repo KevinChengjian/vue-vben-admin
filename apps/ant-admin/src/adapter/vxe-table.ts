@@ -53,6 +53,18 @@ setupVbenVxeTable({
       },
     });
 
+    // 数字千分位渲染
+    vxeUI.renderer.add('number', {
+      renderTableDefault(_renderOpts: any, params) {
+        const { column, row } = params;
+        return h(
+          'span',
+          // { class: ['text-primary'] },
+          format(Number.parseFloat(row[column.field])),
+        );
+      },
+    });
+
     // 金额渲染
     vxeUI.renderer.add('money', {
       renderTableDefault(_renderOpts: any, params) {
@@ -60,7 +72,7 @@ setupVbenVxeTable({
         return h(
           'span',
           { class: ['text-primary'] },
-          format(Number.parseFloat(row[column.field])),
+          format(Number.parseFloat(row[column.field]), 2),
         );
       },
     });

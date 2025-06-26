@@ -2,9 +2,6 @@
 import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
-import { useUserStore } from '@vben/stores';
-
-import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
@@ -13,7 +10,6 @@ import { createApi, updateApi } from './api';
 
 const emit = defineEmits(['reload']);
 
-const userStore = useUserStore();
 const [StoreForm, StoreFromApi] = useVbenForm({
   schema: [
     {
@@ -28,6 +24,32 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'Input',
+      fieldName: 'mb_id',
+      label: 'mb_id',
+      dependencies: {
+        triggerFields: ['id'],
+        show: () => {
+          return false;
+        },
+      },
+    },
+    {
+      component: 'MakeBagSnSelect',
+      fieldName: 'make_bag_sn',
+      label: '制包编号',
+      rules: 'required',
+      componentProps: {
+        placeholder: '请选择制包编号',
+        onChange: async (_: string, opt: any) => {
+          await StoreFromApi.setValues({
+            mb_id: opt?.mb_id,
+            formula_id: opt?.formula_id,
+          });
+        },
+      },
+    },
+    {
       component: 'FormulaSelect',
       fieldName: 'formula_id',
       label: '制包配方',
@@ -36,102 +58,79 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         class: 'w-full',
         showSearch: true,
         placeholder: '请选择制包配方',
-        onChange: (_: any, opt: any) => {
-          StoreFromApi.setValues({
-            make_bag_sn: `${dayjs().format('YYYYMMDD')}-${opt.label}`,
-          });
-        },
-      },
-    },
-    {
-      component: 'Input',
-      fieldName: 'make_bag_sn',
-      label: '制包编号',
-      rules: 'required',
-      componentProps: {
-        placeholder: '请输入制包编号',
       },
     },
     {
       component: 'DictSelect',
-      fieldName: 'user_id',
-      label: '检测人员',
+      fieldName: 'machine_id',
+      label: '装袋机器',
       rules: 'required',
       componentProps: {
         class: 'w-full',
-        placeholder: '请选择检测人员',
-        code: Dict.KeyEnum.SYS_USER,
+        showSearch: true,
+        placeholder: '请选择装袋机器',
+        code: Dict.KeyEnum.BAG_MACHINE,
       },
     },
     {
       component: 'InputNumber',
-      fieldName: 'upper_moisture',
-      label: '上层水份',
-      formItemClass: 'col-span-1',
+      fieldName: 'num',
+      label: '装袋数量',
+      rules: 'required',
       componentProps: {
         class: 'w-full',
-        placeholder: '请输入上层水份',
+        placeholder: '请输入装袋数量',
       },
     },
     {
       component: 'InputNumber',
-      fieldName: 'middle_moisture',
-      label: '中层水份',
+      fieldName: 'weight',
+      label: '菌棒重量',
+      rules: 'required',
       componentProps: {
         class: 'w-full',
-        placeholder: '请输入中层水份',
+        placeholder: '请输入菌棒重量',
       },
     },
     {
       component: 'InputNumber',
-      fieldName: 'lower_moisture',
-      label: '下层水份',
+      fieldName: 'depth',
+      label: '中孔深度',
       componentProps: {
         class: 'w-full',
-        placeholder: '请输入下层水份',
+        placeholder: '请输入中孔深度',
       },
     },
     {
       component: 'InputNumber',
-      fieldName: 'upper_ph',
-      label: '上层PH值',
+      fieldName: 'height',
+      label: '菌棒高度',
       componentProps: {
         class: 'w-full',
-        placeholder: '请输入上层PH值',
+        placeholder: '请输入菌棒高度',
       },
     },
-
     {
       component: 'InputNumber',
-      fieldName: 'middle_ph',
-      label: '中层PH值',
+      fieldName: 'dt',
+      label: '菌棒松紧度',
       componentProps: {
         class: 'w-full',
-        placeholder: '请输入中层PH值',
-      },
-    },
-
-    {
-      component: 'InputNumber',
-      fieldName: 'lower_ph',
-      label: '下层PH值',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请输入下层PH值',
+        placeholder: '请输入菌棒松紧度',
       },
     },
     {
       component: 'Textarea',
       fieldName: 'remark',
       label: '备注',
-      formItemClass: 'col-span-3',
+      formItemClass: 'col-span-2',
       componentProps: {
         placeholder: '请输入备注',
       },
     },
   ],
   showDefaultActions: false,
-  wrapperClass: 'grid-cols-3 mr-[25px]',
+  wrapperClass: 'grid-cols-2 mr-[25px]',
   commonConfig: {
     labelWidth: 90,
   },
@@ -147,12 +146,7 @@ const [Modal, ModalApi] = useVbenModal({
     const data = ModalApi.getData();
     ModalApi.setData({});
 
-    // 默认值
     isUpdate.value = data.isEdit;
-    await StoreFromApi.setValues({
-      user_id: userStore.userInfo?.userId,
-    });
-
     data.record && StoreFromApi.setValues({ ...data.record });
     isUpdate.value &&
       StoreFromApi.setValues({
@@ -176,7 +170,7 @@ const [Modal, ModalApi] = useVbenModal({
 </script>
 <template>
   <Modal
-    :title="`${isUpdate ? '编辑拌料记录' : '添加拌料记录'}`"
+    :title="`${isUpdate ? '编辑装袋记录' : '添加装袋记录'}`"
     class="w-[960px]"
     content-class="pt-[20px] pb-0"
   >

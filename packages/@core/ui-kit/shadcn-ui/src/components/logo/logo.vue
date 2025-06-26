@@ -39,7 +39,7 @@ defineOptions({
 withDefaults(defineProps<Props>(), {
   collapsed: false,
   href: 'javascript:void 0',
-  logoSize: 32,
+  logoSize: 34,
   src: '',
   theme: 'light',
   fit: 'cover',

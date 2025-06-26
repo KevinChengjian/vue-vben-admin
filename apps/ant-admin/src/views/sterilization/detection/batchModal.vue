@@ -11,7 +11,6 @@ import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
-import { Material } from '#/api/core/material';
 import DictSelect from '#/components/dict/dict-select.vue';
 
 import { materialInBatchCreateApi } from './api';
@@ -126,7 +125,6 @@ const [Modal, ModalApi] = useVbenModal({
     await StoreFromApi.setValues({
       purchase_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
-      material_sn: isUpdate.value ? '' : await Material.materialSn(),
     });
 
     isUpdate.value = data.isEdit;

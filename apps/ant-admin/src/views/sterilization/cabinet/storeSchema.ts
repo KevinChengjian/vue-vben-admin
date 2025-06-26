@@ -15,7 +15,7 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
     },
   },
   {
-    component: 'MaterialSnSelect',
+    component: 'MaterialSnInput',
     fieldName: 'material_sn',
     label: '原料编号',
     rules: 'required',
@@ -25,12 +25,10 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
   },
   {
     component: 'Input',
-    fieldName: 'make_bag_sn',
-    label: '制包编号',
-    rules: 'required',
+    fieldName: 'manufacturer',
+    label: '购置厂家',
     componentProps: {
-      class: 'w-full',
-      placeholder: '请输入制包编号',
+      placeholder: '请输入购置厂家',
     },
   },
   {
@@ -46,9 +44,19 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
     },
   },
   {
+    component: 'DictSelectWithAdd',
+    fieldName: 'spec_id',
+    label: '原料规格',
+    componentProps: {
+      class: 'w-full',
+      placeholder: '请选择原料规格',
+      code: Dict.KeyEnum.MATERIAL_SPEC,
+    },
+  },
+  {
     component: 'InputNumber',
     fieldName: 'num',
-    label: '出库数量',
+    label: '入库数量',
     rules: 'required',
     componentProps: {
       class: 'w-full',
@@ -88,7 +96,7 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
         if (!Number.isNaN(values.num) && !Number.isNaN(values.price)) {
           formApi.setFieldValue(
             'amount',
-            Number((values.num * values.price).toFixed(2)),
+            Number((values.num * values.price).toFixed(2)) || '',
           );
         }
       },
@@ -96,7 +104,29 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
     componentProps: {
       suffix: '元',
       class: 'w-full',
-      placeholder: '请输入合计金额',
+      placeholder: '请输入总价',
+    },
+  },
+  {
+    component: 'DictSelect',
+    fieldName: 'user_id',
+    label: '采购人员',
+    rules: 'required',
+    componentProps: {
+      class: 'w-full',
+      placeholder: '请选择采购人员',
+      code: Dict.KeyEnum.SYS_USER,
+    },
+  },
+  {
+    component: 'DatePicker',
+    fieldName: 'purchase_at',
+    label: '采购日期',
+    rules: 'required',
+    componentProps: {
+      valueFormat: 'YYYY-MM-DD',
+      class: 'w-full',
+      placeholder: '请输入采购日期',
     },
   },
   {

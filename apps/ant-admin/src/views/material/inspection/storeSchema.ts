@@ -15,7 +15,7 @@ export const FormStoreSchema: VbenFormSchema[] = [
     },
   },
   {
-    component: 'Input',
+    component: 'MaterialSnSelect',
     fieldName: 'material_sn',
     label: '原料编号',
     rules: 'required',

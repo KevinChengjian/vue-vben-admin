@@ -13,6 +13,9 @@ export const overridesPreferences = defineOverridesPreferences({
     layout: 'sidebar-mixed-nav',
     enableCheckUpdates: false,
   },
+  logo: {
+    source: 'http://july-mall.com/logo2.png',
+  },
   theme: {
     mode: 'light',
     radius: '0.2',
@@ -24,6 +27,12 @@ export const overridesPreferences = defineOverridesPreferences({
   },
   tabbar: {
     showIcon: false,
+  },
+  shortcutKeys: {
+    globalSearch: false,
+  },
+  widget: {
+    globalSearch: false,
   },
   copyright: {
     companyName: '杭州临安农新生物科技有限公司',

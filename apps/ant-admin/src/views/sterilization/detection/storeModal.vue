@@ -7,7 +7,6 @@ import { useUserStore } from '@vben/stores';
 import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
-import { Material } from '#/api/core/material';
 
 import { materialInCreateApi, materialInUpdateApi } from './api';
 import { MaterialInFormStoreSchema } from './storeSchema';
@@ -39,7 +38,7 @@ const [Modal, ModalApi] = useVbenModal({
     await StoreFromApi.setValues({
       purchase_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
-      material_sn: isUpdate.value ? '' : await Material.materialSn(),
+      material_sn: isUpdate.value ? '' : dayjs().format('YYYYMMDD'),
     });
 
     data.record && StoreFromApi.setValues({ ...data.record });

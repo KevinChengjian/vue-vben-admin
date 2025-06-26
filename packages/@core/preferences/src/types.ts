@@ -136,6 +136,8 @@ interface LogoPreferences {
   enable: boolean;
   /** logo图片适应方式 */
   fit: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+  /** logo 大小 */
+  size: number;
   /** logo地址 */
   source: string;
 }

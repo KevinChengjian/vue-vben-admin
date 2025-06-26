@@ -44,7 +44,10 @@ import {
   DictSelect,
   DictSelectWithAdd,
   DictTreeSelect,
+  FormulaSelect,
+  MakeBagSnSelect,
   MaterialSnInput,
+  MaterialSnSelect,
 } from '#/components';
 
 const withDefaultPlaceholder = <T extends Component>(
@@ -72,11 +75,14 @@ export type ComponentType =
   | 'DictSelectWithAdd'
   | 'DictTreeSelect'
   | 'Divider'
+  | 'FormulaSelect'
   | 'IconPicker'
   | 'Input'
   | 'InputNumber'
   | 'InputPassword'
+  | 'MakeBagSnSelect'
   | 'MaterialSnInput'
+  | 'MaterialSnSelect'
   | 'Mentions'
   | 'PrimaryButton'
   | 'Radio'
@@ -170,6 +176,9 @@ async function initComponentAdapter() {
     DictCascader,
     DictTreeSelect,
     MaterialSnInput,
+    MaterialSnSelect,
+    FormulaSelect,
+    MakeBagSnSelect,
   };
 
   // 将组件注册到全局共享状态中

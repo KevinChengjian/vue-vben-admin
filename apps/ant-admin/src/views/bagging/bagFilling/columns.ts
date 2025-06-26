@@ -1,3 +1,5 @@
+import { Dict } from '#/api';
+
 export const TableColumn: any = [
   { title: '序号', align: 'center', type: 'seq', minWidth: 60 },
   {
@@ -13,58 +15,51 @@ export const TableColumn: any = [
     minWidth: 120,
   },
   {
-    title: '上层水份',
-    field: 'upper_moisture',
+    title: '装袋机器',
+    field: 'machine_id',
+    align: 'center',
+    cellRender: { name: 'dict', code: Dict.KeyEnum.BAG_MACHINE },
+    minWidth: 120,
+  },
+  {
+    title: '装袋数量',
+    field: 'num',
     align: 'center',
     minWidth: 105,
     cellRender: { name: 'number' },
   },
   {
-    title: '中层水份',
-    field: 'middle_moisture',
+    title: '菌棒重量',
+    field: 'weight',
     align: 'center',
     minWidth: 105,
     cellRender: { name: 'number' },
   },
   {
-    title: '下层水份',
-    field: 'lower_moisture',
+    title: '中孔深度',
+    field: 'depth',
     align: 'center',
     minWidth: 105,
     cellRender: { name: 'number' },
   },
   {
-    title: '上层PH值',
-    field: 'upper_ph',
+    title: '菌棒高度',
+    field: 'height',
     align: 'center',
     minWidth: 105,
     cellRender: { name: 'number' },
   },
   {
-    title: '中层PH值',
-    field: 'middle_ph',
+    title: '菌包松紧度',
+    field: 'price',
     align: 'center',
-    minWidth: 105,
-    cellRender: { name: 'number' },
-  },
-  {
-    title: '下层PH值',
-    field: 'lower_ph',
-    align: 'center',
-    minWidth: 105,
-    cellRender: { name: 'number' },
-  },
-  {
-    title: '检测人员',
-    field: 'nickname',
-    align: 'center',
-    minWidth: 105,
+    minWidth: 120,
   },
   {
     title: '备注',
     field: 'remark',
     align: 'center',
-    minWidth: 180,
+    minWidth: 225,
   },
   {
     title: '创建时间',

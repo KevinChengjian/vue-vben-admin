@@ -18,7 +18,7 @@ const [Grid, gridApi] = useTable({
   api: listApi,
   searhcSchema: [
     {
-      component: 'Input',
+      component: 'MaterialSnSelect',
       fieldName: 'material_sn',
       label: '原料编号',
       componentProps: {

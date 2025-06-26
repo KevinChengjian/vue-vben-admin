@@ -3,4 +3,7 @@ export { default as DictRadio } from './dict/dict-radio.vue';
 export { default as DictSelectWithAdd } from './dict/dict-select-with-add.vue';
 export { default as DictSelect } from './dict/dict-select.vue';
 export { default as DictTreeSelect } from './dict/dict-tree-select.vue';
+export { default as FormulaSelect } from './formula/formula-select.vue';
+export { default as MakeBagSnSelect } from './serialNumber/make-bag-sn-select.vue';
 export { default as MaterialSnInput } from './serialNumber/material-sn-input.vue';
+export { default as MaterialSnSelect } from './serialNumber/material-sn-select.vue';

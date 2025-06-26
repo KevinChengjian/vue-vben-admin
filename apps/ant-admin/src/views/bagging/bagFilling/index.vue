@@ -5,6 +5,7 @@ import { Page, useVbenModal } from '@vben/common-ui';
 
 import { Button, Space } from 'ant-design-vue';
 
+import { Dict } from '#/api';
 import { useDelete, useTable } from '#/hooks';
 import { format } from '#/utils/money';
 
@@ -26,14 +27,15 @@ const [Grid, gridApi] = useTable({
       },
     },
     {
-      component: 'FormulaSelect',
-      fieldName: 'formula_id',
-      label: '制包配方',
+      component: 'DictSelect',
+      fieldName: 'machine_id',
+      label: '装袋机器',
       componentProps: {
         class: 'w-full',
         showSearch: true,
         allowClear: true,
-        placeholder: '请选择制包配方',
+        placeholder: '请选择装袋机器',
+        code: Dict.KeyEnum.BAG_MACHINE,
       },
     },
     {

@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import type { Option } from '#/api/model';
-
 import { onMounted, ref } from 'vue';
 
 import { Select, SelectOption } from 'ant-design-vue';
 
-import { Material } from '#/api/core/material';
+import { MakeBag } from '#/api/core/makeBag';
 
-defineOptions({ customOptions: { name: 'MaterialSnSelect' } });
+defineOptions({ customOptions: { name: 'MakeBagSnSelect' } });
 
-const originalOptions = ref<Option[]>([]);
-const searchResult = ref<Option[]>([]);
+const originalOptions = ref<MakeBag.Item[]>([]);
+const searchResult = ref<MakeBag.Item[]>([]);
 
 const getOptions = async (
-  params: Material.QueryParams,
+  params: MakeBag.QueryParams,
   first: boolean = false,
 ) => {
-  const result = await Material.materialSnList(params);
+  const result = await MakeBag.list(params);
   searchResult.value = result;
   first && (originalOptions.value = result);
 };
@@ -24,9 +22,9 @@ const getOptions = async (
 const handleSearch = async (keyword: string) => {
   if (keyword) {
     let exists = false;
-    const list: Option[] = [];
+    const list: MakeBag.Item[] = [];
     for (let i = 0; i < originalOptions.value.length; i++) {
-      const item = originalOptions.value[i] as Option;
+      const item = originalOptions.value[i] as MakeBag.Item;
       if (item.value.indexOf(keyword) === 0) {
         exists = true;
         list.push(item);
@@ -56,6 +54,8 @@ onMounted(async () => {
       :value="item.value"
       :key="item.value"
       :label="item.label"
+      :mb_id="item.id"
+      :formula_id="item.formula_id"
     >
       {{ item.label }}
     </SelectOption>

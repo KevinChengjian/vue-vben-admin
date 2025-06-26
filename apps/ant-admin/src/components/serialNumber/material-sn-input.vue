@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { Button, Input } from 'ant-design-vue';
-import dayjs from 'dayjs';
+
+import { Material } from '#/api/core/material';
 
 defineOptions({ customOptions: { name: 'MaterialSnInput' } });
 
 const model = defineModel({ type: String });
 
-const handleBuild = () => {
-  model.value = dayjs().format('YYYYMMDDHH');
+const handleBuild = async () => {
+  model.value = await Material.materialSn();
 };
 </script>
 <template>

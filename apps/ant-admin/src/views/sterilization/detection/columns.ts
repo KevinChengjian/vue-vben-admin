@@ -3,14 +3,14 @@ import { Dict } from '#/api';
 export const TableColumn: any = [
   { title: '序号', align: 'center', type: 'seq', width: '4%', minWidth: 60 },
   {
-    title: '原料编号',
+    title: '制包编号',
     field: 'material_sn',
     align: 'center',
     width: '8%',
     minWidth: 120,
   },
   {
-    title: '名称',
+    title: '灭菌柜',
     field: 'material_id',
     align: 'center',
     cellRender: { name: 'dict', code: Dict.KeyEnum.MATERIAL },
@@ -30,7 +30,7 @@ export const TableColumn: any = [
     title: '数量',
     field: 'num',
     align: 'center',
-    cellRender: { name: 'number' },
+    cellRender: { name: 'money' },
     width: '7%',
     minWidth: 105,
   },
@@ -66,14 +66,14 @@ export const TableColumn: any = [
     minWidth: 150,
   },
   {
-    title: '采购人',
+    title: '检测人员',
     field: 'nickname',
     align: 'center',
     width: '6%',
     minWidth: 90,
   },
   {
-    title: '购置时间',
+    title: '检测时间',
     field: 'created_at',
     align: 'center',
     width: '8%',

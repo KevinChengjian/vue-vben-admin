@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 import { Select, SelectOption } from 'ant-design-vue';
 
@@ -8,13 +8,25 @@ import { useDictStore } from '#/store';
 
 defineOptions({ customOptions: { name: 'DictSelect' } });
 
-const props = defineProps<{ code: Dict.KeyEnum }>();
+const props = defineProps<{ code: Dict.KeyEnum; filters?: string[] }>();
 
 const { getDictByKey } = useDictStore();
-const options = ref<Dict.ValueItem[]>();
+const options = ref<Dict.ValueItem[]>([]);
+const handleFilter = () => {
+  const filterIds: any[] = props.filters || [];
+  options.value.forEach((item: Dict.ValueItem) => {
+    item.disabled = filterIds.length > 0 && !filterIds.includes(item.value);
+  });
+};
+
+watch(
+  () => props.filters,
+  () => handleFilter(),
+);
 
 onMounted(async () => {
   options.value = await getDictByKey(props.code);
+  props.filters !== undefined && handleFilter();
 });
 </script>
 <template>
@@ -24,6 +36,7 @@ onMounted(async () => {
       :value="item.value"
       :key="item.value"
       :label="item.label"
+      :disabled="item.disabled"
     >
       {{ item.label }}
     </SelectOption>

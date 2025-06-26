@@ -9,3 +9,8 @@ export interface BasicFetchResult<T> {
   page?: number;
   pageSize?: number;
 }
+
+export interface Option {
+  label: string;
+  value: string;
+}

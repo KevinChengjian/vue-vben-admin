@@ -2,6 +2,7 @@ import { requestClient } from '#/api/request';
 
 export namespace Dict {
   export enum KeyEnum {
+    BAG_MACHINE = 'BAG_MACHINE',
     DEPT = 'DEPT',
     DEPT_TYPE = 'DEPT_TYPE',
     FORMULA = 'FORMULA',
@@ -22,6 +23,7 @@ export namespace Dict {
     value: number | string;
     color: string;
     children?: ValueItem[];
+    disabled?: boolean;
   }
 
   export interface KeyItem {
