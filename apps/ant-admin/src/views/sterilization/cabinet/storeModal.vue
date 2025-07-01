@@ -4,18 +4,131 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
-import dayjs from 'dayjs';
-
 import { useVbenForm } from '#/adapter/form';
+import { Dict } from '#/api';
 
-import { materialInCreateApi, materialInUpdateApi } from './api';
-import { MaterialInFormStoreSchema } from './storeSchema';
+import { createApi, updateApi } from './api';
 
 const emit = defineEmits(['reload']);
 
 const userStore = useUserStore();
 const [StoreForm, StoreFromApi] = useVbenForm({
-  schema: MaterialInFormStoreSchema,
+  schema: [
+    {
+      component: 'Input',
+      fieldName: 'id',
+      label: 'Id',
+      dependencies: {
+        triggerFields: ['id'],
+        show: () => {
+          return false;
+        },
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'mb_id',
+      label: 'mb_id',
+      dependencies: {
+        triggerFields: ['id'],
+        show: () => {
+          return false;
+        },
+      },
+    },
+    {
+      component: 'MakeBagSnSelect',
+      fieldName: 'make_bag_sn',
+      label: '制包编号',
+      rules: 'required',
+      componentProps: {
+        placeholder: '请选择制包编号',
+        onChange: async (_: string, opt: any) => {
+          await StoreFromApi.setValues({
+            mb_id: opt?.mb_id,
+            formula_id: opt?.formula_id,
+          });
+        },
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'ark_id',
+      label: '灭菌柜',
+      rules: 'required',
+      componentProps: {
+        class: 'w-full',
+        showSearch: true,
+        placeholder: '请选择灭菌柜',
+        code: Dict.KeyEnum.STERILIZER_CABINET,
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'set_sterilization_time',
+      label: '灭菌时间',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入灭菌时间',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'sterilization_time',
+      label: '实际灭菌时间',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入实际灭菌时间',
+      },
+    },
+    {
+      component: 'InputNumber',
+      fieldName: 'temperature',
+      label: '灭菌温度',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入灭菌温度',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'program',
+      label: '灭菌程序',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入灭菌程序',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'tp',
+      label: '温度压力',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入温度压力',
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'user_id',
+      label: '检测人员',
+      rules: 'required',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请选择检测人员',
+        code: Dict.KeyEnum.SYS_USER,
+      },
+    },
+    {
+      component: 'Textarea',
+      fieldName: 'remark',
+      label: '备注',
+      formItemClass: 'col-span-2',
+      componentProps: {
+        placeholder: '请输入备注',
+      },
+    },
+  ],
   showDefaultActions: false,
   wrapperClass: 'grid-cols-2 mr-[25px]',
   commonConfig: {
@@ -36,9 +149,7 @@ const [Modal, ModalApi] = useVbenModal({
     // 默认值
     isUpdate.value = data.isEdit;
     await StoreFromApi.setValues({
-      purchase_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
-      material_sn: isUpdate.value ? '' : dayjs().format('YYYYMMDD'),
     });
 
     data.record && StoreFromApi.setValues({ ...data.record });
@@ -52,9 +163,7 @@ const [Modal, ModalApi] = useVbenModal({
     try {
       await StoreFromApi.validate();
       const values = await StoreFromApi.getValues();
-      await (values?.id
-        ? materialInUpdateApi(values)
-        : materialInCreateApi(values));
+      await (values?.id ? updateApi(values) : createApi(values));
 
       ModalApi.close();
       ModalApi.setData({});
@@ -66,7 +175,7 @@ const [Modal, ModalApi] = useVbenModal({
 </script>
 <template>
   <Modal
-    :title="`${isUpdate ? '编辑入库记录' : '添加入库记录'}`"
+    :title="`${isUpdate ? '编辑记录' : '添加记录'}`"
     class="w-[960px]"
     content-class="pt-[20px] pb-0"
   >
