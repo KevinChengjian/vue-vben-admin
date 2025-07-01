@@ -53,6 +53,18 @@ setupVbenVxeTable({
       },
     });
 
+    // 百分比渲染
+    vxeUI.renderer.add('percent', {
+      renderTableDefault(_renderOpts: any, params) {
+        const { column, row } = params;
+        return h(
+          'span',
+          // { class: ['text-primary'] },
+          `${format(Number.parseFloat(row[column.field]))}%`,
+        );
+      },
+    });
+
     // 数字千分位渲染
     vxeUI.renderer.add('number', {
       renderTableDefault(_renderOpts: any, params) {

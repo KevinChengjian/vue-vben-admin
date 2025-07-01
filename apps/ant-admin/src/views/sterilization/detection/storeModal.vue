@@ -4,20 +4,18 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
-import dayjs from 'dayjs';
-
 import { useVbenForm } from '#/adapter/form';
 
-import { materialInCreateApi, materialInUpdateApi } from './api';
-import { MaterialInFormStoreSchema } from './storeSchema';
+import { createApi, updateApi } from './api';
+import { StoreFormSchema } from './storeSchema';
 
 const emit = defineEmits(['reload']);
 
 const userStore = useUserStore();
 const [StoreForm, StoreFromApi] = useVbenForm({
-  schema: MaterialInFormStoreSchema,
+  schema: StoreFormSchema,
   showDefaultActions: false,
-  wrapperClass: 'grid-cols-2 mr-[25px]',
+  wrapperClass: 'grid-cols-3 mr-[25px]',
   commonConfig: {
     labelWidth: 90,
   },
@@ -36,9 +34,7 @@ const [Modal, ModalApi] = useVbenModal({
     // 默认值
     isUpdate.value = data.isEdit;
     await StoreFromApi.setValues({
-      purchase_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
-      material_sn: isUpdate.value ? '' : dayjs().format('YYYYMMDD'),
     });
 
     data.record && StoreFromApi.setValues({ ...data.record });
@@ -52,9 +48,7 @@ const [Modal, ModalApi] = useVbenModal({
     try {
       await StoreFromApi.validate();
       const values = await StoreFromApi.getValues();
-      await (values?.id
-        ? materialInUpdateApi(values)
-        : materialInCreateApi(values));
+      await (values?.id ? updateApi(values) : createApi(values));
 
       ModalApi.close();
       ModalApi.setData({});
@@ -66,7 +60,7 @@ const [Modal, ModalApi] = useVbenModal({
 </script>
 <template>
   <Modal
-    :title="`${isUpdate ? '编辑入库记录' : '添加入库记录'}`"
+    :title="`${isUpdate ? '编辑检测记录' : '添加检测记录'}`"
     class="w-[960px]"
     content-class="pt-[20px] pb-0"
   >

@@ -14,7 +14,7 @@ export const overridesPreferences = defineOverridesPreferences({
     enableCheckUpdates: false,
   },
   logo: {
-    source: 'http://july-mall.com/logo2.png',
+    source: 'https://api.chenion.cn/static/logo2.png',
   },
   theme: {
     mode: 'light',

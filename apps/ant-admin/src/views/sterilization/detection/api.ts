@@ -1,4 +1,4 @@
-import type { MaterialInItem } from './type';
+import type { ListItem } from './type';
 
 import { requestClient } from '#/api/request';
 
@@ -6,10 +6,9 @@ import { requestClient } from '#/api/request';
  * 操作权限标识
  */
 export enum AuthCode {
-  BatchCreate = 'admin.material-in.batch-create',
-  Create = 'admin.material-in.create',
-  Delete = 'admin.material-in.delete',
-  Update = 'admin.material-in.update',
+  Create = 'admin.sterilization-inspection.create',
+  Delete = 'admin.sterilization-inspection.delete',
+  Update = 'admin.sterilization-inspection.update',
 }
 
 /**
@@ -17,20 +16,11 @@ export enum AuthCode {
  * @param params any
  * @returns ListResult
  */
-export async function materialInListApi(params: any = {}) {
-  return requestClient.post<MaterialInItem[]>(
-    '/admin/material-in/list',
+export async function listApi(params: any = {}) {
+  return requestClient.post<ListItem[]>(
+    '/admin/sterilization-inspection/list',
     params,
   );
-}
-
-/**
- * 批量添加
- * @param params
- * @returns any
- */
-export async function materialInBatchCreateApi(params: any) {
-  return requestClient.post<any>('/admin/material-in/batch-create', params);
 }
 
 /**
@@ -38,8 +28,11 @@ export async function materialInBatchCreateApi(params: any) {
  * @param params
  * @returns any
  */
-export async function materialInCreateApi(params: any) {
-  return requestClient.post<any>('/admin/material-in/create', params);
+export async function createApi(params: any) {
+  return requestClient.post<any>(
+    '/admin/sterilization-inspection/create',
+    params,
+  );
 }
 
 /**
@@ -47,8 +40,11 @@ export async function materialInCreateApi(params: any) {
  * @param params
  * @returns any
  */
-export async function materialInUpdateApi(params: any) {
-  return requestClient.post<any>('/admin/material-in/update', params);
+export async function updateApi(params: any) {
+  return requestClient.post<any>(
+    '/admin/sterilization-inspection/update',
+    params,
+  );
 }
 
 /**
@@ -56,8 +52,11 @@ export async function materialInUpdateApi(params: any) {
  * @param params
  * @returns any
  */
-export async function materialInDeleteApi(params: any) {
-  return requestClient.post<any>('/admin/material-in/delete', params);
+export async function deleteApi(params: any) {
+  return requestClient.post<any>(
+    '/admin/sterilization-inspection/delete',
+    params,
+  );
 }
 
 /**
@@ -65,6 +64,9 @@ export async function materialInDeleteApi(params: any) {
  * @param params
  * @returns any
  */
-export async function materialInDetailApi(params: any) {
-  return requestClient.post<any>('/admin/material-in/detail', params);
+export async function detailApi(params: any) {
+  return requestClient.post<any>(
+    '/admin/sterilization-inspection/detail',
+    params,
+  );
 }

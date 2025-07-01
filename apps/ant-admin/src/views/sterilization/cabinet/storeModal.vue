@@ -46,7 +46,6 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         onChange: async (_: string, opt: any) => {
           await StoreFromApi.setValues({
             mb_id: opt?.mb_id,
-            formula_id: opt?.formula_id,
           });
         },
       },
