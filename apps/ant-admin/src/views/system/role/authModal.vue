@@ -9,6 +9,7 @@ import {
   Checkbox,
   CheckboxGroup,
   Col,
+  message,
   Row,
   Tree,
 } from 'ant-design-vue';
@@ -44,6 +45,7 @@ const handleSelMenu = (menu: any) => {
 const handleSubmit = async () => {
   try {
     await roleBindApi({ rules: selectIds.value, id: role.value?.id });
+    message.success('操作成功');
     emit('reload');
   } catch {}
 };

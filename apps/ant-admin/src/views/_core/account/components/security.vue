@@ -4,11 +4,9 @@ import { reactive, ref } from 'vue';
 import { useUserStore } from '@vben/stores';
 
 import {
-  Button,
   Form,
   FormItem,
   Input,
-  InputSearch,
   List,
   ListItem,
   ListItemMeta,
@@ -38,29 +36,29 @@ const state = reactive({
 });
 
 // 获取验证码
-const getSmsCode = () => {
-  if (!state.phone) {
-    return message.error('请填写手机号码');
-  }
-  if (state.timer || state.down < 60) {
-    return;
-  }
+// const getSmsCode = () => {
+//   if (!state.phone) {
+//     return message.error('请填写手机号码');
+//   }
+//   if (state.timer || state.down < 60) {
+//     return;
+//   }
 
-  SmsCode({ phone: state.phone }).then((res) => {
-    if (showMsg(res)) {
-      clearTimeout(state.timer);
+//   SmsCode({ phone: state.phone }).then((res) => {
+//     if (showMsg(res)) {
+//       clearTimeout(state.timer);
 
-      state.down = 59;
-      state.timer = setInterval(() => {
-        state.down = state.down - 1;
-        if (state.down === 0) {
-          clearTimeout(state.timer);
-          state.down = 60;
-        }
-      }, 1000);
-    }
-  });
-};
+//       state.down = 59;
+//       state.timer = setInterval(() => {
+//         state.down = state.down - 1;
+//         if (state.down === 0) {
+//           clearTimeout(state.timer);
+//           state.down = 60;
+//         }
+//       }, 1000);
+//     }
+//   });
+// };
 
 // 修改手机号
 const handleChangePhone = async () => {
@@ -68,29 +66,30 @@ const handleChangePhone = async () => {
     return message.error('请填写手机号码');
   }
 
-  if (!state.code) {
-    return message.error('请填写短信验证码');
-  }
+  // if (!state.code) {
+  //   return message.error('请填写短信验证码');
+  // }
 
-  const res = await changePhone({ phone: state.phone, code: state.code });
-  if (showMsg(res)) {
+  try {
+    await changePhone({ phone: state.phone, code: state.code });
     state.phoneVis = false;
     dataSource.value[0].value = state.phone;
     state.phone = null;
     state.code = null;
 
-    storeVuex.dispatch(`user/${GET_INFO}`);
-  }
+    message.success('修改成功');
+    await authStore.fetchUserInfo();
+  } catch {}
 };
 
 // 修改密码
 const handleChangePassword = async () => {
   if (!state.old_password) {
-    return showErrMsg('请填写旧密码');
+    return message.error('请填写旧密码');
   }
 
   if (!state.new_password) {
-    return showErrMsg('请填写新密码');
+    return message.error('请填写新密码');
   }
 
   try {
@@ -99,7 +98,7 @@ const handleChangePassword = async () => {
       newPwd: state.new_password,
     });
 
-    message.success('密码修改成功');
+    message.success('密码修改成功, 请重新登录');
     state.passVis = false;
     state.oldPwd = null;
     state.newPwd = null;
@@ -111,18 +110,18 @@ const handleChangePassword = async () => {
 // 修改邮箱
 const handleChangeEmail = async () => {
   if (!state.email) {
-    return showErrMsg('请填写邮箱');
+    return message.error('请填写邮箱');
   }
 
-  await changeEmail({ email: state.email });
+  try {
+    await changeEmail({ email: state.email });
+    state.emailVis = false;
+    state.email = null;
+    dataSource.value[1].value = state.email;
 
-  state.emailVis = false;
-  state.email = null;
-  dataSource.value[1].value = state.email;
-
-  if (showMsg(res)) {
-    storeVuex.dispatch(`user/${GET_INFO}`);
-  }
+    message.success('修改成功');
+    await authStore.fetchUserInfo();
+  } catch {}
 };
 
 const dataSource = ref([
@@ -150,8 +149,8 @@ const dataSource = ref([
   },
   {
     title: '修改密码',
-    description: '上次修改时间',
-    value: userStore.rp_at || '',
+    description: '最近变动时间',
+    value: userStore.userInfo?.updated_at || '',
     actions: {
       title: '修改',
       callback: () => {
@@ -203,7 +202,7 @@ const dataSource = ref([
         <FormItem label="手机号码" :required="true">
           <Input v-model:value="state.phone" placeholder="请输入手机号码" />
         </FormItem>
-        <FormItem label="验证码" :required="true">
+        <!-- <FormItem label="验证码" :required="true">
           <InputSearch
             v-model:value="state.code"
             placeholder="请输入验证码"
@@ -214,7 +213,7 @@ const dataSource = ref([
               <Button v-if="state.down < 60"> {{ state.down }}S </Button>
             </template>
           </InputSearch>
-        </FormItem>
+        </FormItem> -->
       </Form>
     </Modal>
 

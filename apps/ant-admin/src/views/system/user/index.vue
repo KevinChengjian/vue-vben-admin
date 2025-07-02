@@ -25,6 +25,15 @@ const [Grid, gridApi] = useTable({
       },
     },
     {
+      component: 'Input',
+      fieldName: 'username',
+      label: '登录账号',
+      componentProps: {
+        allowClear: true,
+        placeholder: '请输入登录账号',
+      },
+    },
+    {
       component: 'DictTreeSelect',
       fieldName: 'dept_id',
       label: '所在部门',

@@ -27,6 +27,15 @@ const [Grid, gridApi] = useTable({
       },
     },
     {
+      component: 'Input',
+      fieldName: 'make_bag_sn',
+      label: '制包编号',
+      componentProps: {
+        allowClear: true,
+        placeholder: '请输入制包编号',
+      },
+    },
+    {
       component: 'DictSelect',
       fieldName: 'material_id',
       label: '原料名称',
@@ -39,30 +48,9 @@ const [Grid, gridApi] = useTable({
       },
     },
     {
-      component: 'DictSelect',
-      fieldName: 'user_id',
-      label: '采购人员',
-      componentProps: {
-        class: 'w-full',
-        showSearch: true,
-        allowClear: true,
-        placeholder: '请输入采购人员',
-        code: Dict.KeyEnum.SYS_USER,
-      },
-    },
-    {
-      component: 'Input',
-      fieldName: 'manufacturer',
-      label: '购置厂家',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入购置厂家',
-      },
-    },
-    {
       component: 'RangePicker',
       fieldName: 'created_at',
-      label: '采购日期',
+      label: '出库时间',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,

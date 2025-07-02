@@ -1,4 +1,4 @@
-export const UserColumn: any = [
+export const TableColumn: any = [
   { title: '序号', align: 'center', type: 'seq', width: 70 },
   { title: '名称', field: 'nickname', align: 'center' },
   { title: '规格', field: 'username', align: 'center' },

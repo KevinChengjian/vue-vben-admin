@@ -13,7 +13,7 @@ export const TableColumn: any = [
     field: 'bucket_num',
     align: 'center',
     // width: '6%',
-    minWidth: 90,
+    minWidth: 100,
   },
   {
     title: '计划制包',
@@ -114,7 +114,7 @@ export const TableColumn: any = [
     field: 'action',
     align: 'center',
     // width: '8%',
-    minWidth: 120,
+    minWidth: 110,
     fixed: 'right',
     slots: { default: 'action' },
   },

@@ -5,6 +5,8 @@ export namespace Dict {
     BAG_MACHINE = 'BAG_MACHINE',
     DEPT = 'DEPT',
     DEPT_TYPE = 'DEPT_TYPE',
+    ENV_POINT = 'ENV_POINT',
+    ENV_REGION = 'ENV_REGION',
     FORMULA = 'FORMULA',
     MATERIAL = 'MATERIAL',
     MATERIAL_MACHINE = 'MATERIAL_MACHINE',
@@ -33,6 +35,11 @@ export namespace Dict {
     values: ValueItem[];
   }
 
+  export interface DictResult {
+    version: number | string;
+    list: KeyItem[];
+  }
+
   export interface AddDictItemParams {
     label: string;
     code: KeyEnum;
@@ -45,7 +52,7 @@ export namespace Dict {
    * @return
    */
   export async function listApi(params: any = {}) {
-    return requestClient.get<KeyItem[]>('/admin/dictionary/value-all', params);
+    return requestClient.get<DictResult>('/admin/dictionary/value-all', params);
   }
 
   export async function addDictByCodeApi(params: AddDictItemParams) {
@@ -59,7 +66,7 @@ export namespace Dict {
    * 获取全部职务
    *
    * @param params
-   * @returns
+   * @returns any
    */
   export async function positionTreeApi(params: any = {}) {
     return requestClient.get<ValueItem[]>('/admin/position/tree', params);
@@ -69,7 +76,7 @@ export namespace Dict {
    * 获取全部部门
    *
    * @param params
-   * @returns
+   * @returns any
    */
   export async function deptTreeApi(params: any = {}) {
     return requestClient.get<ValueItem[]>('/admin/dpet/tree', params);

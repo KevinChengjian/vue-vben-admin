@@ -150,8 +150,8 @@ $namespace: vben;
   }
 
   &__icon {
-    max-height: 24px;
-    font-size: 24px;
+    max-height: 20px;
+    font-size: 20px;
     transition: all 0.25s ease;
   }
 

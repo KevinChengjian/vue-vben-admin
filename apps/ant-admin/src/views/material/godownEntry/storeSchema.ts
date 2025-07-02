@@ -32,7 +32,7 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
     },
   },
   {
-    component: 'DictSelectWithAdd',
+    component: 'DictSelect',
     fieldName: 'material_id',
     label: '原料名称',
     rules: 'required',
@@ -44,7 +44,7 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
     },
   },
   {
-    component: 'DictSelectWithAdd',
+    component: 'DictSelect',
     fieldName: 'spec_id',
     label: '原料规格',
     componentProps: {
@@ -64,7 +64,7 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
     },
   },
   {
-    component: 'DictSelectWithAdd',
+    component: 'DictSelect',
     fieldName: 'unit_id',
     label: '单位',
     rules: 'required',

@@ -1,4 +1,4 @@
-import type { MaterialInItem } from './type';
+import type { ListItem } from './type';
 
 import { requestClient } from '#/api/request';
 
@@ -17,10 +17,7 @@ export enum AuthCode {
  * @returns ListResult
  */
 export async function listApi(params: any = {}) {
-  return requestClient.post<MaterialInItem[]>(
-    '/admin/vaccination-plan/list',
-    params,
-  );
+  return requestClient.post<ListItem[]>('/admin/vaccination-plan/list', params);
 }
 
 /**

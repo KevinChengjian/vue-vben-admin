@@ -111,7 +111,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'InputNumber',
+      component: 'Input',
       fieldName: 'dt',
       label: '菌棒松紧度',
       componentProps: {

@@ -51,7 +51,7 @@ export const TableColumn: any = [
   },
   {
     title: '菌包松紧度',
-    field: 'price',
+    field: 'dt',
     align: 'center',
     minWidth: 120,
   },

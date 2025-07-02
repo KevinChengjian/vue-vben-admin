@@ -4,18 +4,138 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
-import dayjs from 'dayjs';
-
 import { useVbenForm } from '#/adapter/form';
+import { Dict } from '#/api';
+import { Material } from '#/api/core/material';
 
 import { createApi, updateApi } from './api';
-import { MaterialInFormStoreSchema } from './storeSchema';
 
 const emit = defineEmits(['reload']);
 
 const userStore = useUserStore();
 const [StoreForm, StoreFromApi] = useVbenForm({
-  schema: MaterialInFormStoreSchema,
+  schema: [
+    {
+      component: 'Input',
+      fieldName: 'id',
+      label: 'Id',
+      dependencies: {
+        triggerFields: ['id'],
+        show: () => {
+          return false;
+        },
+      },
+    },
+    {
+      component: 'MaterialSnSelect',
+      fieldName: 'material_sn',
+      label: '原料编号',
+      rules: 'required',
+      componentProps: {
+        placeholder: '请输入原料编号',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'make_bag_sn',
+      label: '制包编号',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入制包编号',
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'material_id',
+      label: '检测原料',
+      rules: 'required',
+      componentProps: {
+        class: 'w-full',
+        showSearch: true,
+        placeholder: '请选择检测原料',
+        code: Dict.KeyEnum.MATERIAL,
+      },
+      dependencies: {
+        triggerFields: ['material_sn'],
+        trigger: async (values) => {
+          const ids = await Material.materialIds({
+            keyword: values.material_sn,
+          });
+          StoreFromApi.updateSchema([
+            {
+              fieldName: 'material_id',
+              componentProps: {
+                filters: ids,
+              },
+            },
+          ]);
+        },
+      },
+    },
+    {
+      component: 'InputNumber',
+      fieldName: 'num',
+      label: '出库数量',
+      rules: 'required',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入数量',
+      },
+    },
+    {
+      component: 'DictSelectWithAdd',
+      fieldName: 'unit_id',
+      label: '单位',
+      rules: 'required',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请选择原料单位',
+        code: Dict.KeyEnum.UNIT,
+      },
+    },
+    {
+      component: 'InputNumber',
+      fieldName: 'price',
+      label: '单价',
+      rules: 'required',
+      componentProps: {
+        suffix: '元',
+        class: 'w-full',
+        placeholder: '请输入单价',
+      },
+    },
+    {
+      component: 'InputNumber',
+      fieldName: 'amount',
+      label: '合计金额',
+      rules: 'required',
+      dependencies: {
+        triggerFields: ['num', 'price'],
+        trigger: async (values, formApi) => {
+          if (!Number.isNaN(values.num) && !Number.isNaN(values.price)) {
+            formApi.setFieldValue(
+              'amount',
+              Number((values.num * values.price).toFixed(2)),
+            );
+          }
+        },
+      },
+      componentProps: {
+        suffix: '元',
+        class: 'w-full',
+        placeholder: '请输入合计金额',
+      },
+    },
+    {
+      component: 'Textarea',
+      fieldName: 'remark',
+      label: '备注',
+      formItemClass: 'col-span-2',
+      componentProps: {
+        placeholder: '请输入备注',
+      },
+    },
+  ],
   showDefaultActions: false,
   wrapperClass: 'grid-cols-2 mr-[25px]',
   commonConfig: {
@@ -35,7 +155,6 @@ const [Modal, ModalApi] = useVbenModal({
 
     // 默认值
     await StoreFromApi.setValues({
-      purchase_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
     });
 
@@ -63,7 +182,7 @@ const [Modal, ModalApi] = useVbenModal({
 </script>
 <template>
   <Modal
-    :title="`${isUpdate ? '编辑入库记录' : '添加入库记录'}`"
+    :title="`${isUpdate ? '编辑出库记录' : '添加出库记录'}`"
     class="w-[960px]"
     content-class="pt-[20px] pb-0"
   >

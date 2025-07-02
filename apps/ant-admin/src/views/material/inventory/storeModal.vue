@@ -2,16 +2,20 @@
 import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
+import { useUserStore } from '@vben/stores';
+
+import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 
-import { roleTreeApi, userCreateApi, userUpdateApi } from './api';
-import { UserFormStoreSchema } from './storeSchema';
+import { createApi, updateApi } from './api';
+import { FormStoreSchema } from './storeSchema';
 
 const emit = defineEmits(['reload']);
 
-const [UserForm, UserFromApi] = useVbenForm({
-  schema: UserFormStoreSchema,
+const userStore = useUserStore();
+const [StoreForm, StoreFromApi] = useVbenForm({
+  schema: FormStoreSchema,
   showDefaultActions: false,
   wrapperClass: 'grid-cols-2 mr-[25px]',
   commonConfig: {
@@ -19,48 +23,34 @@ const [UserForm, UserFromApi] = useVbenForm({
   },
 });
 
-const roleTree = ref<any>([]);
-const getRoleTree = async () => {
-  roleTree.value = await roleTreeApi();
-
-  UserFromApi.updateSchema([
-    {
-      fieldName: 'role_ids',
-      componentProps: {
-        treeData: roleTree.value,
-      },
-    },
-  ]);
-};
-
 const isUpdate = ref<boolean>(false);
 const [Modal, ModalApi] = useVbenModal({
   closeOnClickModal: false,
-  onOpenChange: (isOpen: boolean) => {
-    UserFromApi.resetForm();
+  onOpenChange: async (isOpen: boolean) => {
+    StoreFromApi.resetForm();
     if (!isOpen) return;
-    roleTree.value.length === 0 && getRoleTree();
 
     const data = ModalApi.getData();
     ModalApi.setData({});
 
+    // 默认值
+    await StoreFromApi.setValues({
+      detection_at: dayjs().format('YYYY-MM-DD HH:mm'),
+      user_id: userStore.userInfo?.userId,
+    });
+
     isUpdate.value = data.isEdit;
-    data.record && UserFromApi.setValues({ ...data.record });
-    isUpdate.value &&
-      UserFromApi.setValues({
-        ...data.record,
-        status: `${data.record.status}`,
-      });
+    data.record && StoreFromApi.setValues({ ...data.record });
   },
   onConfirm: async () => {
     try {
-      await UserFromApi.validate();
-      const values = await UserFromApi.getValues();
-      await (values?.id ? userUpdateApi(values) : userCreateApi(values));
+      await StoreFromApi.validate();
+      const values = await StoreFromApi.getValues();
+      await (values?.id ? updateApi(values) : createApi(values));
 
       ModalApi.close();
       ModalApi.setData({});
-      UserFromApi.resetForm();
+      StoreFromApi.resetForm();
       emit('reload');
     } catch {}
   },
@@ -68,10 +58,10 @@ const [Modal, ModalApi] = useVbenModal({
 </script>
 <template>
   <Modal
-    :title="`${isUpdate ? '编辑用户' : '添加用户'}`"
-    class="w-[780px]"
+    :title="`${isUpdate ? '编辑检测记录' : '添加检测记录'}`"
+    class="w-[960px]"
     content-class="pt-[20px] pb-0"
   >
-    <UserForm />
+    <StoreForm />
   </Modal>
 </template>

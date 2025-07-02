@@ -2,7 +2,7 @@ import type { VbenFormSchema } from '@vben/common-ui';
 
 import { Dict } from '#/api';
 
-export const UserFormStoreSchema: VbenFormSchema[] = [
+export const FormStoreSchema: VbenFormSchema[] = [
   {
     component: 'Input',
     fieldName: 'id',

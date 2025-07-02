@@ -1,0 +1,77 @@
+export const TableColumn: any = [
+  { title: '序号', align: 'center', type: 'seq', minWidth: 60 },
+  {
+    title: '菌包编号',
+    field: 'make_bag_sn',
+    align: 'center',
+    minWidth: 120,
+  },
+  {
+    title: '鉴定日期',
+    field: 'ark_id',
+    align: 'center',
+    minWidth: 90,
+  },
+  {
+    title: '罐号',
+    field: 'upper_weight',
+    align: 'center',
+    minWidth: 75,
+  },
+  {
+    title: '品种',
+    field: 'upper_weight',
+    align: 'center',
+    minWidth: 75,
+  },
+  {
+    title: '培养时间/h',
+    field: 'upper_weight',
+    align: 'center',
+    minWidth: 75,
+  },
+  {
+    title: 'PH',
+    field: 'upper_weight',
+    align: 'center',
+    minWidth: 75,
+  },
+  {
+    title: '菌丝浓度',
+    field: 'upper_weight',
+    align: 'center',
+    minWidth: 75,
+  },
+  {
+    title: '判定结果',
+    field: 'upper_weight',
+    align: 'center',
+    minWidth: 75,
+  },
+  {
+    title: '备注',
+    field: 'remark',
+    align: 'center',
+    minWidth: 150,
+  },
+  {
+    title: '检测人员',
+    field: 'nickname',
+    align: 'center',
+    minWidth: 90,
+  },
+  {
+    title: '创建时间',
+    field: 'created_at',
+    align: 'center',
+    minWidth: 90,
+  },
+  {
+    title: '操作',
+    field: 'action',
+    align: 'center',
+    minWidth: 120,
+    fixed: 'right',
+    slots: { default: 'action' },
+  },
+];

@@ -172,9 +172,10 @@ const headerStyle = computed((): CSSProperties => {
   const { headerHeight, isSidebarMixed } = props;
 
   return {
-    ...(isSidebarMixed ? { display: 'flex', justifyContent: 'center' } : {}),
+    ...(isSidebarMixed
+      ? { display: 'flex', justifyContent: 'center', marginTop: '24px' }
+      : {}),
     height: `${headerHeight - 1}px`,
-    marginTop: '24px',
     ...contentWidthStyle.value,
   };
 });
@@ -269,12 +270,13 @@ function handleMouseleave() {
       },
     ]"
     :style="style"
-    class="fixed left-0 top-0 h-full transition-all duration-150"
+    class="dark:bg-header fixed left-0 top-0 h-full transition-all duration-150"
     @mouseenter="handleMouseenter"
     @mouseleave="handleMouseleave"
   >
     <div
-      class="fixed left-0 top-0 min-h-[100vh] rounded-tr-[60px] bg-[url(http://july-mall.com/mbg.svg)] bg-cover bg-no-repeat"
+      v-if="isSidebarMixed"
+      class="fixed left-0 top-0 min-h-[100vh] rounded-tr-[60px] bg-[url(https://api.chenion.cn/static/mbg.svg)] bg-cover bg-no-repeat dark:opacity-[0.2]"
       :style="{ width: `${props.width}px` }"
     ></div>
 

@@ -1,19 +1,17 @@
 import { Dict } from '#/api';
 
 export const TableColumn: any = [
-  { title: '序号', align: 'center', type: 'seq', width: '4%', minWidth: 60 },
+  { title: '序号', align: 'center', type: 'seq', minWidth: 60 },
   {
     title: '原料编号',
     field: 'material_sn',
     align: 'center',
-    width: '8%',
     minWidth: 120,
   },
   {
     title: '制包编号',
     field: 'make_bag_sn',
     align: 'center',
-    width: '6%',
     minWidth: 90,
   },
   {
@@ -21,22 +19,20 @@ export const TableColumn: any = [
     field: 'material_id',
     align: 'center',
     cellRender: { name: 'dict', code: Dict.KeyEnum.MATERIAL },
-    width: '10%',
     minWidth: 150,
   },
   {
     title: '数量',
     field: 'num',
     align: 'center',
-    width: '7%',
     minWidth: 105,
+    cellRender: { name: 'number' },
   },
   {
     title: '单位',
     field: 'unit_id',
     align: 'center',
     cellRender: { name: 'dict', code: Dict.KeyEnum.UNIT },
-    width: '7%',
     minWidth: 105,
   },
   {
@@ -44,7 +40,6 @@ export const TableColumn: any = [
     field: 'price',
     align: 'center',
     cellRender: { name: 'money' },
-    width: '7%',
     minWidth: 105,
   },
   {
@@ -52,28 +47,24 @@ export const TableColumn: any = [
     field: 'amount',
     align: 'center',
     cellRender: { name: 'money' },
-    width: '8%',
     minWidth: 120,
   },
   {
     title: '备注',
     field: 'remark',
     align: 'center',
-    width: '10%',
     minWidth: 150,
   },
   {
     title: '创建时间',
     field: 'created_at',
     align: 'center',
-    width: '10%',
     minWidth: 150,
   },
   {
     title: '操作',
     field: 'action',
     align: 'center',
-    width: '8%',
     minWidth: 120,
     fixed: 'right',
     slots: { default: 'action' },

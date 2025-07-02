@@ -88,7 +88,7 @@ onMounted(() => {
         @click="handleChangeDictKey(item)"
       >
         <div class="name">
-          {{ item.name }}： {{ item.code }} <span>({{ item.num || 0 }})</span>
+          {{ item.name }}<span>({{ item.num || 0 }})</span>
         </div>
         <div class="action">
           <Space :size="15">

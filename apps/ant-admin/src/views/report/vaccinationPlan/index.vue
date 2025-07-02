@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 
-import { Page } from '@vben/common-ui';
+import { Page, useVbenModal } from '@vben/common-ui';
 
 import { DatePicker, Space } from 'ant-design-vue';
 import dayjs, { Dayjs } from 'dayjs';
@@ -10,6 +10,7 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
 import { AuthCode, listApi } from './api';
 import { TableColumn } from './columns';
+import StoreFormModal from './storeModal.vue';
 
 onMounted(() => {
   month.value = dayjs();
@@ -20,8 +21,8 @@ const [Grid, gridApi] = useVbenVxeGrid({
     columns: TableColumn,
     border: true,
     editConfig: {
+      trigger: 'dblclick',
       mode: 'row',
-      trigger: 'click',
     },
     pagerConfig: {
       enabled: false,
@@ -46,6 +47,20 @@ const title = computed(() => {
 });
 const handleMonth = () => {
   gridApi.reload();
+};
+
+// 添加|编辑
+const [StoreModal, storeModalApi] = useVbenModal({
+  connectedComponent: StoreFormModal,
+});
+
+const handleStore = (item: any = {}, edit: boolean = false) => {
+  storeModalApi
+    .setData({
+      isEdit: edit,
+      record: item,
+    })
+    .open();
 };
 </script>
 
@@ -76,8 +91,9 @@ const handleMonth = () => {
           <div
             class="text-primary cursor-pointer"
             v-access:code="AuthCode.Update"
+            @click="handleStore(row, !!row.id)"
           >
-            编辑
+            {{ row.id ? '编辑' : '添加' }}
           </div>
           <div
             class="text-destructive cursor-pointer"
@@ -88,5 +104,7 @@ const handleMonth = () => {
         </Space>
       </template>
     </Grid>
+
+    <StoreModal @reload="gridApi.reload" />
   </Page>
 </template>

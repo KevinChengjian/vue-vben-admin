@@ -1,4 +1,4 @@
-import type { UserItem } from './type';
+import type { ListItem } from './type';
 
 import { requestClient } from '#/api/request';
 
@@ -17,8 +17,8 @@ export enum AuthCode {
  * @param params any
  * @returns ListResult
  */
-export async function userListApi(params: any = {}) {
-  return requestClient.post<UserItem[]>('/admin/user/list', params);
+export async function listApi(params: any = {}) {
+  return requestClient.post<ListItem[]>('/admin/user/list', params);
 }
 
 /**
@@ -26,7 +26,7 @@ export async function userListApi(params: any = {}) {
  * @param params
  * @returns any
  */
-export async function userCreateApi(params: any) {
+export async function createApi(params: any) {
   return requestClient.post<any>('/admin/user/create', params);
 }
 
@@ -35,7 +35,7 @@ export async function userCreateApi(params: any) {
  * @param params
  * @returns any
  */
-export async function userUpdateApi(params: any) {
+export async function updateApi(params: any) {
   return requestClient.post<any>('/admin/user/update', params);
 }
 
@@ -44,23 +44,6 @@ export async function userUpdateApi(params: any) {
  * @param params
  * @returns any
  */
-export async function userDeleteApi(params: any) {
+export async function deleteApi(params: any) {
   return requestClient.post<any>('/admin/user/delete', params);
-}
-
-/**
- * 删除
- * @param params
- * @returns any
- */
-export async function userResetPwdApi(params: any) {
-  return requestClient.post<any>('/admin/user/reset-pwd', params);
-}
-
-/**
- * 角色
- * @returns any
- */
-export async function roleTreeApi() {
-  return requestClient.post<any>('/admin/role/all');
 }

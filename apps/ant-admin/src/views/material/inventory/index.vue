@@ -1,55 +1,60 @@
 <script lang="ts" setup>
+import { computed, onMounted, ref } from 'vue';
+
 import { Page, useVbenModal } from '@vben/common-ui';
 
-import { Button } from 'ant-design-vue';
+import { DatePicker, Space } from 'ant-design-vue';
+import dayjs, { Dayjs } from 'dayjs';
 
-import { Dict } from '#/api';
-import { useTable } from '#/hooks';
+import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
-import { AuthCode, userListApi } from './api';
-import { UserColumn } from './columns';
-import UserStoreModal from './storeModal.vue';
+import { AuthCode, listApi } from './api';
+import { TableColumn } from './columns';
+import StoreFormModal from './storeModal.vue';
 
-const [Grid, gridApi] = useTable({
-  colums: UserColumn,
-  api: userListApi,
-  searhcSchema: [
-    {
-      component: 'Input',
-      fieldName: 'name',
-      label: '原料编号',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入配方名称',
-      },
-    },
-    {
-      component: 'DictSelect',
-      fieldName: 'status',
-      label: '配方状态',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请选择配方状态',
-        code: Dict.KeyEnum.STATUS,
-      },
-    },
-    // {
-    //   component: 'Input',
-    //   fieldName: 'material',
-    //   label: '配方原料',
-    //   componentProps: {
-    //     allowClear: true,
-    //     placeholder: '请输入配方原料',
-    //   },
-    // },
-  ],
+onMounted(() => {
+  month.value = dayjs();
 });
 
+const [Grid, gridApi] = useVbenVxeGrid({
+  gridOptions: {
+    columns: TableColumn,
+    border: true,
+    editConfig: {
+      trigger: 'dblclick',
+      mode: 'row',
+    },
+    pagerConfig: {
+      enabled: false,
+    },
+    proxyConfig: {
+      ajax: {
+        query: async () => {
+          return await listApi({
+            plan_at: month.value?.format('YYYY-MM'),
+          });
+        },
+      },
+    },
+    showOverflow: true,
+  },
+});
+
+// 日期选择
+const month = ref<Dayjs>();
+const title = computed(() => {
+  return month.value?.format('YYYY年M月');
+});
+const handleMonth = () => {
+  gridApi.reload();
+};
+
+// 添加|编辑
 const [StoreModal, storeModalApi] = useVbenModal({
-  connectedComponent: UserStoreModal,
+  connectedComponent: StoreFormModal,
 });
 
-const handleStoreUser = (item: any = {}, edit: boolean = false) => {
+const handleStore = (item: any = {}, edit: boolean = false) => {
   storeModalApi
     .setData({
       isEdit: edit,
@@ -62,41 +67,41 @@ const handleStoreUser = (item: any = {}, edit: boolean = false) => {
 <template>
   <Page class="h-full">
     <Grid>
-      <template #toolbar-actions>
-        <Button
-          type="primary"
-          v-access:code="AuthCode.Create"
-          @click="handleStoreUser"
+      <template #table-title>
+        <div
+          class="flex w-full items-center justify-between pb-[15px] pt-[10px]"
         >
-          新增配方
-        </Button>
-        <!-- <Button
-          class="ml-[15px]"
-          type="primary"
-          danger
-          v-access:code="AuthCode.ResetPwd"
-          @click="handleStoreUser"
-        >
-          重置密码
-        </Button> -->
+          <div class="w-[200px]">
+            <DatePicker
+              format="YYYY年MM月"
+              class="w-full"
+              v-model:value="month"
+              picker="month"
+              :allow-clear="false"
+              @change="handleMonth"
+            />
+          </div>
+          <div class="text-[22px]">原料库存统计（{{ title }}）</div>
+          <div class="w-[200px]"></div>
+        </div>
       </template>
 
       <template #action="{ row }">
-        <div class="flex items-center justify-center text-[14px]">
+        <Space :size="15">
           <div
             class="text-primary cursor-pointer"
             v-access:code="AuthCode.Update"
-            @click="handleStoreUser(row, true)"
+            @click="handleStore(row, !!row.id)"
           >
-            编辑
+            {{ row.id ? '编辑' : '添加' }}
           </div>
           <div
-            class="text-destructive ml-[15px] cursor-pointer"
+            class="text-destructive cursor-pointer"
             v-access:code="AuthCode.Delete"
           >
             删除
           </div>
-        </div>
+        </Space>
       </template>
     </Grid>
 

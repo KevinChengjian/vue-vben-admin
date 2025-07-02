@@ -117,16 +117,6 @@ export const UserFormStoreSchema: VbenFormSchema[] = [
     },
   },
   {
-    component: 'InputNumber',
-    fieldName: 'sorting',
-    label: '显示顺序',
-    defaultValue: 0,
-    componentProps: {
-      class: 'w-full',
-      placeholder: '请输入显示顺序',
-    },
-  },
-  {
     component: 'Input',
     fieldName: 'remark',
     label: '用户备注',

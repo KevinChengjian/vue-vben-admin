@@ -1,110 +1,57 @@
 <script lang="ts" setup>
-import type { NotificationItem } from '@vben/layouts';
+import { computed, watch } from 'vue';
 
-import { computed, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-
-import { AuthenticationLoginExpiredModal } from '@vben/common-ui';
-import { VBEN_GITHUB_URL } from '@vben/constants';
+import { AuthenticationLoginExpiredModal, useVbenModal } from '@vben/common-ui';
 import { useWatermark } from '@vben/hooks';
-import { CircleHelp, MdiGithub, Settings } from '@vben/icons';
-import {
-  BasicLayout,
-  LockScreen,
-  Notification,
-  UserDropdown,
-} from '@vben/layouts';
+import { ClearOutlined, Settings } from '@vben/icons';
+import { BasicLayout, LockScreen, UserDropdown } from '@vben/layouts';
 import { preferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
-import { openWindow } from '@vben/utils';
 
-import { $t } from '#/locales';
-import { useAuthStore } from '#/store';
+import { message } from 'ant-design-vue';
+
+import { useAuthStore, useDictStore } from '#/store';
+import UserAccount from '#/views/_core/account/modal.vue';
 import LoginForm from '#/views/_core/authentication/login.vue';
-
-const notifications = ref<NotificationItem[]>([
-  {
-    avatar: 'https://avatar.vercel.sh/vercel.svg?text=VB',
-    date: '3小时前',
-    isRead: true,
-    message: '描述信息描述信息描述信息',
-    title: '收到了 14 份新周报',
-  },
-  {
-    avatar: 'https://avatar.vercel.sh/1',
-    date: '刚刚',
-    isRead: false,
-    message: '描述信息描述信息描述信息',
-    title: '朱偏右 回复了你',
-  },
-  {
-    avatar: 'https://avatar.vercel.sh/1',
-    date: '2024-01-01',
-    isRead: false,
-    message: '描述信息描述信息描述信息',
-    title: '曲丽丽 评论了你',
-  },
-  {
-    avatar: 'https://avatar.vercel.sh/satori',
-    date: '1天前',
-    isRead: false,
-    message: '描述信息描述信息描述信息',
-    title: '代办提醒',
-  },
-]);
 
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const accessStore = useAccessStore();
-const router = useRouter();
 const { destroyWatermark, updateWatermark } = useWatermark();
-const showDot = computed(() =>
-  notifications.value.some((item) => !item.isRead),
-);
+
+// 账户中心
+const [UserAccountModal, UserAccountApi] = useVbenModal({
+  connectedComponent: UserAccount,
+});
+
+const { fetch } = useDictStore();
 
 const menus = computed(() => [
   {
     handler: () => {
-      router.push({ path: '/userAccount' });
+      UserAccountApi.open();
     },
     icon: Settings,
     text: `账户中心`,
   },
   {
-    handler: () => {
-      openWindow(VBEN_GITHUB_URL, {
-        target: '_blank',
-      });
+    handler: async () => {
+      fetch();
+      message.success('清除缓存成功');
     },
-    icon: MdiGithub,
-    text: 'GitHub',
-  },
-  {
-    handler: () => {
-      openWindow(`${VBEN_GITHUB_URL}/issues`, {
-        target: '_blank',
-      });
-    },
-    icon: CircleHelp,
-    text: $t('ui.widgets.qa'),
+    icon: ClearOutlined,
+    text: `清除缓存`,
   },
 ]);
 
 const avatar = computed(() => {
-  return userStore.userInfo?.avatar ?? preferences.app.defaultAvatar;
+  return userStore.userInfo?.avatar || preferences.app.defaultAvatar;
 });
 
 async function handleLogout() {
   await authStore.logout(false);
 }
 
-function handleNoticeClear() {
-  notifications.value = [];
-}
-
-function handleMakeAll() {
-  notifications.value.forEach((item) => (item.isRead = true));
-}
 watch(
   () => preferences.app.watermark,
   async (enable) => {
@@ -125,24 +72,17 @@ watch(
 <template>
   <BasicLayout @clear-preferences-and-logout="handleLogout">
     <template #logo-text>
+      <UserAccountModal />
       <span class="truncate text-nowrap"> 农新生物科技 </span>
     </template>
     <template #user-dropdown>
       <UserDropdown
         :avatar
         :menus
-        :text="userStore.userInfo?.realName"
-        description="ann.vben@gmail.com"
-        tag-text="Pro"
+        :text="userStore.userInfo?.nickname"
+        :description="`${userStore.userInfo?.phone || userStore.userInfo?.email}`"
+        :tag-text="userStore.userInfo?.position"
         @logout="handleLogout"
-      />
-    </template>
-    <template #notification>
-      <Notification
-        :dot="showDot"
-        :notifications="notifications"
-        @clear="handleNoticeClear"
-        @make-all="handleMakeAll"
       />
     </template>
     <template #extra>

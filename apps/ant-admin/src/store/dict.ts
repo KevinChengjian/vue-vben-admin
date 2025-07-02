@@ -5,6 +5,7 @@ import { defineStore } from 'pinia';
 import { Dict } from '#/api';
 
 export const useDictStore = defineStore('dict', () => {
+  const lv = ref<number | string>('');
   const dictList = ref<Dict.KeyItem[]>([] as Dict.KeyItem[]);
   const dictMap: Map<string, Dict.ValueItem[]> = new Map();
   const loading = ref<boolean>(false);
@@ -13,7 +14,14 @@ export const useDictStore = defineStore('dict', () => {
   );
 
   async function fetch() {
-    dictList.value = await Dict.listApi();
+    const { list, version } = await Dict.listApi({ version: lv.value });
+    if (lv.value !== version && list.length > 0) {
+      dictList.value = list;
+
+      dictList.value.forEach((item: Dict.KeyItem) => {
+        dictMap.set(item.code, item.values);
+      });
+    }
   }
 
   async function getDictByKey(
@@ -31,11 +39,15 @@ export const useDictStore = defineStore('dict', () => {
 
       if (!loading.value) {
         loading.value = true;
-        Dict.listApi()
+        Dict.listApi({ version: lv.value })
           .then((res) => {
             loading.value = false;
 
-            dictList.value = res || [];
+            const { list, version } = res;
+            if (lv.value !== version && list.length > 0) {
+              dictList.value = list;
+            }
+
             dictList.value.forEach((item: Dict.KeyItem) => {
               dictMap.set(item.code, item.values);
             });
@@ -62,5 +74,9 @@ export const useDictStore = defineStore('dict', () => {
     loading.value = false;
   }
 
-  return { fetch, getDictByKey, addDictItem, $reset };
+  function clear() {
+    fetch();
+  }
+
+  return { fetch, getDictByKey, addDictItem, $reset, clear };
 });

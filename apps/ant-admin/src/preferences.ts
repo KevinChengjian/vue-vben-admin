@@ -33,6 +33,7 @@ export const overridesPreferences = defineOverridesPreferences({
   },
   widget: {
     globalSearch: false,
+    themeToggle: false,
   },
   copyright: {
     companyName: '杭州临安农新生物科技有限公司',

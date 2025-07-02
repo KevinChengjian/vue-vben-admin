@@ -220,7 +220,6 @@ onMounted(() => {
         class="mt-[10px]"
       >
         <Col :offset="1" :span="4">{{ item.title }}</Col>
-        <!-- <Col :span="19">{{ item.router }}</Col> -->
         <Col :span="18">{{ item.auth_code }}</Col>
       </Row>
     </BindActionModal>

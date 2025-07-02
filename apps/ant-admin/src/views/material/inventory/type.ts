@@ -1,6 +1,6 @@
 import type { BasicFetchResult } from '#/api/model';
 
-export interface UserItem {
+export interface ListItem {
   id: number;
   mch_id: number;
   name: string;
@@ -13,4 +13,4 @@ export interface UserItem {
   updated_at: string;
 }
 
-export type ListResult = BasicFetchResult<UserItem[]>;
+export type ListResult = BasicFetchResult<ListItem[]>;

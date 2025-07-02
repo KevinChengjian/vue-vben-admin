@@ -20,6 +20,7 @@ import DictLabel from '#/components/dict/dict-label.vue';
 const formula = ref<FormulaItem>({} as FormulaItem);
 const [Modal, ModalApi] = useVbenModal({
   closeOnClickModal: false,
+  footer: false,
   onOpenChange: async (isOpen: boolean) => {
     if (!isOpen) return;
     formula.value = ModalApi.getData() as FormulaItem;

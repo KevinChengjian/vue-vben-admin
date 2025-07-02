@@ -58,7 +58,7 @@ export const TableColumn: any = [
 
       {
         title: '中间',
-        field: 'upper_height',
+        field: 'middle_height',
         align: 'center',
         cellRender: { name: 'number' },
         minWidth: 75,
@@ -138,13 +138,13 @@ export const TableColumn: any = [
     title: '备注',
     field: 'remark',
     align: 'center',
-    minWidth: 120,
+    minWidth: 150,
   },
   {
     title: '检测时间',
     field: 'created_at',
     align: 'center',
-    minWidth: 120,
+    minWidth: 90,
   },
   {
     title: '操作',

@@ -21,7 +21,7 @@ setupVbenVxeTable({
         rowConfig: {
           isHover: true,
         },
-        minHeight: 350,
+        minHeight: 850,
         formConfig: {
           // 全局禁用vxe-table的表单配置，使用formOptions
           enabled: false,

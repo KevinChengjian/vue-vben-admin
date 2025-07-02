@@ -21,3 +21,5 @@ export const ReloadOutlined = createIconifyIcon('ant-design:redo-outlined');
 export const DownloadOutlined = createIconifyIcon(
   'ant-design:download-outlined',
 );
+
+export const ClearOutlined = createIconifyIcon('ant-design:clear-outlined');

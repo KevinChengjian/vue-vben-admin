@@ -1,12 +1,11 @@
 import { Dict } from '#/api';
 
 export const TableColumn: any = [
-  { title: '序号', align: 'center', type: 'seq', width: '4%', minWidth: 60 },
+  { title: '序号', align: 'center', type: 'seq', minWidth: 60 },
   {
     title: '原料编号',
     field: 'material_sn',
     align: 'center',
-    width: '8%',
     minWidth: 120,
   },
   {
@@ -14,7 +13,6 @@ export const TableColumn: any = [
     field: 'material_id',
     align: 'center',
     cellRender: { name: 'dict', code: Dict.KeyEnum.MATERIAL },
-    width: '10%',
     minWidth: 150,
   },
   {
@@ -22,7 +20,6 @@ export const TableColumn: any = [
     field: 'spec_id',
     align: 'center',
     cellRender: { name: 'dict', code: Dict.KeyEnum.MATERIAL_SPEC },
-    width: '7%',
     minWidth: 105,
   },
   { title: '购置厂家', field: 'manufacturer', align: 'center', width: '10%' },
@@ -31,15 +28,13 @@ export const TableColumn: any = [
     field: 'num',
     align: 'center',
     cellRender: { name: 'number' },
-    width: '7%',
     minWidth: 105,
   },
   {
     title: '单位',
     field: 'unit_id',
     align: 'center',
-    width: '7%',
-    minWidth: 105,
+    minWidth: 90,
     cellRender: { name: 'dict', code: Dict.KeyEnum.UNIT },
   },
   {
@@ -47,7 +42,6 @@ export const TableColumn: any = [
     field: 'price',
     align: 'center',
     cellRender: { name: 'money' },
-    width: '7%',
     minWidth: 105,
   },
   {
@@ -55,35 +49,30 @@ export const TableColumn: any = [
     field: 'amount',
     align: 'center',
     cellRender: { name: 'money' },
-    width: '8%',
     minWidth: 120,
   },
   {
     title: '备注',
     field: 'remark',
     align: 'center',
-    width: '10%',
-    minWidth: 150,
+    minWidth: 155,
   },
   {
     title: '采购人',
     field: 'nickname',
     align: 'center',
-    width: '6%',
-    minWidth: 90,
+    minWidth: 80,
   },
   {
     title: '购置时间',
     field: 'created_at',
     align: 'center',
-    width: '8%',
-    minWidth: 120,
+    minWidth: 140,
   },
   {
     title: '操作',
     field: 'action',
     align: 'center',
-    width: '8%',
     minWidth: 120,
     fixed: 'right',
     slots: { default: 'action' },
