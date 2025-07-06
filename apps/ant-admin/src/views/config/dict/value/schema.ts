@@ -60,6 +60,9 @@ export const DictValueFormStoreSchema: VbenFormSchema[] = [
         { label: '是', value: 1 },
         { label: '否', value: 2 },
       ],
+      show: () => {
+        return false;
+      },
     },
   },
   {

@@ -6,9 +6,9 @@ import { requestClient } from '#/api/request';
  * 操作权限标识
  */
 export enum AuthCode {
-  Create = 'admin.sterilization-inspection.create',
-  Delete = 'admin.sterilization-inspection.delete',
-  Update = 'admin.sterilization-inspection.update',
+  Create = 'admin.strain-identification.create',
+  Delete = 'admin.strain-identification.delete',
+  Update = 'admin.strain-identification.update',
 }
 
 /**
@@ -18,7 +18,7 @@ export enum AuthCode {
  */
 export async function listApi(params: any = {}) {
   return requestClient.post<ListItem[]>(
-    '/admin/sterilization-inspection/list',
+    '/admin/strain-identification/list',
     params,
   );
 }
@@ -29,10 +29,7 @@ export async function listApi(params: any = {}) {
  * @returns any
  */
 export async function createApi(params: any) {
-  return requestClient.post<any>(
-    '/admin/sterilization-inspection/create',
-    params,
-  );
+  return requestClient.post<any>('/admin/strain-identification/create', params);
 }
 
 /**
@@ -41,10 +38,7 @@ export async function createApi(params: any) {
  * @returns any
  */
 export async function updateApi(params: any) {
-  return requestClient.post<any>(
-    '/admin/sterilization-inspection/update',
-    params,
-  );
+  return requestClient.post<any>('/admin/strain-identification/update', params);
 }
 
 /**
@@ -53,10 +47,7 @@ export async function updateApi(params: any) {
  * @returns any
  */
 export async function deleteApi(params: any) {
-  return requestClient.post<any>(
-    '/admin/sterilization-inspection/delete',
-    params,
-  );
+  return requestClient.post<any>('/admin/strain-identification/delete', params);
 }
 
 /**
@@ -65,8 +56,14 @@ export async function deleteApi(params: any) {
  * @returns any
  */
 export async function detailApi(params: any) {
-  return requestClient.post<any>(
-    '/admin/sterilization-inspection/detail',
-    params,
-  );
+  return requestClient.post<any>('/admin/strain-identification/detail', params);
+}
+
+/**
+ * 菌种观察记录
+ * @param params
+ * @returns any
+ */
+export async function strainPatrolListApi(params: any) {
+  return requestClient.post<any>('/admin/strain-patrol/authenticate', params);
 }

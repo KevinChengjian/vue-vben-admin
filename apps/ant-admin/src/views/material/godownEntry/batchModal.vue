@@ -52,12 +52,12 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'DatePicker',
       fieldName: 'purchase_at',
-      label: '采购日期',
+      label: '购置日期',
       rules: 'required',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         class: 'w-full',
-        placeholder: '请输入采购日期',
+        placeholder: '请输入购置日期',
       },
     },
     {
@@ -77,10 +77,10 @@ const [StoreForm, StoreFromApi] = useVbenForm({
               material_id: item.value,
               material: item.label,
               spec_id: null,
-              num: 0,
-              unit_id: null,
-              price: 0,
-              amount: 0,
+              num: undefined,
+              unit_id: '1',
+              price: undefined,
+              amount: undefined,
               remark: '',
             };
 
@@ -91,10 +91,10 @@ const [StoreForm, StoreFromApi] = useVbenForm({
             if (exists !== -1) {
               const batchItem = materialItems.value[exists];
               params.spec_id = batchItem?.spec_id || null;
-              params.num = batchItem?.num || 0;
-              params.unit_id = batchItem?.unit_id || null;
-              params.price = batchItem?.price || 0;
-              params.amount = batchItem?.amount || 0;
+              params.num = batchItem?.num || undefined;
+              params.unit_id = batchItem?.unit_id || '1';
+              params.price = batchItem?.price || undefined;
+              params.amount = batchItem?.amount || undefined;
               params.remark = batchItem?.remark || '';
             }
             materials.push(params);
@@ -131,11 +131,6 @@ const [Modal, ModalApi] = useVbenModal({
 
     isUpdate.value = data.isEdit;
     data.record && StoreFromApi.setValues({ ...data.record });
-    isUpdate.value &&
-      StoreFromApi.setValues({
-        ...data.record,
-        status: `${data.record.status}`,
-      });
   },
   onConfirm: async () => {
     try {
@@ -155,7 +150,7 @@ const [Modal, ModalApi] = useVbenModal({
 const materialItems = ref<BatchMaterialItem[]>([]);
 const handleAmount = (i: number) => {
   const item: BatchMaterialItem = materialItems.value[i] as BatchMaterialItem;
-  item.amount = Number((item.num * item.price).toFixed(2)) || 0;
+  item.amount = Number(((item?.num || 0) * (item?.price || 0)).toFixed(2)) || 0;
 };
 </script>
 <template>

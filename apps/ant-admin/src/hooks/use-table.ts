@@ -44,14 +44,17 @@ export function useTable(props: Props) {
     },
     proxyConfig: {
       ajax: {
-        query: async ({ page }, formValues) => {
+        query: async ({ page, sort }, formValues) => {
           return await props.api({
             page: page.currentPage,
             pageSize: page.pageSize,
+            sortField: sort.field,
+            sortOrder: sort.order === 'asc' ? 'ascend' : 'descend',
             ...formValues,
           });
         },
       },
+      sort: true,
     },
     ...props,
   };

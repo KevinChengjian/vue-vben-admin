@@ -15,150 +15,109 @@ export const StoreFormSchema: VbenFormSchema[] = [
     },
   },
   {
-    component: 'MakeBagSnSelect',
-    fieldName: 'make_bag_sn',
-    label: '制包编号',
-    rules: 'required',
-    componentProps: {
-      placeholder: '请选择制包编号',
-    },
-  },
-  {
     component: 'DictSelect',
-    fieldName: 'ark_id',
-    label: '灭菌柜',
+    fieldName: 'can_no',
+    label: '罐号',
     rules: 'required',
     componentProps: {
       class: 'w-full',
-      showSearch: true,
-      placeholder: '请选择灭菌柜',
-      code: Dict.KeyEnum.STERILIZER_CABINET,
+      placeholder: '请选择罐号',
+      code: Dict.KeyEnum.STRAIN_CAN_NO,
+    },
+  },
+  {
+    component: 'DatePicker',
+    fieldName: 'observe_at',
+    label: '观察日期',
+    rules: 'required',
+    componentProps: {
+      class: 'w-full',
+      valueFormat: 'YYYY-MM-DD',
+      placeholder: '请填写观察日期',
     },
   },
   {
     component: 'DictSelect',
     fieldName: 'user_id',
-    label: '检测人员',
+    label: '记录人员',
     rules: 'required',
     componentProps: {
       class: 'w-full',
-      placeholder: '请选择检测人员',
+      placeholder: '请选择记录人员',
       code: Dict.KeyEnum.SYS_USER,
     },
   },
   {
-    component: 'InputNumber',
-    fieldName: 'upper_moisture',
-    label: '前排水份',
+    component: 'DictSelect',
+    fieldName: 'variety_id',
+    label: '品种',
     componentProps: {
       class: 'w-full',
-      placeholder: '请输入前排水份',
+      showSearch: true,
+      allowClear: true,
+      placeholder: '请选择品种',
+      code: Dict.KeyEnum.STRAIN_CATEGORY,
+    },
+  },
+  {
+    component: 'Input',
+    fieldName: 'hour',
+    label: '培养时间(h)',
+    componentProps: {
+      class: 'w-full',
+      placeholder: '请填写培养时间',
+    },
+  },
+  {
+    component: 'Input',
+    fieldName: 'smell',
+    label: '气味',
+    componentProps: {
+      class: 'w-full',
+      placeholder: '请填写气味',
+    },
+  },
+  {
+    component: 'Input',
+    fieldName: 'state',
+    label: '菌种状态',
+    componentProps: {
+      class: 'w-full',
+      placeholder: '请填写菌种状态',
+    },
+  },
+  {
+    component: 'Input',
+    fieldName: 'wind_speed',
+    label: '风速',
+    componentProps: {
+      class: 'w-full',
+      placeholder: '请填写风速',
     },
   },
   {
     component: 'InputNumber',
-    fieldName: 'middle_moisture',
-    label: '中间水份',
+    fieldName: 'temperature',
+    label: '温度(℃)',
     componentProps: {
       class: 'w-full',
-      placeholder: '请输入前排水份',
+      placeholder: '请填写温度',
     },
   },
   {
-    component: 'InputNumber',
-    fieldName: 'lower_moisture',
-    label: '后排水份',
+    component: 'Input',
+    fieldName: 'varied',
+    label: '有无杂菌',
     componentProps: {
       class: 'w-full',
-      placeholder: '请输入前排水份',
-    },
-  },
-  {
-    component: 'InputNumber',
-    fieldName: 'upper_ph',
-    label: '前排PH',
-    componentProps: {
-      class: 'w-full',
-      placeholder: '请输入前排PH',
-    },
-  },
-  {
-    component: 'InputNumber',
-    fieldName: 'middle_ph',
-    label: '中间PH',
-    componentProps: {
-      class: 'w-full',
-      placeholder: '请输入前排PH',
-    },
-  },
-  {
-    component: 'InputNumber',
-    fieldName: 'lower_ph',
-    label: '后排PH',
-    componentProps: {
-      class: 'w-full',
-      placeholder: '请输入前排PH',
-    },
-  },
-  {
-    component: 'InputNumber',
-    fieldName: 'upper_weight',
-    label: '前排重量',
-    componentProps: {
-      class: 'w-full',
-      placeholder: '请输入前排重量',
-    },
-  },
-  {
-    component: 'InputNumber',
-    fieldName: 'middle_weight',
-    label: '中间重量',
-    componentProps: {
-      class: 'w-full',
-      placeholder: '请输入前排重量',
-    },
-  },
-  {
-    component: 'InputNumber',
-    fieldName: 'lower_weight',
-    label: '后排重量',
-    componentProps: {
-      class: 'w-full',
-      placeholder: '请输入前排重量',
-    },
-  },
-  {
-    component: 'InputNumber',
-    fieldName: 'upper_height',
-    label: '前排高度',
-    componentProps: {
-      class: 'w-full',
-      placeholder: '请输入前排高度',
-    },
-  },
-  {
-    component: 'InputNumber',
-    fieldName: 'middle_height',
-    label: '中间高度',
-    componentProps: {
-      class: 'w-full',
-      placeholder: '请输入前排高度',
-    },
-  },
-  {
-    component: 'InputNumber',
-    fieldName: 'lower_height',
-    label: '后排高度',
-    componentProps: {
-      class: 'w-full',
-      placeholder: '请输入前排高度',
+      placeholder: '请选择有无杂菌',
     },
   },
   {
     component: 'Textarea',
     fieldName: 'remark',
     label: '备注',
-    formItemClass: 'col-span-3',
+    formItemClass: 'col-span-2',
     componentProps: {
       placeholder: '请输入备注',
     },

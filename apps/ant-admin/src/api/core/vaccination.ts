@@ -1,16 +1,17 @@
 import { requestClient } from '#/api/request';
 
-export namespace MakeBag {
+export namespace Vaccination {
   export interface QueryParams {
     keyword?: string;
-    makeNum?: boolean;
   }
 
   export interface Item {
     id: number;
-    mb_id: number;
     formula_id: number;
-    make_bag_sn: string;
+    variety_id: string;
+    can_no: string;
+    mb_sn: string;
+
     label: string;
     value: string;
     num: number;
@@ -21,7 +22,7 @@ export namespace MakeBag {
    * @returns any
    */
   export async function list(params?: QueryParams) {
-    return requestClient.get<Item[]>('/admin/substrate-mixing/all', {
+    return requestClient.get<Item[]>('/admin/vaccination-record/vr-mb-sn', {
       params,
     });
   }

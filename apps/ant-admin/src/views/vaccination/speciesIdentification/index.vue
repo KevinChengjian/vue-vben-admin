@@ -18,8 +18,20 @@ const [Grid, gridApi] = useTable({
   api: listApi,
   searhcSchema: [
     {
+      component: 'DictSelect',
+      fieldName: 'can_no',
+      label: '罐号',
+      componentProps: {
+        class: 'w-full',
+        showSearch: true,
+        allowClear: true,
+        placeholder: '请选择罐号',
+        code: Dict.KeyEnum.STRAIN_CAN_NO,
+      },
+    },
+    {
       component: 'Input',
-      fieldName: 'make_bag_sn',
+      fieldName: 'mb_sn',
       label: '菌包编号',
       componentProps: {
         allowClear: true,
@@ -28,7 +40,7 @@ const [Grid, gridApi] = useTable({
     },
     {
       component: 'RangePicker',
-      fieldName: 'created_at',
+      fieldName: 'identification_at',
       label: '鉴定日期',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
@@ -38,24 +50,36 @@ const [Grid, gridApi] = useTable({
     },
     {
       component: 'DictSelect',
-      fieldName: 'ark_id',
-      label: '灭菌柜',
+      fieldName: 'variety_id',
+      label: '品种',
       componentProps: {
         class: 'w-full',
         showSearch: true,
         allowClear: true,
-        placeholder: '请选择灭菌柜',
-        code: Dict.KeyEnum.STERILIZER_CABINET,
+        placeholder: '请选择品种',
+        code: Dict.KeyEnum.STRAIN_CATEGORY,
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'user_id',
+      label: '鉴定人员',
+      componentProps: {
+        class: 'w-full',
+        showSearch: true,
+        allowClear: true,
+        placeholder: '请选择鉴定人员',
+        code: Dict.KeyEnum.SYS_USER,
       },
     },
     {
       component: 'RangePicker',
       fieldName: 'created_at',
-      label: '检测时间',
+      label: '记录时间',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,
-        placeholder: ['开始日期', '结束日期'],
+        placeholder: ['开始时间', '结束时间'],
       },
     },
   ],

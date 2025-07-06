@@ -121,12 +121,12 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
   {
     component: 'DatePicker',
     fieldName: 'purchase_at',
-    label: '采购日期',
+    label: '购置日期',
     rules: 'required',
     componentProps: {
       valueFormat: 'YYYY-MM-DD',
       class: 'w-full',
-      placeholder: '请输入采购日期',
+      placeholder: '请输入购置日期',
     },
   },
   {

@@ -26,7 +26,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'mb_id',
-      label: 'mb_id',
+      label: '制包拌料ID',
       dependencies: {
         triggerFields: ['id'],
         show: () => {
@@ -50,14 +50,18 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'FormulaSelect',
+      component: 'Input',
       fieldName: 'formula_id',
       label: '制包配方',
-      rules: 'selectRequired',
       componentProps: {
         class: 'w-full',
-        showSearch: true,
         placeholder: '请选择制包配方',
+      },
+      dependencies: {
+        triggerFields: ['id'],
+        show: () => {
+          return false;
+        },
       },
     },
     {

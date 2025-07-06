@@ -28,7 +28,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'mb_id',
-      label: 'mb_id',
+      label: '制包拌料ID',
       dependencies: {
         triggerFields: ['id'],
         show: () => {
@@ -65,7 +65,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'set_sterilization_time',
-      label: '灭菌时间',
+      label: '灭菌时间(h)',
       componentProps: {
         class: 'w-full',
         placeholder: '请输入灭菌时间',
@@ -74,7 +74,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'sterilization_time',
-      label: '实际灭菌时间',
+      label: '实际灭菌时间(h)',
       componentProps: {
         class: 'w-full',
         placeholder: '请输入实际灭菌时间',
@@ -83,7 +83,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'InputNumber',
       fieldName: 'temperature',
-      label: '灭菌温度',
+      label: '灭菌温度(℃)',
       componentProps: {
         class: 'w-full',
         placeholder: '请输入灭菌温度',
@@ -131,7 +131,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
   showDefaultActions: false,
   wrapperClass: 'grid-cols-2 mr-[25px]',
   commonConfig: {
-    labelWidth: 90,
+    labelWidth: 130,
   },
 });
 

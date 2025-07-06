@@ -16,19 +16,19 @@ export const TableColumn: any = [
     minWidth: 120,
   },
   {
-    title: '灭菌时间',
+    title: '灭菌时间(h)',
     field: 'set_sterilization_time',
     align: 'center',
     minWidth: 120,
   },
   {
-    title: '实际灭菌时间',
+    title: '实际灭菌时间(h)',
     field: 'sterilization_time',
     align: 'center',
     minWidth: 120,
   },
   {
-    title: '灭菌温度',
+    title: '灭菌温度(℃)',
     field: 'temperature',
     align: 'center',
     cellRender: { name: 'number' },

@@ -6,10 +6,10 @@ import { requestClient } from '#/api/request';
  * 操作权限标识
  */
 export enum AuthCode {
-  Create = 'admin.user.create',
-  Delete = 'admin.user.delete',
-  ResetPwd = 'admin.user.reset-pwd',
-  Update = 'admin.user.update',
+  Create = 'admin.material-inventory.create',
+  Delete = 'admin.material-inventory.delete',
+  ResetPwd = 'admin.material-inventory.reset-pwd',
+  Update = 'admin.material-inventory.update',
 }
 
 /**
@@ -18,7 +18,10 @@ export enum AuthCode {
  * @returns ListResult
  */
 export async function listApi(params: any = {}) {
-  return requestClient.post<ListItem[]>('/admin/user/list', params);
+  return requestClient.post<ListItem[]>(
+    '/admin/material-inventory/list',
+    params,
+  );
 }
 
 /**
@@ -27,7 +30,7 @@ export async function listApi(params: any = {}) {
  * @returns any
  */
 export async function createApi(params: any) {
-  return requestClient.post<any>('/admin/user/create', params);
+  return requestClient.post<any>('/admin/material-inventory/create', params);
 }
 
 /**
@@ -36,7 +39,7 @@ export async function createApi(params: any) {
  * @returns any
  */
 export async function updateApi(params: any) {
-  return requestClient.post<any>('/admin/user/update', params);
+  return requestClient.post<any>('/admin/material-inventory/update', params);
 }
 
 /**
@@ -45,5 +48,5 @@ export async function updateApi(params: any) {
  * @returns any
  */
 export async function deleteApi(params: any) {
-  return requestClient.post<any>('/admin/user/delete', params);
+  return requestClient.post<any>('/admin/material-inventory/delete', params);
 }

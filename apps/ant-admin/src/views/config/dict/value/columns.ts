@@ -13,7 +13,7 @@ export const DictValueColumn: TableColumnType<DictValueItem>[] = [
     sorter: true,
   },
   { title: '状态', dataIndex: 'status', align: 'center', width: '12%' },
-  { title: '默认', dataIndex: 'default', align: 'center', width: '12%' },
+  // { title: '默认', dataIndex: 'default', align: 'center', width: '12%' },
   {
     title: '排序',
     dataIndex: 'sorting',

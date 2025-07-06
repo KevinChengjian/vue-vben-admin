@@ -3,20 +3,18 @@ import { onMounted, ref } from 'vue';
 
 import { Select, SelectOption } from 'ant-design-vue';
 
-import { MakeBag } from '#/api/core/makeBag';
+import { Vaccination } from '#/api/core/vaccination';
 
-defineOptions({ customOptions: { name: 'MakeBagSnSelect' } });
+defineOptions({ customOptions: { name: 'StrainSnSelect' } });
 
-const props = defineProps<{ makeNum?: boolean }>();
-
-const originalOptions = ref<MakeBag.Item[]>([]);
-const searchResult = ref<MakeBag.Item[]>([]);
+const originalOptions = ref<Vaccination.Item[]>([]);
+const searchResult = ref<Vaccination.Item[]>([]);
 
 const getOptions = async (
-  params: MakeBag.QueryParams,
+  params: Vaccination.QueryParams,
   first: boolean = false,
 ) => {
-  const result = await MakeBag.list({ ...params, makeNum: props?.makeNum });
+  const result = await Vaccination.list(params);
   searchResult.value = result;
   first && (originalOptions.value = result);
 };
@@ -24,9 +22,9 @@ const getOptions = async (
 const handleSearch = async (keyword: string) => {
   if (keyword) {
     let exists = false;
-    const list: MakeBag.Item[] = [];
+    const list: Vaccination.Item[] = [];
     for (let i = 0; i < originalOptions.value.length; i++) {
-      const item = originalOptions.value[i] as MakeBag.Item;
+      const item = originalOptions.value[i] as Vaccination.Item;
       if (item.value.indexOf(keyword) === 0) {
         exists = true;
         list.push(item);
@@ -56,9 +54,8 @@ onMounted(async () => {
       :value="item.value"
       :key="item.value"
       :label="item.label"
-      :mb_id="item.id"
+      :mb_sn="item.mb_sn"
       :formula_id="item.formula_id"
-      :num="item.num"
     >
       {{ item.label }}
     </SelectOption>

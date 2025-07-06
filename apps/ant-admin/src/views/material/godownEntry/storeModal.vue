@@ -40,14 +40,10 @@ const [Modal, ModalApi] = useVbenModal({
       purchase_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
       material_sn: isUpdate.value ? '' : await Material.materialSn(),
+      unit_id: '1',
     });
 
     data.record && StoreFromApi.setValues({ ...data.record });
-    isUpdate.value &&
-      StoreFromApi.setValues({
-        ...data.record,
-        status: `${data.record.status}`,
-      });
   },
   onConfirm: async () => {
     try {

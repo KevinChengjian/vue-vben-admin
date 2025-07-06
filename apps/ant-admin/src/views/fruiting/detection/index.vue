@@ -2,7 +2,6 @@
 import type { ListItem } from './type';
 
 import { Page, useVbenModal } from '@vben/common-ui';
-import { SvgMenuMjIcon } from '@vben/icons';
 
 import { Button, Space } from 'ant-design-vue';
 
@@ -20,23 +19,58 @@ const [Grid, gridApi] = useTable({
   searhcSchema: [
     {
       component: 'Input',
-      fieldName: 'make_bag_sn',
-      label: '制包编号',
+      fieldName: 'mb_sn',
+      label: '菌包编号',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入制包编号',
+        placeholder: '请输入菌包编号',
       },
     },
     {
-      component: 'DictSelect',
-      fieldName: 'ark_id',
-      label: '灭菌柜',
+      component: 'FormulaSelect',
+      fieldName: 'formula_id',
+      label: '配方',
       componentProps: {
         class: 'w-full',
         showSearch: true,
         allowClear: true,
-        placeholder: '请选择灭菌柜',
-        code: Dict.KeyEnum.STERILIZER_CABINET,
+        placeholder: '请选择配方',
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'variety_id',
+      label: '品种',
+      componentProps: {
+        class: 'w-full',
+        showSearch: true,
+        allowClear: true,
+        placeholder: '请选择品种',
+        code: Dict.KeyEnum.STRAIN_CATEGORY,
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'can_no',
+      label: '罐号',
+      componentProps: {
+        class: 'w-full',
+        showSearch: true,
+        allowClear: true,
+        placeholder: '请选择罐号',
+        code: Dict.KeyEnum.STRAIN_CAN_NO,
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'warehouse_id',
+      label: '养菌房',
+      componentProps: {
+        class: 'w-full',
+        showSearch: true,
+        allowClear: true,
+        placeholder: '请选择养菌房',
+        code: Dict.KeyEnum.STRAIN_HOUSE,
       },
     },
     {
@@ -84,7 +118,6 @@ const { destory } = useDelete<ListItem>({
           v-access:code="AuthCode.Create"
           @click="handleStore"
         >
-          <SvgMenuMjIcon />
           新增记录
         </Button>
       </template>

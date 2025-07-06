@@ -4,6 +4,8 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
+import dayjs from 'dayjs';
+
 import { useVbenForm } from '#/adapter/form';
 
 import { createApi, updateApi } from './api';
@@ -15,7 +17,7 @@ const userStore = useUserStore();
 const [StoreForm, StoreFromApi] = useVbenForm({
   schema: StoreFormSchema,
   showDefaultActions: false,
-  wrapperClass: 'grid-cols-3 mr-[25px]',
+  wrapperClass: 'grid-cols-2 mr-[25px]',
   commonConfig: {
     labelWidth: 90,
   },
@@ -34,15 +36,11 @@ const [Modal, ModalApi] = useVbenModal({
     // 默认值
     isUpdate.value = data.isEdit;
     await StoreFromApi.setValues({
+      observe_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
     });
 
     data.record && StoreFromApi.setValues({ ...data.record });
-    isUpdate.value &&
-      StoreFromApi.setValues({
-        ...data.record,
-        status: `${data.record.status}`,
-      });
   },
   onConfirm: async () => {
     try {
@@ -60,7 +58,7 @@ const [Modal, ModalApi] = useVbenModal({
 </script>
 <template>
   <Modal
-    :title="`${isUpdate ? '编辑检测记录' : '添加检测记录'}`"
+    :title="`${isUpdate ? '编辑记录' : '添加记录'}`"
     class="w-[960px]"
     content-class="pt-[20px] pb-0"
   >

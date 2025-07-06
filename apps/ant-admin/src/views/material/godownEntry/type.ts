@@ -19,9 +19,9 @@ export interface BatchMaterialItem {
   material_id: number | string;
   material: string;
   spec_id: null | number | string;
-  num: number;
+  num: number | undefined;
   unit_id: null | number | string;
-  price: number;
-  amount: number;
+  price: number | undefined;
+  amount: number | undefined;
   remark: string;
 }

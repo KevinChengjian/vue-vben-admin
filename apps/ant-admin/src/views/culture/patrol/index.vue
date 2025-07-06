@@ -2,7 +2,6 @@
 import type { ListItem } from './type';
 
 import { Page, useVbenModal } from '@vben/common-ui';
-import { SvgMenuMjIcon } from '@vben/icons';
 
 import { Button, Space } from 'ant-design-vue';
 
@@ -20,33 +19,57 @@ const [Grid, gridApi] = useTable({
   searhcSchema: [
     {
       component: 'Input',
-      fieldName: 'make_bag_sn',
-      label: '制包编号',
+      fieldName: 'mb_sn',
+      label: '菌包编号',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入制包编号',
+        placeholder: '请输入菌包编号',
+      },
+    },
+    {
+      component: 'RangePicker',
+      fieldName: 'patrol_at',
+      label: '巡库日期',
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        allowClear: true,
+        placeholder: ['开始日期', '结束日期'],
       },
     },
     {
       component: 'DictSelect',
-      fieldName: 'ark_id',
-      label: '灭菌柜',
+      fieldName: 'warehouse_id',
+      label: '养菌房',
+      componentProps: {
+        class: 'w-full',
+        showSearch: true,
+        allowClear: true,
+        placeholder: '请选择养菌房',
+        code: Dict.KeyEnum.STRAIN_HOUSE,
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'fh_id',
+      label: '发菌',
+      componentProps: {
+        class: 'w-full',
+        showSearch: true,
+        allowClear: true,
+        placeholder: '请选择发菌',
+        code: Dict.KeyEnum.STRAIN_STATE,
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'user_id',
+      label: '巡库人员',
       componentProps: {
         class: 'w-full',
         showSearch: true,
         allowClear: true,
         placeholder: '请选择灭菌柜',
-        code: Dict.KeyEnum.STERILIZER_CABINET,
-      },
-    },
-    {
-      component: 'RangePicker',
-      fieldName: 'created_at',
-      label: '检测时间',
-      componentProps: {
-        valueFormat: 'YYYY-MM-DD',
-        allowClear: true,
-        placeholder: ['开始日期', '结束日期'],
+        code: Dict.KeyEnum.SYS_USER,
       },
     },
   ],
@@ -84,7 +107,6 @@ const { destory } = useDelete<ListItem>({
           v-access:code="AuthCode.Create"
           @click="handleStore"
         >
-          <SvgMenuMjIcon />
           新增记录
         </Button>
       </template>

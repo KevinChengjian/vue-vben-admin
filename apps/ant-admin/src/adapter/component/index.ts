@@ -48,6 +48,7 @@ import {
   MakeBagSnSelect,
   MaterialSnInput,
   MaterialSnSelect,
+  StrainSnSelect,
 } from '#/components';
 
 const withDefaultPlaceholder = <T extends Component>(
@@ -91,6 +92,7 @@ export type ComponentType =
   | 'Rate'
   | 'Select'
   | 'Space'
+  | 'StrainSnSelect'
   | 'Switch'
   | 'Textarea'
   | 'TimePicker'
@@ -179,6 +181,7 @@ async function initComponentAdapter() {
     MaterialSnSelect,
     FormulaSelect,
     MakeBagSnSelect,
+    StrainSnSelect,
   };
 
   // 将组件注册到全局共享状态中

@@ -6,9 +6,9 @@ import { requestClient } from '#/api/request';
  * 操作权限标识
  */
 export enum AuthCode {
-  Create = 'admin.sterilization-inspection.create',
-  Delete = 'admin.sterilization-inspection.delete',
-  Update = 'admin.sterilization-inspection.update',
+  Create = 'admin.cultivate.create',
+  Delete = 'admin.cultivate.delete',
+  Update = 'admin.cultivate.update',
 }
 
 /**
@@ -17,10 +17,7 @@ export enum AuthCode {
  * @returns ListResult
  */
 export async function listApi(params: any = {}) {
-  return requestClient.post<ListItem[]>(
-    '/admin/sterilization-inspection/list',
-    params,
-  );
+  return requestClient.post<ListItem[]>('/admin/cultivate/list', params);
 }
 
 /**
@@ -29,10 +26,7 @@ export async function listApi(params: any = {}) {
  * @returns any
  */
 export async function createApi(params: any) {
-  return requestClient.post<any>(
-    '/admin/sterilization-inspection/create',
-    params,
-  );
+  return requestClient.post<any>('/admin/cultivate/create', params);
 }
 
 /**
@@ -41,10 +35,7 @@ export async function createApi(params: any) {
  * @returns any
  */
 export async function updateApi(params: any) {
-  return requestClient.post<any>(
-    '/admin/sterilization-inspection/update',
-    params,
-  );
+  return requestClient.post<any>('/admin/cultivate/update', params);
 }
 
 /**
@@ -53,10 +44,7 @@ export async function updateApi(params: any) {
  * @returns any
  */
 export async function deleteApi(params: any) {
-  return requestClient.post<any>(
-    '/admin/sterilization-inspection/delete',
-    params,
-  );
+  return requestClient.post<any>('/admin/cultivate/delete', params);
 }
 
 /**
@@ -65,8 +53,5 @@ export async function deleteApi(params: any) {
  * @returns any
  */
 export async function detailApi(params: any) {
-  return requestClient.post<any>(
-    '/admin/sterilization-inspection/detail',
-    params,
-  );
+  return requestClient.post<any>('/admin/cultivate/detail', params);
 }
