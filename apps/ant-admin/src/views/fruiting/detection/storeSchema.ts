@@ -15,11 +15,11 @@ export const StoreFormSchema: VbenFormSchema[] = [
     },
   },
   {
-    component: 'MakeBagSnSelect',
+    component: 'VrMbSnSelect',
     fieldName: 'mb_sn',
-    label: '制包编号',
+    label: '菌包编号',
     rules: 'required',
-    formItemClass: 'col-span-2',
+    formItemClass: 'col-span-1',
     componentProps: {
       placeholder: '请选择制包编号',
     },
@@ -40,7 +40,9 @@ export const StoreFormSchema: VbenFormSchema[] = [
     component: 'InputNumber',
     fieldName: 'upper_moisture',
     label: '上层水份',
+    formItemClass: 'col-span-1 col-start-1',
     componentProps: {
+      addonAfter: '%',
       class: 'w-full',
       placeholder: '请输入上层水份',
     },
@@ -50,6 +52,7 @@ export const StoreFormSchema: VbenFormSchema[] = [
     fieldName: 'middle_moisture',
     label: '中间水份',
     componentProps: {
+      addonAfter: '%',
       class: 'w-full',
       placeholder: '请输入中间水份',
     },
@@ -59,6 +62,7 @@ export const StoreFormSchema: VbenFormSchema[] = [
     fieldName: 'lower_moisture',
     label: '下层水份',
     componentProps: {
+      addonAfter: '%',
       class: 'w-full',
       placeholder: '请输入下层水份',
     },

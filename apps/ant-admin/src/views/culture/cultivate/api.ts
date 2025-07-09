@@ -8,6 +8,7 @@ import { requestClient } from '#/api/request';
 export enum AuthCode {
   Create = 'admin.cultivate.create',
   Delete = 'admin.cultivate.delete',
+  Patrol = 'admin.culture-patrol.list',
   Update = 'admin.cultivate.update',
 }
 

@@ -1,60 +1,41 @@
 <script lang="ts" setup>
-import type { ListItem } from './type';
+import { useRouter } from 'vue-router';
 
 import { Page, useVbenModal } from '@vben/common-ui';
-import { SvgMenuMjIcon } from '@vben/icons';
 
-import { Button, Space } from 'ant-design-vue';
+import { Popover, Space } from 'ant-design-vue';
 
-import { Dict } from '#/api';
-import { useDelete, useTable } from '#/hooks';
-import { format } from '#/utils/money';
+import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
-import { AuthCode, deleteApi, listApi } from './api';
+import { AuthCode, listApi } from './api';
 import { TableColumn } from './columns';
-import MaterialStoreModal from './storeModal.vue';
+import StoreFormModal from './storeModal.vue';
 
-const [Grid, gridApi] = useTable({
-  colums: TableColumn,
-  api: listApi,
-  searhcSchema: [
-    {
-      component: 'Input',
-      fieldName: 'make_bag_sn',
-      label: '制包编号',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入制包编号',
+const [Grid, gridApi] = useVbenVxeGrid({
+  gridOptions: {
+    columns: TableColumn,
+    border: true,
+    editConfig: {
+      trigger: 'dblclick',
+      mode: 'row',
+    },
+    pagerConfig: {
+      enabled: false,
+    },
+    proxyConfig: {
+      ajax: {
+        query: async () => {
+          return await listApi();
+        },
       },
     },
-    {
-      component: 'DictSelect',
-      fieldName: 'ark_id',
-      label: '灭菌柜',
-      componentProps: {
-        class: 'w-full',
-        showSearch: true,
-        allowClear: true,
-        placeholder: '请选择灭菌柜',
-        code: Dict.KeyEnum.STERILIZER_CABINET,
-      },
-    },
-    {
-      component: 'RangePicker',
-      fieldName: 'created_at',
-      label: '检测时间',
-      componentProps: {
-        valueFormat: 'YYYY-MM-DD',
-        allowClear: true,
-        placeholder: ['开始日期', '结束日期'],
-      },
-    },
-  ],
+    showOverflow: true,
+  },
 });
 
 // 添加|编辑
 const [StoreModal, storeModalApi] = useVbenModal({
-  connectedComponent: MaterialStoreModal,
+  connectedComponent: StoreFormModal,
 });
 
 const handleStore = (item: any = {}, edit: boolean = false) => {
@@ -66,31 +47,49 @@ const handleStore = (item: any = {}, edit: boolean = false) => {
     .open();
 };
 
-// 删除
-const { destory } = useDelete<ListItem>({
-  api: deleteApi,
-  callback: () => {
-    gridApi.reload();
-  },
-});
+const router = useRouter();
+const handleRecord = (row: any) => {
+  router.push({
+    path: '/culture/cultivate',
+    query: {
+      title: row.label,
+      warehouse_id: row.value,
+    },
+  });
+};
 </script>
 
 <template>
   <Page class="h-full">
     <Grid>
-      <template #toolbar-actions>
-        <Button
-          type="primary"
-          v-access:code="AuthCode.Create"
-          @click="handleStore"
+      <template #table-title>
+        <div
+          class="flex w-full items-center justify-between pb-[15px] pt-[10px]"
         >
-          <SvgMenuMjIcon />
-          新增记录
-        </Button>
+          <div class="w-[200px]"></div>
+          <div class="text-[22px]">养菌总览</div>
+          <div class="w-[200px]"></div>
+        </div>
       </template>
 
-      <template #price="{ row }">
-        {{ format(row.price) }}
+      <template #label="{ row }">
+        <div class="text-primary cursor-pointer" @click="handleRecord(row)">
+          {{ row.label }}
+        </div>
+      </template>
+
+      <template #mb_sn_num="{ row }">
+        <Popover>
+          <template #content>
+            <p v-for="(sn, si) in row.mb_sn_arr" :key="si">
+              {{ sn }}
+            </p>
+          </template>
+
+          <div class="text-primary cursor-pointer">
+            {{ row.mb_sn_num }}
+          </div>
+        </Popover>
       </template>
 
       <template #action="{ row }">
@@ -98,14 +97,13 @@ const { destory } = useDelete<ListItem>({
           <div
             class="text-primary cursor-pointer"
             v-access:code="AuthCode.Update"
-            @click="handleStore(row, true)"
+            @click="handleStore(row, !!row.id)"
           >
-            编辑
+            {{ row.id ? '编辑' : '添加' }}
           </div>
           <div
             class="text-destructive cursor-pointer"
             v-access:code="AuthCode.Delete"
-            @click="destory({ id: row.id })"
           >
             删除
           </div>

@@ -78,6 +78,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'upper_moisture',
       label: '前排水份',
       componentProps: {
+        addonAfter: '%',
         class: 'w-full',
         placeholder: '请输入前排水份',
       },
@@ -87,8 +88,9 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'middle_moisture',
       label: '中间水份',
       componentProps: {
+        addonAfter: '%',
         class: 'w-full',
-        placeholder: '请输入前排水份',
+        placeholder: '请输入中间水份',
       },
     },
     {
@@ -96,8 +98,9 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'lower_moisture',
       label: '后排水份',
       componentProps: {
+        addonAfter: '%',
         class: 'w-full',
-        placeholder: '请输入前排水份',
+        placeholder: '请输入后排水份',
       },
     },
     {
@@ -115,7 +118,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       label: '中间PH',
       componentProps: {
         class: 'w-full',
-        placeholder: '请输入前排PH',
+        placeholder: '请输入中间PH',
       },
     },
     {
@@ -124,7 +127,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       label: '后排PH',
       componentProps: {
         class: 'w-full',
-        placeholder: '请输入前排PH',
+        placeholder: '请输入后排PH',
       },
     },
     {
@@ -132,6 +135,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'upper_weight',
       label: '前排重量',
       componentProps: {
+        addonAfter: 'kg',
         class: 'w-full',
         placeholder: '请输入前排重量',
       },
@@ -141,8 +145,9 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'middle_weight',
       label: '中间重量',
       componentProps: {
+        addonAfter: 'kg',
         class: 'w-full',
-        placeholder: '请输入前排重量',
+        placeholder: '请输入中间重量',
       },
     },
     {
@@ -150,8 +155,9 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'lower_weight',
       label: '后排重量',
       componentProps: {
+        addonAfter: 'kg',
         class: 'w-full',
-        placeholder: '请输入前排重量',
+        placeholder: '请输入后排重量',
       },
     },
     {
@@ -159,6 +165,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'upper_height',
       label: '前排高度',
       componentProps: {
+        addonAfter: 'm',
         class: 'w-full',
         placeholder: '请输入前排高度',
       },
@@ -168,6 +175,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'middle_height',
       label: '中间高度',
       componentProps: {
+        addonAfter: 'm',
         class: 'w-full',
         placeholder: '请输入前排高度',
       },
@@ -177,6 +185,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'lower_height',
       label: '后排高度',
       componentProps: {
+        addonAfter: 'm',
         class: 'w-full',
         placeholder: '请输入前排高度',
       },

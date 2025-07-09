@@ -1,20 +1,13 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
-
 import { Page, useVbenModal } from '@vben/common-ui';
 
-import { DatePicker, Space } from 'ant-design-vue';
-import dayjs, { Dayjs } from 'dayjs';
+import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
-import { AuthCode, listApi } from './api';
+import { AuthCode, listApi, refreshApi } from './api';
 import { TableColumn } from './columns';
 import StoreFormModal from './storeModal.vue';
-
-onMounted(() => {
-  month.value = dayjs();
-});
 
 const [Grid, gridApi] = useVbenVxeGrid({
   gridOptions: {
@@ -30,9 +23,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async () => {
-          return await listApi({
-            plan_at: month.value?.format('YYYY-MM'),
-          });
+          return await listApi();
         },
       },
     },
@@ -40,27 +31,21 @@ const [Grid, gridApi] = useVbenVxeGrid({
   },
 });
 
-// 日期选择
-const month = ref<Dayjs>();
-const title = computed(() => {
-  return month.value?.format('YYYY年M月');
-});
-const handleMonth = () => {
-  gridApi.reload();
-};
-
 // 添加|编辑
 const [StoreModal, storeModalApi] = useVbenModal({
   connectedComponent: StoreFormModal,
 });
 
-const handleStore = (item: any = {}, edit: boolean = false) => {
-  storeModalApi
-    .setData({
-      isEdit: edit,
-      record: item,
-    })
-    .open();
+const handleStore = () => {
+  storeModalApi.setData({ list: gridApi.grid.getData() }).open();
+};
+
+const handleRefresh = async () => {
+  try {
+    await refreshApi();
+    message.success('提交成功，库存统计中请稍后刷新页面查看');
+    gridApi.reload();
+  } catch {}
 };
 </script>
 
@@ -72,36 +57,21 @@ const handleStore = (item: any = {}, edit: boolean = false) => {
           class="flex w-full items-center justify-between pb-[15px] pt-[10px]"
         >
           <div class="w-[200px]">
-            <DatePicker
-              format="YYYY年MM月"
-              class="w-full"
-              v-model:value="month"
-              picker="month"
-              :allow-clear="false"
-              @change="handleMonth"
-            />
+            <Button
+              type="primary"
+              v-access:code="AuthCode.Create"
+              @click="handleStore"
+            >
+              库存盘点
+            </Button>
+
+            <Button type="primary" class="ml-[14px]" @click="handleRefresh">
+              刷新库存
+            </Button>
           </div>
-          <div class="text-[22px]">原料库存统计（{{ title }}）</div>
+          <div class="text-[22px]">原料库存统计</div>
           <div class="w-[200px]"></div>
         </div>
-      </template>
-
-      <template #action="{ row }">
-        <Space :size="15">
-          <div
-            class="text-primary cursor-pointer"
-            v-access:code="AuthCode.Update"
-            @click="handleStore(row, !!row.id)"
-          >
-            {{ row.id ? '编辑' : '添加' }}
-          </div>
-          <div
-            class="text-destructive cursor-pointer"
-            v-access:code="AuthCode.Delete"
-          >
-            删除
-          </div>
-        </Space>
       </template>
     </Grid>
 

@@ -3,6 +3,8 @@ import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 
+import { message } from 'ant-design-vue';
+
 import { useVbenForm } from '#/adapter/form';
 
 import { dictionaryKeyCreateApi, dictionaryKeyUpdateApi } from './api';
@@ -41,6 +43,7 @@ const [Modal, ModalApi] = useVbenModal({
       ModalApi.close();
       ModalApi.setData({});
       DictKeyFromApi.resetForm();
+      message.success('操作成功');
       emit('reload');
     } catch {}
   },

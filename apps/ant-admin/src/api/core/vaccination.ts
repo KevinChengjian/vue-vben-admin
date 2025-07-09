@@ -9,6 +9,7 @@ export namespace Vaccination {
     id: number;
     formula_id: number;
     variety_id: string;
+    warehouse_id: string;
     can_no: string;
     mb_sn: string;
 

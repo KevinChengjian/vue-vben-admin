@@ -29,7 +29,7 @@ export namespace Material {
    * 获取编号下的原料
    */
   export async function materialIds(params?: QueryParams) {
-    return requestClient.get<string>('/admin/material-in/material-ids', {
+    return requestClient.get<any>('/admin/material-in/material-ids', {
       params,
     });
   }

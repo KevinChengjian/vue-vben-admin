@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import type { ListItem } from './type';
 
+import { nextTick } from 'vue';
+import { useRoute } from 'vue-router';
+
 import { Page, useVbenModal } from '@vben/common-ui';
+import { useTabs } from '@vben/hooks';
 
 import { Button, Space } from 'ant-design-vue';
 
@@ -13,22 +17,17 @@ import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
 import MaterialStoreModal from './storeModal.vue';
 
+const route = useRoute();
+const { setTabTitle } = useTabs();
+nextTick(() => {
+  if (!route.query?.strain_sn) return;
+  setTabTitle(`${route.query?.strain_sn}-日报表`);
+});
+
 const [Grid, gridApi] = useTable({
   colums: TableColumn,
   api: listApi,
   searhcSchema: [
-    {
-      component: 'DictSelect',
-      fieldName: 'can_no',
-      label: '罐号',
-      componentProps: {
-        class: 'w-full',
-        showSearch: true,
-        allowClear: true,
-        placeholder: '请选择罐号',
-        code: Dict.KeyEnum.STRAIN_CAN_NO,
-      },
-    },
     {
       component: 'Input',
       fieldName: 'mb_sn',
@@ -36,6 +35,29 @@ const [Grid, gridApi] = useTable({
       componentProps: {
         allowClear: true,
         placeholder: '请输入菌包编号',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'strain_sn',
+      label: '菌种编号',
+      defaultValue: route?.query?.strain_sn || undefined,
+      componentProps: {
+        allowClear: true,
+        placeholder: '请输入菌种编号',
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'can_no',
+      label: '罐号',
+      defaultValue: route?.query?.can_no || undefined,
+      componentProps: {
+        class: 'w-full',
+        showSearch: true,
+        allowClear: true,
+        placeholder: '请选择罐号',
+        code: Dict.KeyEnum.STRAIN_CAN_NO,
       },
     },
     {
@@ -91,6 +113,12 @@ const [StoreModal, storeModalApi] = useVbenModal({
 });
 
 const handleStore = (item: any = {}, edit: boolean = false) => {
+  if (!edit && route.query?.strain_sn) {
+    item = {
+      strain_sn: route.query?.strain_sn,
+      can_no: route.query?.can_no,
+    };
+  }
   storeModalApi
     .setData({
       isEdit: edit,

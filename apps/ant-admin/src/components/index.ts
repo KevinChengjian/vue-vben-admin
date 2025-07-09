@@ -8,3 +8,5 @@ export { default as MakeBagSnSelect } from './serialNumber/make-bag-sn-select.vu
 export { default as MaterialSnInput } from './serialNumber/material-sn-input.vue';
 export { default as MaterialSnSelect } from './serialNumber/material-sn-select.vue';
 export { default as StrainSnSelect } from './serialNumber/strain-sn-select.vue';
+export { default as VrMbSnSelect } from './serialNumber/vr-mb-sn-select.vue';
+export { default as CustomUpload } from './upload/custom-upload.vue';

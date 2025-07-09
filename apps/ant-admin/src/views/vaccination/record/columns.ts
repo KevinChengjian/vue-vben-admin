@@ -12,19 +12,20 @@ export const TableColumn: any = [
     title: '菌包编号',
     field: 'mb_sn',
     align: 'center',
-    minWidth: 180,
+    minWidth: 200,
   },
   {
-    title: '接种时间',
+    title: '接种日期',
     field: 'vaccination_at',
     align: 'center',
-    minWidth: 135,
+    minWidth: 100,
   },
   {
     title: '罐号',
     field: 'can_no',
     align: 'center',
     minWidth: 75,
+    cellRender: { name: 'dict', code: Dict.KeyEnum.STRAIN_CAN_NO },
   },
   {
     title: '接种数量',

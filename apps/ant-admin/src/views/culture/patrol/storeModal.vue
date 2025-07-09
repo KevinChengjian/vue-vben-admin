@@ -4,10 +4,14 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
+import { message } from 'ant-design-vue';
+import dayjs, { Dayjs } from 'dayjs';
+
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
+import { deviceInfoApi } from '#/api/core/device';
 
-import { createApi, updateApi } from './api';
+import { createApi, updateApi, weatherApi } from './api';
 
 const emit = defineEmits(['reload']);
 
@@ -26,12 +30,26 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'StrainSnSelect',
+      component: 'Input',
+      fieldName: 'warehouse_id',
+      label: '库房号',
+      dependencies: {
+        triggerFields: ['id'],
+        show: () => {
+          return false;
+        },
+      },
+    },
+    {
+      component: 'VrMbSnSelect',
       fieldName: 'mb_sn',
       label: '菌包编号',
       rules: 'required',
       componentProps: {
         placeholder: '请选择菌包编号',
+        onChange: async (_: any, opt: any) => {
+          await StoreFromApi.setFieldValue('warehouse_id', opt.warehouse_id);
+        },
       },
     },
     {
@@ -40,6 +58,9 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       label: '巡库日期',
       rules: 'required',
       componentProps: {
+        disabledDate: (now: Dayjs) => {
+          return now && now > dayjs().endOf('day');
+        },
         class: 'w-full',
         valueFormat: 'YYYY-MM-DD',
         placeholder: '请填写巡库日期',
@@ -62,6 +83,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'set_temperature',
       label: '设定温度',
       componentProps: {
+        addonAfter: '℃',
         class: 'w-full',
         placeholder: '请输入设定温度',
       },
@@ -71,6 +93,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'set_cd',
       label: '设定二氧化碳',
       componentProps: {
+        addonAfter: 'PPM',
         class: 'w-full',
         placeholder: '请输入设定二氧化碳',
       },
@@ -89,6 +112,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'reality_temperature',
       label: '实际温度',
       componentProps: {
+        addonAfter: '℃',
         class: 'w-full',
         placeholder: '请输入实际温度',
       },
@@ -98,6 +122,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'reality_cd',
       label: '实际二氧化碳',
       componentProps: {
+        addonAfter: 'PPM',
         class: 'w-full',
         placeholder: '请输入实际二氧化碳',
       },
@@ -117,6 +142,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'max_t',
       label: '最高温度',
       componentProps: {
+        addonAfter: '℃',
         class: 'w-full',
         placeholder: '请输入今日最高温度',
       },
@@ -126,6 +152,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'min_t',
       label: '最低温度',
       componentProps: {
+        addonAfter: '℃',
         class: 'w-full',
         placeholder: '请输入今日最低温度',
       },
@@ -163,10 +190,11 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'InputNumber',
       fieldName: 'bag_t',
-      label: '包温度',
+      label: '包温',
       componentProps: {
+        addonAfter: '℃',
         class: 'w-full',
-        placeholder: '请输入包温度',
+        placeholder: '请输入包温',
       },
     },
     {
@@ -179,7 +207,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'Upload',
+      component: 'CustomUpload',
       fieldName: 'attach_ids',
       label: '附件',
       formItemClass: 'col-span-3',
@@ -202,21 +230,29 @@ const [Modal, ModalApi] = useVbenModal({
     StoreFromApi.resetForm();
     if (!isOpen) return;
 
+    const date = dayjs().format('YYYY-MM-DD');
+    const weather = await weatherApi({ date });
+
     const data = ModalApi.getData();
     ModalApi.setData({});
 
     // 默认值
     isUpdate.value = data.isEdit;
+    if (!isUpdate.value && data.record && data.record.warehouse_id) {
+      const result = await deviceInfoApi({ sh_id: data.record.warehouse_id });
+      console.log(result);
+    }
+
     await StoreFromApi.setValues({
+      patrol_at: date,
       user_id: userStore.userInfo?.userId,
+      max_t: weather?.max_t || undefined,
+      min_t: weather?.min_t || undefined,
+      humidity: weather?.humidity || undefined,
+      weather: weather?.text || undefined,
     });
 
     data.record && StoreFromApi.setValues({ ...data.record });
-    isUpdate.value &&
-      StoreFromApi.setValues({
-        ...data.record,
-        status: `${data.record.status}`,
-      });
   },
   onConfirm: async () => {
     try {
@@ -227,6 +263,7 @@ const [Modal, ModalApi] = useVbenModal({
       ModalApi.close();
       ModalApi.setData({});
       StoreFromApi.resetForm();
+      message.success('操作成功');
       emit('reload');
     } catch {}
   },

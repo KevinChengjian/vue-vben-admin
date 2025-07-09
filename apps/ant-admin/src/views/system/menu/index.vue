@@ -80,6 +80,7 @@ const handleEditMenu = (_: any, menu: any) => {
 const handleDestroy = async (id: number) => {
   try {
     await menuDeleteApi({ id });
+    message.success('操作成功');
     getMenuList();
   } catch {}
 };

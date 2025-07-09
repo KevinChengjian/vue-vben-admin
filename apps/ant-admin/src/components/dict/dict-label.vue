@@ -9,7 +9,7 @@ defineOptions({ customOptions: { name: 'DictLabel' } });
 
 const props = defineProps<{
   code: Dict.KeyEnum;
-  value: number | string;
+  value: null | number | string;
 }>();
 
 const dictItemList = ref<Dict.ValueItem[]>([]);

@@ -20,29 +20,48 @@ const [Grid, gridApi] = useTable({
   searhcSchema: [
     {
       component: 'Input',
-      fieldName: 'make_bag_sn',
-      label: '制包编号',
+      fieldName: 'fruiting_sn',
+      label: '出菇编号',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入制包编号',
+        placeholder: '请输入出菇编号',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'fruiting_sn',
+      label: '菌包编号',
+      componentProps: {
+        allowClear: true,
+        placeholder: '请输入菌包编号',
       },
     },
     {
       component: 'DictSelect',
-      fieldName: 'ark_id',
-      label: '灭菌柜',
+      fieldName: 'room_id',
+      label: '出菇房',
       componentProps: {
         class: 'w-full',
         showSearch: true,
         allowClear: true,
-        placeholder: '请选择灭菌柜',
-        code: Dict.KeyEnum.STERILIZER_CABINET,
+        placeholder: '请选择出菇房',
+        code: Dict.KeyEnum.FRUITING_HOUSE,
+      },
+    },
+    {
+      component: 'RangePicker',
+      fieldName: 'put_at',
+      label: '上架日期',
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        allowClear: true,
+        placeholder: ['开始日期', '结束日期'],
       },
     },
     {
       component: 'RangePicker',
       fieldName: 'created_at',
-      label: '检测时间',
+      label: '出菇时间',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,

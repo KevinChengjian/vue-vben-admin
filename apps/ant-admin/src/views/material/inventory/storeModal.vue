@@ -1,67 +1,91 @@
 <script lang="ts" setup>
+import type { ListItem } from './type';
+
 import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
-import { useUserStore } from '@vben/stores';
 
-import dayjs from 'dayjs';
+import { Col, Input, InputNumber, message, Row } from 'ant-design-vue';
 
-import { useVbenForm } from '#/adapter/form';
-
-import { createApi, updateApi } from './api';
-import { FormStoreSchema } from './storeSchema';
+import { createApi } from './api';
 
 const emit = defineEmits(['reload']);
 
-const userStore = useUserStore();
-const [StoreForm, StoreFromApi] = useVbenForm({
-  schema: FormStoreSchema,
-  showDefaultActions: false,
-  wrapperClass: 'grid-cols-2 mr-[25px]',
-  commonConfig: {
-    labelWidth: 90,
-  },
-});
-
-const isUpdate = ref<boolean>(false);
 const [Modal, ModalApi] = useVbenModal({
   closeOnClickModal: false,
   onOpenChange: async (isOpen: boolean) => {
-    StoreFromApi.resetForm();
     if (!isOpen) return;
 
-    const data = ModalApi.getData();
+    const { list = [] } = ModalApi.getData();
     ModalApi.setData({});
 
-    // 默认值
-    await StoreFromApi.setValues({
-      detection_at: dayjs().format('YYYY-MM-DD HH:mm'),
-      user_id: userStore.userInfo?.userId,
+    list.forEach((item: ListItem) => {
+      item.remark = '';
+      item.reality_num = 0;
     });
-
-    isUpdate.value = data.isEdit;
-    data.record && StoreFromApi.setValues({ ...data.record });
+    materialItems.value = list;
   },
   onConfirm: async () => {
     try {
-      await StoreFromApi.validate();
-      const values = await StoreFromApi.getValues();
-      await (values?.id ? updateApi(values) : createApi(values));
-
+      await createApi({ materials: materialItems.value });
       ModalApi.close();
       ModalApi.setData({});
-      StoreFromApi.resetForm();
+      message.success('操作成功');
       emit('reload');
     } catch {}
   },
 });
+
+// 库存条目明细细列
+const materialItems = ref<ListItem[]>([]);
 </script>
 <template>
-  <Modal
-    :title="`${isUpdate ? '编辑检测记录' : '添加检测记录'}`"
-    class="w-[960px]"
-    content-class="pt-[20px] pb-0"
-  >
-    <StoreForm />
+  <Modal title="库存盘点" class="w-[960px]" content-class="pt-[20px] pb-0">
+    <div class="pb-[24px]">
+      <Row :gutter="10" class="mb-[15px]">
+        <Col class="text-center" :span="5">原料</Col>
+        <Col class="text-center" :span="5">规格</Col>
+        <Col class="text-center" :span="5">数量</Col>
+        <Col class="text-center" :span="9">备注</Col>
+      </Row>
+      <Row
+        class="align-center mt-[10px] flex"
+        v-for="(item, i) in materialItems"
+        :key="i"
+        :gutter="10"
+      >
+        <Col :span="5" class="flex items-center">
+          <Input
+            class="w-full text-center"
+            readonly
+            v-model:value="item.materialName"
+            placeholder="原料名称"
+          />
+        </Col>
+        <Col :span="5" class="flex items-center">
+          <Input
+            class="w-full text-center"
+            readonly
+            v-model:value="item.specName"
+            placeholder="原料规格"
+          />
+        </Col>
+        <Col :span="5" class="flex items-center">
+          <InputNumber
+            class="w-full"
+            v-model:value="item.reality_num"
+            placeholder="库存数量"
+            :addon-after="item.unitName"
+          />
+        </Col>
+        <Col :span="9" class="flex items-center">
+          <Input
+            class="w-full"
+            v-model="item.remark"
+            placeholder="请输入备注"
+          />
+        </Col>
+      </Row>
+    </div>
   </Modal>
 </template>

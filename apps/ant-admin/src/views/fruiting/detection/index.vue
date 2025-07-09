@@ -27,6 +27,16 @@ const [Grid, gridApi] = useTable({
       },
     },
     {
+      component: 'RangePicker',
+      fieldName: 'vr_at',
+      label: '接种日期',
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        allowClear: true,
+        placeholder: ['开始日期', '结束日期'],
+      },
+    },
+    {
       component: 'FormulaSelect',
       fieldName: 'formula_id',
       label: '配方',
@@ -47,30 +57,6 @@ const [Grid, gridApi] = useTable({
         allowClear: true,
         placeholder: '请选择品种',
         code: Dict.KeyEnum.STRAIN_CATEGORY,
-      },
-    },
-    {
-      component: 'DictSelect',
-      fieldName: 'can_no',
-      label: '罐号',
-      componentProps: {
-        class: 'w-full',
-        showSearch: true,
-        allowClear: true,
-        placeholder: '请选择罐号',
-        code: Dict.KeyEnum.STRAIN_CAN_NO,
-      },
-    },
-    {
-      component: 'DictSelect',
-      fieldName: 'warehouse_id',
-      label: '养菌房',
-      componentProps: {
-        class: 'w-full',
-        showSearch: true,
-        allowClear: true,
-        placeholder: '请选择养菌房',
-        code: Dict.KeyEnum.STRAIN_HOUSE,
       },
     },
     {

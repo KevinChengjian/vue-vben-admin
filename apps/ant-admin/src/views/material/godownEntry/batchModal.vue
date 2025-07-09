@@ -6,7 +6,7 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
-import { Col, Input, InputNumber, Row } from 'ant-design-vue';
+import { Col, Input, InputNumber, message, Row } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
@@ -31,14 +31,6 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'Input',
-      fieldName: 'manufacturer',
-      label: '购置厂家',
-      componentProps: {
-        placeholder: '请输入购置厂家',
-      },
-    },
-    {
       component: 'DictSelect',
       fieldName: 'user_id',
       label: '采购人员',
@@ -47,6 +39,14 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         class: 'w-full',
         placeholder: '请选中采购人员',
         code: Dict.KeyEnum.SYS_USER,
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'manufacturer',
+      label: '购置厂家',
+      componentProps: {
+        placeholder: '请输入购置厂家',
       },
     },
     {
@@ -136,11 +136,14 @@ const [Modal, ModalApi] = useVbenModal({
     try {
       await StoreFromApi.validate();
       const values = await StoreFromApi.getValues();
-      await materialInBatchCreateApi(values);
+      await materialInBatchCreateApi(
+        Object.assign(values, { materials: materialItems.value }),
+      );
 
       ModalApi.close();
       ModalApi.setData({});
       StoreFromApi.resetForm();
+      message.success('操作成功');
       emit('reload');
     } catch {}
   },
@@ -226,7 +229,7 @@ const handleAmount = (i: number) => {
         <Col class="text-center" :span="6">
           <Input
             class="w-full"
-            v-model="item.remark"
+            v-model:value="item.remark"
             placeholder="请输入备注"
           />
         </Col>

@@ -12,6 +12,7 @@ export const overridesPreferences = defineOverridesPreferences({
     name: import.meta.env.VITE_APP_TITLE,
     layout: 'sidebar-mixed-nav',
     enableCheckUpdates: false,
+    loginExpiredMode: 'modal',
   },
   logo: {
     source: 'https://api.chenion.cn/static/logo2.png',

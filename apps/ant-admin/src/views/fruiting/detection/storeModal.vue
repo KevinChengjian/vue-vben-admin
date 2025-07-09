@@ -61,7 +61,7 @@ const [Modal, ModalApi] = useVbenModal({
 <template>
   <Modal
     :title="`${isUpdate ? '编辑检测记录' : '添加检测记录'}`"
-    class="w-[960px]"
+    class="w-[1100px]"
     content-class="pt-[20px] pb-0"
   >
     <StoreForm />

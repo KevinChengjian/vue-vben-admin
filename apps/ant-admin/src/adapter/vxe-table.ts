@@ -21,7 +21,7 @@ setupVbenVxeTable({
         rowConfig: {
           isHover: true,
         },
-        minHeight: 850,
+        minHeight: 720,
         formConfig: {
           // 全局禁用vxe-table的表单配置，使用formOptions
           enabled: false,
@@ -63,7 +63,7 @@ setupVbenVxeTable({
         return h(
           'span',
           // { class: ['text-primary'] },
-          `${format(Number.parseFloat(row[column.field]))}%`,
+          `${format(Number.parseFloat(row[column.field] || 0))}%`,
         );
       },
     });
@@ -75,7 +75,7 @@ setupVbenVxeTable({
         return h(
           'span',
           // { class: ['text-primary'] },
-          format(Number.parseFloat(row[column.field])),
+          format(Number.parseFloat(row[column.field] || 0)),
         );
       },
     });
@@ -87,7 +87,7 @@ setupVbenVxeTable({
         return h(
           'span',
           { class: ['text-primary'] },
-          format(Number.parseFloat(row[column.field]), 2),
+          format(Number.parseFloat(row[column.field] || 0), 2),
         );
       },
     });

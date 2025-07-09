@@ -55,3 +55,12 @@ export async function deleteApi(params: any) {
 export async function detailApi(params: any) {
   return requestClient.post<any>('/admin/culture-patrol/detail', params);
 }
+
+/**
+ * 天气情况
+ * @param params
+ * @returns any
+ */
+export async function weatherApi(params: any) {
+  return requestClient.post<any>('/admin/weather/detail', params);
+}

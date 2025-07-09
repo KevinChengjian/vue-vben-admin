@@ -39,6 +39,7 @@ import {
 
 // 自定义组件
 import {
+  CustomUpload,
   DictCascader,
   DictRadio,
   DictSelect,
@@ -49,6 +50,7 @@ import {
   MaterialSnInput,
   MaterialSnSelect,
   StrainSnSelect,
+  VrMbSnSelect,
 } from '#/components';
 
 const withDefaultPlaceholder = <T extends Component>(
@@ -68,6 +70,7 @@ export type ComponentType =
   | 'AutoComplete'
   | 'Checkbox'
   | 'CheckboxGroup'
+  | 'CustomUpload'
   | 'DatePicker'
   | 'DefaultButton'
   | 'DictCascader'
@@ -98,6 +101,7 @@ export type ComponentType =
   | 'TimePicker'
   | 'TreeSelect'
   | 'Upload'
+  | 'VrMbSnSelect'
   | BaseFormComponentType;
 
 async function initComponentAdapter() {
@@ -182,6 +186,8 @@ async function initComponentAdapter() {
     FormulaSelect,
     MakeBagSnSelect,
     StrainSnSelect,
+    VrMbSnSelect,
+    CustomUpload,
   };
 
   // 将组件注册到全局共享状态中

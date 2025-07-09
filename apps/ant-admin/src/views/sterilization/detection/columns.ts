@@ -16,7 +16,7 @@ export const TableColumn: any = [
     minWidth: 90,
   },
   {
-    title: '重量',
+    title: '重量/kg',
     field: 'weight',
     headerAlign: 'center',
     children: [
@@ -44,7 +44,7 @@ export const TableColumn: any = [
     ],
   },
   {
-    title: '高度',
+    title: '高度/m',
     field: 'height',
     headerAlign: 'center',
     children: [
@@ -73,7 +73,7 @@ export const TableColumn: any = [
     ],
   },
   {
-    title: '水份',
+    title: '水份/%',
     field: 'moisture',
     headerAlign: 'center',
     children: [
@@ -81,21 +81,21 @@ export const TableColumn: any = [
         title: '前排',
         field: 'upper_moisture',
         align: 'center',
-        cellRender: { name: 'percent' },
+        cellRender: { name: 'number' },
         minWidth: 75,
       },
       {
         title: '中间',
         field: 'middle_moisture',
         align: 'center',
-        cellRender: { name: 'percent' },
+        cellRender: { name: 'number' },
         minWidth: 75,
       },
       {
         title: '后排',
         field: 'lower_moisture',
         align: 'center',
-        cellRender: { name: 'percent' },
+        cellRender: { name: 'number' },
         minWidth: 75,
       },
     ],

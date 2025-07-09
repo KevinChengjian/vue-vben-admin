@@ -8,8 +8,7 @@ import { requestClient } from '#/api/request';
 export enum AuthCode {
   Create = 'admin.material-inventory.create',
   Delete = 'admin.material-inventory.delete',
-  ResetPwd = 'admin.material-inventory.reset-pwd',
-  Update = 'admin.material-inventory.update',
+  Refresh = 'admin.material-inventory.refresh',
 }
 
 /**
@@ -49,4 +48,13 @@ export async function updateApi(params: any) {
  */
 export async function deleteApi(params: any) {
   return requestClient.post<any>('/admin/material-inventory/delete', params);
+}
+
+/**
+ * 刷新
+ * @param params
+ * @returns any
+ */
+export async function refreshApi() {
+  return requestClient.post<any>('/admin/material-inventory/refresh');
 }

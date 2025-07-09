@@ -1,17 +1,27 @@
 <script lang="ts" setup>
 import type { ListItem } from './type';
 
+import { nextTick } from 'vue';
+import { useRoute } from 'vue-router';
+
 import { Page, useVbenModal } from '@vben/common-ui';
+import { useTabs } from '@vben/hooks';
 
 import { Button, Space } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import { useDelete, useTable } from '#/hooks';
-import { format } from '#/utils/money';
 
 import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
 import MaterialStoreModal from './storeModal.vue';
+
+const route = useRoute();
+const { setTabTitle } = useTabs();
+nextTick(() => {
+  if (!route.query?.mb_sn) return;
+  setTabTitle(`${route.query?.mb_sn} 巡查记录`);
+});
 
 const [Grid, gridApi] = useTable({
   colums: TableColumn,
@@ -21,6 +31,7 @@ const [Grid, gridApi] = useTable({
       component: 'Input',
       fieldName: 'mb_sn',
       label: '菌包编号',
+      defaultValue: route?.query?.mb_sn || undefined,
       componentProps: {
         allowClear: true,
         placeholder: '请输入菌包编号',
@@ -40,6 +51,7 @@ const [Grid, gridApi] = useTable({
       component: 'DictSelect',
       fieldName: 'warehouse_id',
       label: '养菌房',
+      defaultValue: route?.query?.warehouse_id || undefined,
       componentProps: {
         class: 'w-full',
         showSearch: true,
@@ -81,6 +93,13 @@ const [StoreModal, storeModalApi] = useVbenModal({
 });
 
 const handleStore = (item: any = {}, edit: boolean = false) => {
+  if (!edit && route.query?.mb_sn) {
+    item = {
+      mb_sn: route.query?.mb_sn,
+      warehouse_id: route.query?.warehouse_id,
+    };
+  }
+
   storeModalApi
     .setData({
       isEdit: edit,
@@ -111,8 +130,10 @@ const { destory } = useDelete<ListItem>({
         </Button>
       </template>
 
-      <template #price="{ row }">
-        {{ format(row.price) }}
+      <template #attach_ids="{ row }">
+        <div class="text-primary cursor-pointer">
+          {{ row.attach }}
+        </div>
       </template>
 
       <template #action="{ row }">

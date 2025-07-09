@@ -9,6 +9,12 @@ export const TableColumn: any = [
     minWidth: 135,
   },
   {
+    title: '菌种编号',
+    field: 'strain_sn',
+    align: 'center',
+    minWidth: 135,
+  },
+  {
     title: '鉴定日期',
     field: 'identification_at',
     align: 'center',
@@ -35,6 +41,7 @@ export const TableColumn: any = [
     field: 'hour',
     align: 'center',
     minWidth: 75,
+    cellRender: { name: 'number' },
   },
   {
     title: 'PH',
@@ -44,10 +51,10 @@ export const TableColumn: any = [
     cellRender: { name: 'number' },
   },
   {
-    title: '菌丝浓度',
+    title: '菌丝浓度(ng/g)',
     field: 'concentration',
     align: 'center',
-    minWidth: 75,
+    minWidth: 110,
     cellRender: { name: 'number' },
   },
   {

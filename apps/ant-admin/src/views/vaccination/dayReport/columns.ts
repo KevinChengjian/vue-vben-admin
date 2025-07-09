@@ -9,6 +9,12 @@ export const TableColumn: any = [
     minWidth: 135,
   },
   {
+    title: '菌种编号',
+    field: 'strain_sn',
+    align: 'center',
+    minWidth: 135,
+  },
+  {
     title: '观察日期',
     field: 'observe_at',
     align: 'center',
@@ -20,7 +26,6 @@ export const TableColumn: any = [
     field: 'can_no',
     align: 'center',
     minWidth: 90,
-    sortable: true,
     cellRender: { name: 'dict', code: Dict.KeyEnum.STRAIN_CAN_NO },
   },
   {
@@ -64,9 +69,10 @@ export const TableColumn: any = [
   },
   {
     title: '有无杂菌',
-    field: 'varied',
+    field: 'varied_id',
     align: 'center',
     minWidth: 105,
+    cellRender: { name: 'dict', code: Dict.KeyEnum.STRAIN_VARIED },
   },
   {
     title: '备注',

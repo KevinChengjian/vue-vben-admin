@@ -4,14 +4,12 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
-import { message } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
-import { Status } from '#/enums/StatusEnum';
 
-import { createApi, strainPatrolListApi, updateApi } from './api';
+import { createApi, updateApi } from './api';
 
 const emit = defineEmits(['reload']);
 
@@ -30,46 +28,19 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'Input',
-      fieldName: 'sp_id',
-      label: 'sp_id',
-      defaultValue: 0,
-      dependencies: {
-        triggerFields: ['id'],
-        show: () => {
-          return false;
-        },
-      },
-    },
-    {
-      component: 'DictSelect',
-      fieldName: 'can_no',
-      label: '罐号',
+      component: 'StrainSnSelect',
+      fieldName: 'strain_sn',
+      label: '菌种编号',
+      rules: 'required',
       componentProps: {
         class: 'w-full',
         showSearch: true,
-        allowClear: true,
-        placeholder: '请选择罐号',
-        code: Dict.KeyEnum.STRAIN_CAN_NO,
-        onChange: async (e: any) => {
-          const result = await strainPatrolListApi({ can_no: e });
-          if (result.detail) {
-            await StoreFromApi.setFieldValue('sp_id', result.detail.id);
-            if (result.detail.variety_id) {
-              await StoreFromApi.setFieldValue(
-                'variety_id',
-                result.detail.variety_id,
-              );
-            }
-            if (result.detail.hour) {
-              await StoreFromApi.setFieldValue('hour', result.detail.hour);
-            }
-
-            if (result.detail.used === Status.Enable) {
-              message.error('该罐号下菌种已被使用');
-            }
-          } else {
-            message.error('该罐号下无菌种观察记录');
+        placeholder: '请选择菌种编号',
+        onChange: async (_: any, opt: any) => {
+          if (opt.hour) {
+            await StoreFromApi.setValues({
+              hour: opt?.hour || undefined,
+            });
           }
         },
       },
@@ -87,18 +58,6 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     },
     {
       component: 'DictSelect',
-      fieldName: 'user_id',
-      label: '鉴定人员',
-      rules: 'required',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请选择鉴定人员',
-        code: Dict.KeyEnum.SYS_USER,
-      },
-    },
-
-    {
-      component: 'DictSelect',
       fieldName: 'variety_id',
       label: '品种',
       rules: 'required',
@@ -111,10 +70,22 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'DictSelect',
+      fieldName: 'user_id',
+      label: '鉴定人员',
+      rules: 'required',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请选择鉴定人员',
+        code: Dict.KeyEnum.SYS_USER,
+      },
+    },
+    {
       component: 'InputNumber',
       fieldName: 'hour',
-      label: '培养时间(h)',
+      label: '培养时间',
       componentProps: {
+        addonAfter: 'h',
         class: 'w-full',
         placeholder: '请填写培养时间',
       },
@@ -133,6 +104,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'concentration',
       label: '菌丝浓度',
       componentProps: {
+        addonAfter: 'ng/g',
         class: 'w-full',
         placeholder: '请填写菌丝浓度',
       },

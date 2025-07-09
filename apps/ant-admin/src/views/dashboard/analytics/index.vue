@@ -15,23 +15,23 @@ import {
 } from '@vben/icons';
 
 import AnalyticsTrends from './analytics-trends.vue';
-import AnalyticsVisits from './analytics-visits.vue';
 import AnalyticsVisitsData from './analytics-visits-data.vue';
 import AnalyticsVisitsSales from './analytics-visits-sales.vue';
 import AnalyticsVisitsSource from './analytics-visits-source.vue';
+import AnalyticsVisits from './analytics-visits.vue';
 
 const overviewItems: AnalysisOverviewItem[] = [
   {
     icon: SvgCardIcon,
-    title: '用户量',
-    totalTitle: '总用户量',
+    title: '出菇量',
+    totalTitle: '本月出菇量',
     totalValue: 120_000,
     value: 2000,
   },
   {
     icon: SvgCakeIcon,
-    title: '访问量',
-    totalTitle: '总访问量',
+    title: '养菌量',
+    totalTitle: '',
     totalValue: 500_000,
     value: 20_000,
   },

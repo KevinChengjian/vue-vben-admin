@@ -4,6 +4,8 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
+import { message } from 'ant-design-vue';
+
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
 
@@ -26,24 +28,12 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'StrainSnSelect',
+      component: 'VrMbSnSelect',
       fieldName: 'vr_mb_sn',
       label: '菌包编号',
       rules: 'required',
       componentProps: {
         placeholder: '请选择菌包编号',
-      },
-    },
-    {
-      component: 'DictSelect',
-      fieldName: 'warehouse_id',
-      label: '养菌房',
-      rules: 'required',
-      componentProps: {
-        class: 'w-full',
-        showSearch: true,
-        placeholder: '请选择养菌房',
-        code: Dict.KeyEnum.STRAIN_HOUSE,
       },
     },
     {
@@ -57,30 +47,13 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'Input',
-      fieldName: 'transendothelial',
-      label: '透壁',
+      component: 'InputNumber',
+      fieldName: 'put_num',
+      label: '入库数量',
+      rules: 'required',
       componentProps: {
         class: 'w-full',
-        placeholder: '请输入透壁',
-      },
-    },
-    {
-      component: 'Input',
-      fieldName: 'overgrow',
-      label: '长满',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请输入长满',
-      },
-    },
-    {
-      component: 'Input',
-      fieldName: 'device_state',
-      label: '设备状态',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请输入设备状态',
+        placeholder: '请输入入库数量',
       },
     },
     {
@@ -90,25 +63,6 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       componentProps: {
         class: 'w-full',
         placeholder: '请输入消毒',
-      },
-    },
-    {
-      component: 'DatePicker',
-      fieldName: 'out_at',
-      label: '出库时间',
-      componentProps: {
-        class: 'w-full',
-        valueFormat: 'YYYY-MM-DD',
-        placeholder: '请填写出库时间',
-      },
-    },
-    {
-      component: 'InputNumber',
-      fieldName: 'out_num',
-      label: '出库量',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请输入出库量',
       },
     },
     {
@@ -156,11 +110,6 @@ const [Modal, ModalApi] = useVbenModal({
     });
 
     data.record && StoreFromApi.setValues({ ...data.record });
-    isUpdate.value &&
-      StoreFromApi.setValues({
-        ...data.record,
-        status: `${data.record.status}`,
-      });
   },
   onConfirm: async () => {
     try {
@@ -171,6 +120,7 @@ const [Modal, ModalApi] = useVbenModal({
       ModalApi.close();
       ModalApi.setData({});
       StoreFromApi.resetForm();
+      message.success('操作成功');
       emit('reload');
     } catch {}
   },
@@ -178,7 +128,7 @@ const [Modal, ModalApi] = useVbenModal({
 </script>
 <template>
   <Modal
-    :title="`${isUpdate ? '编辑检测记录' : '添加检测记录'}`"
+    :title="`${isUpdate ? '编辑培养记录' : '添加培养记录'}`"
     class="w-[960px]"
     content-class="pt-[20px] pb-0"
   >

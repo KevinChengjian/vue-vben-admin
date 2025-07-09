@@ -7,6 +7,7 @@ interface Props extends VxeGridProps<any> {
   colums: any[];
   api: any;
   searhcSchema?: any;
+  defaultQuery?: any;
 }
 
 export function useTable(props: Props) {
@@ -30,7 +31,7 @@ export function useTable(props: Props) {
     columns: props.colums || [],
     keepSource: true,
     pagerConfig: {
-      pageSize: 15,
+      pageSize: 10,
       total: 0,
       currentPage: 1,
       pageSizes: [10, 15, 20, 30, 40, 50, 100],
@@ -50,6 +51,7 @@ export function useTable(props: Props) {
             pageSize: page.pageSize,
             sortField: sort.field,
             sortOrder: sort.order === 'asc' ? 'ascend' : 'descend',
+            ...props.defaultQuery,
             ...formValues,
           });
         },

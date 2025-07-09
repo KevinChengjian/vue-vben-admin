@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import type { ListItem } from './type';
 
+import { nextTick } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
 import { Page, useVbenModal } from '@vben/common-ui';
+import { useTabs } from '@vben/hooks';
 
 import { Button, Space } from 'ant-design-vue';
 
@@ -12,6 +16,13 @@ import { format } from '#/utils/money';
 import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
 import MaterialStoreModal from './storeModal.vue';
+
+const route = useRoute();
+const { setTabTitle } = useTabs();
+nextTick(() => {
+  if (!route.query?.title) return;
+  setTabTitle(`${route.query?.title}培养记录`);
+});
 
 const [Grid, gridApi] = useTable({
   colums: TableColumn,
@@ -65,6 +76,7 @@ const [Grid, gridApi] = useTable({
       component: 'DictSelect',
       fieldName: 'warehouse_id',
       label: '养菌房',
+      defaultValue: route?.query?.warehouse_id || undefined,
       componentProps: {
         class: 'w-full',
         showSearch: true,
@@ -107,6 +119,18 @@ const { destory } = useDelete<ListItem>({
     gridApi.reload();
   },
 });
+
+// 巡查记录
+const router = useRouter();
+const handleRecord = (row: any) => {
+  router.push({
+    path: '/culture/patrol',
+    query: {
+      mb_sn: row.mb_sn,
+      warehouse_id: row.warehouse_id,
+    },
+  });
+};
 </script>
 
 <template>
@@ -128,6 +152,13 @@ const { destory } = useDelete<ListItem>({
 
       <template #action="{ row }">
         <Space :size="15">
+          <div
+            class="text-primary cursor-pointer"
+            v-access:code="AuthCode.Patrol"
+            @click="handleRecord(row)"
+          >
+            菌房巡查
+          </div>
           <div
             class="text-primary cursor-pointer"
             v-access:code="AuthCode.Update"

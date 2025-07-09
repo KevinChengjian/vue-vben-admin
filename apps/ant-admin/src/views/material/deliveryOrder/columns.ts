@@ -3,16 +3,16 @@ import { Dict } from '#/api';
 export const TableColumn: any = [
   { title: '序号', align: 'center', type: 'seq', minWidth: 60 },
   {
-    title: '原料编号',
-    field: 'material_sn',
-    align: 'center',
-    minWidth: 120,
-  },
-  {
     title: '制包编号',
     field: 'make_bag_sn',
     align: 'center',
     minWidth: 90,
+  },
+  {
+    title: '原料编号',
+    field: 'material_sn',
+    align: 'center',
+    minWidth: 120,
   },
   {
     title: '原料名称',
@@ -20,6 +20,13 @@ export const TableColumn: any = [
     align: 'center',
     cellRender: { name: 'dict', code: Dict.KeyEnum.MATERIAL },
     minWidth: 150,
+  },
+  {
+    title: '规格',
+    field: 'spec_id',
+    align: 'center',
+    cellRender: { name: 'dict', code: Dict.KeyEnum.MATERIAL_SPEC },
+    minWidth: 105,
   },
   {
     title: '数量',
@@ -56,7 +63,7 @@ export const TableColumn: any = [
     minWidth: 150,
   },
   {
-    title: '创建时间',
+    title: '出库时间',
     field: 'created_at',
     align: 'center',
     minWidth: 150,

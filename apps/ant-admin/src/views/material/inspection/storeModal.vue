@@ -62,7 +62,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       dependencies: {
         triggerFields: ['material_sn'],
         trigger: async (values) => {
-          const ids = await Material.materialIds({
+          const { ids } = await Material.materialIds({
             keyword: values.material_sn,
           });
           StoreFromApi.updateSchema([
@@ -106,6 +106,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'moisture',
       label: '水份',
       componentProps: {
+        addonAfter: '%',
         class: 'w-full',
         placeholder: '请输入水份',
       },
@@ -124,6 +125,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'protein',
       label: '蛋白含量',
       componentProps: {
+        addonAfter: '%',
         class: 'w-full',
         placeholder: '请输入蛋白含量',
       },
@@ -133,6 +135,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'nitrogen',
       label: '含氮量',
       componentProps: {
+        addonAfter: '%',
         class: 'w-full',
         placeholder: '请输入含氮量',
       },

@@ -65,8 +65,9 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'set_sterilization_time',
-      label: '灭菌时间(h)',
+      label: '灭菌时间',
       componentProps: {
+        addonAfter: 'h',
         class: 'w-full',
         placeholder: '请输入灭菌时间',
       },
@@ -74,8 +75,9 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'sterilization_time',
-      label: '实际灭菌时间(h)',
+      label: '实际灭菌时间',
       componentProps: {
+        addonAfter: 'h',
         class: 'w-full',
         placeholder: '请输入实际灭菌时间',
       },
@@ -83,8 +85,9 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'InputNumber',
       fieldName: 'temperature',
-      label: '灭菌温度(℃)',
+      label: '灭菌温度',
       componentProps: {
+        addonAfter: '℃',
         class: 'w-full',
         placeholder: '请输入灭菌温度',
       },
@@ -103,6 +106,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'tp',
       label: '温度压力',
       componentProps: {
+        addonAfter: 'MPa',
         class: 'w-full',
         placeholder: '请输入温度压力',
       },

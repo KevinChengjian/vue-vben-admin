@@ -2,49 +2,26 @@
 import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
-import { useUserStore } from '@vben/stores';
 
-import { message } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
 
-import { canNoApi, createApi, updateApi } from './api';
+import { createApi, updateApi } from './api';
 
 const emit = defineEmits(['reload']);
 
-const userStore = useUserStore();
 const makeSn = ref<string>('');
 const variety = ref<string>('');
+const warehouseId = ref<string>('');
+
 const [StoreForm, StoreFromApi] = useVbenForm({
   schema: [
     {
       component: 'Input',
       fieldName: 'id',
       label: 'Id',
-      dependencies: {
-        triggerFields: ['id'],
-        show: () => {
-          return false;
-        },
-      },
-    },
-    {
-      component: 'Input',
-      fieldName: 'si_id',
-      label: '菌种鉴定ID',
-      dependencies: {
-        triggerFields: ['id'],
-        show: () => {
-          return false;
-        },
-      },
-    },
-    {
-      component: 'Input',
-      fieldName: 'mb_id',
-      label: '制包拌料ID',
       dependencies: {
         triggerFields: ['id'],
         show: () => {
@@ -61,16 +38,35 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         makeNum: true,
         placeholder: '请选择制包编号',
         onChange: async (_: string, opt: any) => {
-          makeSn.value = opt.value || '';
-
+          makeSn.value = opt?.value || '';
           const params: any = {
-            mb_id: opt?.mb_id,
-            formula_id: opt?.formula_id,
             num: opt?.num || undefined,
           };
 
-          if (variety.value) {
-            params.mb_sn = `NX-${opt.value}-${variety.value}`;
+          if (makeSn.value && variety.value && warehouseId.value) {
+            params.mb_sn = `NX-${makeSn.value}-${variety.value}-${warehouseId.value}`;
+          }
+
+          await StoreFromApi.setValues(params);
+        },
+      },
+    },
+    {
+      component: 'StrainSnSelect',
+      fieldName: 'strain_sn',
+      label: '菌种编号',
+      rules: 'required',
+      componentProps: {
+        makeNum: true,
+        placeholder: '请选择菌种编号',
+        onChange: async (_: string, opt: any) => {
+          variety.value = opt?.variety || '';
+          const params: any = {
+            variety_id: opt.identify_variety_id || opt.variety_id,
+          };
+
+          if (makeSn.value && variety.value && warehouseId.value) {
+            params.mb_sn = `NX-${makeSn.value}-${variety.value}-${warehouseId.value}`;
           }
 
           await StoreFromApi.setValues(params);
@@ -79,38 +75,21 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     },
     {
       component: 'DictSelect',
-      fieldName: 'can_no',
-      label: '罐号',
+      fieldName: 'warehouse_id',
+      label: '养菌房',
+      rules: 'required',
       componentProps: {
         class: 'w-full',
         showSearch: true,
-        allowClear: true,
-        placeholder: '请选择罐号',
-        code: Dict.KeyEnum.STRAIN_CAN_NO,
-        onChange: async (canNo: string) => {
-          if (canNo) {
-            const result = await canNoApi({ can_no: canNo });
-            if (!result.empty && result.detail) {
-              variety.value = result.detail.variety || '';
-
-              await StoreFromApi.setValues({
-                si_id: result.detail.id,
-                variety_id: result.detail.variety_id,
-              });
-
-              if (makeSn.value && variety.value) {
-                const mbSn = `NX-${makeSn.value}-${variety.value}`;
-                await StoreFromApi.setFieldValue('mb_sn', mbSn);
-              }
-              return;
-            }
-
-            message.error('该罐号无菌种鉴定信息');
-            return;
+        placeholder: '请选择养菌房',
+        code: Dict.KeyEnum.STRAIN_HOUSE,
+        onChange: async (e: string) => {
+          warehouseId.value = e;
+          if (makeSn.value && variety.value && warehouseId.value) {
+            await StoreFromApi.setValues({
+              mb_sn: `NX-${makeSn.value}-${variety.value}-${warehouseId.value}`,
+            });
           }
-
-          variety.value = '';
-          await StoreFromApi.setFieldValue('mb_sn', undefined);
         },
       },
     },
@@ -130,13 +109,11 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       rules: 'required',
       componentProps: {
         class: 'w-full',
-        showTime: { format: 'HH:mm' },
-        format: 'YYYY-MM-DD HH:mm',
-        valueFormat: 'YYYY-MM-DD HH:MM',
+        format: 'YYYY-MM-DD',
+        valueFormat: 'YYYY-MM-DD',
         placeholder: '请选择接种时间',
       },
     },
-
     {
       component: 'InputNumber',
       fieldName: 'num',
@@ -163,9 +140,10 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'InputNumber',
       fieldName: 'strain_num',
-      label: '菌种量(ml)',
+      label: '菌种量',
       rules: 'required',
       componentProps: {
+        addonAfter: 'ml',
         class: 'w-full',
         placeholder: '请填写菌种量',
       },
@@ -184,6 +162,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'room_temperature',
       label: '接种室温度',
       componentProps: {
+        addonAfter: '℃',
         class: 'w-full',
         placeholder: '请填写接种室温度',
       },
@@ -202,6 +181,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'mb_temperature',
       label: '菌包温度',
       componentProps: {
+        addonAfter: '℃',
         class: 'w-full',
         placeholder: '请填写菌包温度',
       },
@@ -235,9 +215,12 @@ const [Modal, ModalApi] = useVbenModal({
 
     // 默认值
     isUpdate.value = data.isEdit;
+    makeSn.value = isUpdate.value ? data.record?.make_bag_sn : '';
+    variety.value = isUpdate.value ? data.record?.variety : '';
+    warehouseId.value = isUpdate.value ? data.record?.warehouse_id : '';
+
     await StoreFromApi.setValues({
       vaccination_at: dayjs().format('YYYY-MM-DD HH:mm'),
-      user_id: userStore.userInfo?.userId,
     });
 
     data.record && StoreFromApi.setValues({ ...data.record });

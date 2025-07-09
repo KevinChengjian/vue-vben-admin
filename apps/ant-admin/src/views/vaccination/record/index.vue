@@ -27,9 +27,18 @@ const [Grid, gridApi] = useTable({
       },
     },
     {
+      component: 'Input',
+      fieldName: 'strain_sn',
+      label: '菌种编号',
+      componentProps: {
+        allowClear: true,
+        placeholder: '请输入菌种编号',
+      },
+    },
+    {
       component: 'RangePicker',
       fieldName: 'vaccination_at',
-      label: '接种时间',
+      label: '接种日期',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,
@@ -67,7 +76,7 @@ const [Grid, gridApi] = useTable({
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,
-        placeholder: ['开始日期', '结束日期'],
+        placeholder: ['开始时间', '结束时间'],
       },
     },
   ],

@@ -47,7 +47,7 @@ const [Grid, gridApi] = useTable({
         class: 'w-full',
         showSearch: true,
         allowClear: true,
-        placeholder: '请输入采购人员',
+        placeholder: '请选择采购人员',
         code: Dict.KeyEnum.SYS_USER,
       },
     },
@@ -62,12 +62,22 @@ const [Grid, gridApi] = useTable({
     },
     {
       component: 'RangePicker',
-      fieldName: 'created_at',
+      fieldName: 'purchase_at',
       label: '购置日期',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,
         placeholder: ['开始日期', '结束日期'],
+      },
+    },
+    {
+      component: 'RangePicker',
+      fieldName: 'created_at',
+      label: '入库时间',
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        allowClear: true,
+        placeholder: ['开始时间', '结束时间'],
       },
     },
   ],

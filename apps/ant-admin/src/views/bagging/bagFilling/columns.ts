@@ -29,21 +29,21 @@ export const TableColumn: any = [
     cellRender: { name: 'number' },
   },
   {
-    title: '菌棒重量',
+    title: '菌棒重量(kg)',
     field: 'weight',
     align: 'center',
     minWidth: 105,
     cellRender: { name: 'number' },
   },
   {
-    title: '中孔深度',
+    title: '中孔深度(cm)',
     field: 'depth',
     align: 'center',
     minWidth: 105,
     cellRender: { name: 'number' },
   },
   {
-    title: '菌棒高度',
+    title: '菌棒高度(cm)',
     field: 'height',
     align: 'center',
     minWidth: 105,
@@ -62,7 +62,7 @@ export const TableColumn: any = [
     minWidth: 225,
   },
   {
-    title: '创建时间',
+    title: '装袋时间',
     field: 'created_at',
     align: 'center',
     minWidth: 135,

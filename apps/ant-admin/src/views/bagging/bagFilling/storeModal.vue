@@ -3,6 +3,8 @@ import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 
+import { message } from 'ant-design-vue';
+
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
 
@@ -92,6 +94,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       label: '菌棒重量',
       rules: 'required',
       componentProps: {
+        addonAfter: 'kg',
         class: 'w-full',
         placeholder: '请输入菌棒重量',
       },
@@ -101,6 +104,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'depth',
       label: '中孔深度',
       componentProps: {
+        addonAfter: 'cm',
         class: 'w-full',
         placeholder: '请输入中孔深度',
       },
@@ -110,6 +114,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'height',
       label: '菌棒高度',
       componentProps: {
+        addonAfter: 'cm',
         class: 'w-full',
         placeholder: '请输入菌棒高度',
       },
@@ -152,11 +157,6 @@ const [Modal, ModalApi] = useVbenModal({
 
     isUpdate.value = data.isEdit;
     data.record && StoreFromApi.setValues({ ...data.record });
-    isUpdate.value &&
-      StoreFromApi.setValues({
-        ...data.record,
-        status: `${data.record.status}`,
-      });
   },
   onConfirm: async () => {
     try {
@@ -167,6 +167,7 @@ const [Modal, ModalApi] = useVbenModal({
       ModalApi.close();
       ModalApi.setData({});
       StoreFromApi.resetForm();
+      message.success('操作成功');
       emit('reload');
     } catch {}
   },

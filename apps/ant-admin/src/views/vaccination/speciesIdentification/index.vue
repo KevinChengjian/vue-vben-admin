@@ -18,6 +18,24 @@ const [Grid, gridApi] = useTable({
   api: listApi,
   searhcSchema: [
     {
+      component: 'Input',
+      fieldName: 'mb_sn',
+      label: '菌包编号',
+      componentProps: {
+        allowClear: true,
+        placeholder: '请输入菌包编号',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'strain_sn',
+      label: '菌种编号',
+      componentProps: {
+        allowClear: true,
+        placeholder: '请输入菌种编号',
+      },
+    },
+    {
       component: 'DictSelect',
       fieldName: 'can_no',
       label: '罐号',
@@ -27,15 +45,6 @@ const [Grid, gridApi] = useTable({
         allowClear: true,
         placeholder: '请选择罐号',
         code: Dict.KeyEnum.STRAIN_CAN_NO,
-      },
-    },
-    {
-      component: 'Input',
-      fieldName: 'mb_sn',
-      label: '菌包编号',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入菌包编号',
       },
     },
     {

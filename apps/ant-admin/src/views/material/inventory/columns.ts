@@ -6,11 +6,11 @@ export const TableColumn: any = [
 
   {
     title: '库存',
-    field: 'plan',
+    field: 'store',
     headerAlign: 'center',
     children: [
       { title: '盘库', field: 'reality_num', align: 'center' },
-      { title: '库存', field: 'theory_num', align: 'center' },
+      { title: '库存', field: 'inventory', align: 'center' },
       {
         title: '库存金额(元)',
         field: 'amount',
@@ -21,18 +21,18 @@ export const TableColumn: any = [
   },
   {
     title: '入库',
-    field: 'plan',
+    field: 'in',
     headerAlign: 'center',
     children: [
       {
         title: '入库总量',
-        field: 'inNum',
+        field: 'in_num',
         align: 'center',
         cellRender: { name: 'number' },
       },
       {
         title: '入库金额(元)',
-        field: 'inMoney',
+        field: 'in_money',
         align: 'center',
         cellRender: { name: 'money' },
       },
@@ -40,18 +40,18 @@ export const TableColumn: any = [
   },
   {
     title: '出库',
-    field: 'plan',
+    field: 'out',
     headerAlign: 'center',
     children: [
       {
         title: '出库数量',
-        field: 'outNum',
+        field: 'out_num',
         align: 'center',
         cellRender: { name: 'number' },
       },
       {
         title: '出库金额(元)',
-        field: 'outMoney',
+        field: 'out_money',
         align: 'center',
         cellRender: { name: 'money' },
       },

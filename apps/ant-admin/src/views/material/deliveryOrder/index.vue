@@ -19,20 +19,20 @@ const [Grid, gridApi] = useTable({
   searhcSchema: [
     {
       component: 'Input',
-      fieldName: 'material_sn',
-      label: '原料编号',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入原料编号',
-      },
-    },
-    {
-      component: 'Input',
       fieldName: 'make_bag_sn',
       label: '制包编号',
       componentProps: {
         allowClear: true,
         placeholder: '请输入制包编号',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'material_sn',
+      label: '原料编号',
+      componentProps: {
+        allowClear: true,
+        placeholder: '请输入原料编号',
       },
     },
     {

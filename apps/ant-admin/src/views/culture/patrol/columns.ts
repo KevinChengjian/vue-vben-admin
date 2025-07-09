@@ -6,13 +6,13 @@ export const TableColumn: any = [
     title: '巡库日期',
     field: 'patrol_at',
     align: 'center',
-    minWidth: 120,
+    minWidth: 100,
   },
   {
     title: '菌包编号',
     field: 'mb_sn',
     align: 'center',
-    minWidth: 120,
+    minWidth: 200,
   },
   {
     title: '养菌房',
@@ -121,7 +121,7 @@ export const TableColumn: any = [
     minWidth: 90,
   },
   {
-    title: '保温',
+    title: '包温',
     field: 'bag_t',
     align: 'center',
     minWidth: 90,
@@ -143,6 +143,13 @@ export const TableColumn: any = [
     field: 'nickname',
     align: 'center',
     minWidth: 90,
+  },
+  {
+    title: '附件',
+    field: 'attach_ids',
+    align: 'center',
+    minWidth: 90,
+    slots: { default: 'attach_ids' },
   },
   {
     title: '备注',

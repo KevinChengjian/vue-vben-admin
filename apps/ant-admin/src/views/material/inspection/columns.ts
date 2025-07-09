@@ -39,24 +39,28 @@ export const TableColumn: any = [
     field: 'moisture',
     align: 'center',
     minWidth: 120,
+    cellRender: { name: 'percent' },
   },
   {
     title: 'PH',
     field: 'ph',
     align: 'center',
     minWidth: 120,
+    cellRender: { name: 'number' },
   },
   {
     title: '蛋白含量',
     field: 'protein',
     align: 'center',
     minWidth: 120,
+    cellRender: { name: 'percent' },
   },
   {
     title: '含氮量',
     field: 'nitrogen',
     align: 'center',
     minWidth: 120,
+    cellRender: { name: 'percent' },
   },
   {
     title: '备注',
