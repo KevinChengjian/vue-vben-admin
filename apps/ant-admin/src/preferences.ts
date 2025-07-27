@@ -6,7 +6,6 @@ import { defineOverridesPreferences } from '@vben/preferences';
  * !!! 更改配置后请清空缓存，否则可能不生效
  */
 export const overridesPreferences = defineOverridesPreferences({
-  // overrides
   app: {
     accessMode: 'backend',
     name: import.meta.env.VITE_APP_TITLE,
@@ -15,7 +14,7 @@ export const overridesPreferences = defineOverridesPreferences({
     loginExpiredMode: 'modal',
   },
   logo: {
-    source: 'https://api.chenion.cn/static/logo2.png',
+    source: 'http://8.130.29.32:8788/logo2.png',
   },
   theme: {
     mode: 'light',
@@ -25,6 +24,7 @@ export const overridesPreferences = defineOverridesPreferences({
     width: 140,
     mixedWidth: 75,
     fixedButton: false,
+    autoActivateChild: true,
   },
   tabbar: {
     showIcon: false,

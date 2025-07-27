@@ -5,7 +5,7 @@ import { Select, SelectOption } from 'ant-design-vue';
 
 import { Vaccination } from '#/api/core/vaccination';
 
-defineOptions({ customOptions: { name: 'StrainSnSelect' } });
+defineOptions({ customOptions: { name: 'VrMbSnSelect' } });
 
 const originalOptions = ref<Vaccination.Item[]>([]);
 const searchResult = ref<Vaccination.Item[]>([]);
@@ -58,6 +58,7 @@ onMounted(async () => {
       :can_no="item.can_no"
       :variety_id="item.variety_id"
       :warehouse_id="item.warehouse_id"
+      :num="item.num"
     >
       {{ item.label }}
     </SelectOption>

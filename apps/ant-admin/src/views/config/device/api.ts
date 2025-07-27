@@ -56,3 +56,21 @@ export async function deviceDeleteApi(params: any) {
 export async function deviceDetailApi(params: any) {
   return requestClient.post<any>('/admin/device/detail', params);
 }
+
+/**
+ * 监控点列表
+ * @param params
+ * @returns any
+ */
+export async function deviceboxNodeApi(params: any) {
+  return requestClient.post<any>('/admin/device/box-node', params);
+}
+
+/**
+ * 监控点列表
+ * @param params
+ * @returns any
+ */
+export async function deviceboxNodeUpdateApi(params: any) {
+  return requestClient.post<any>('/admin/device/update-box-node', params);
+}

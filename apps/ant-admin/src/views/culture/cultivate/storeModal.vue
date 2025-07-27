@@ -28,12 +28,64 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'Input',
+      fieldName: 'source',
+      label: 'source',
+      dependencies: {
+        triggerFields: ['id'],
+        show: () => {
+          return false;
+        },
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'source_id',
+      label: 'source_id',
+      dependencies: {
+        triggerFields: ['source'],
+        show: () => {
+          return false;
+        },
+      },
+    },
+    {
       component: 'VrMbSnSelect',
       fieldName: 'vr_mb_sn',
       label: '菌包编号',
       rules: 'required',
       componentProps: {
         placeholder: '请选择菌包编号',
+        onChange: async (_: any, opt: any) => {
+          await StoreFromApi.setValues({ put_num: opt.num || 0 });
+        },
+      },
+      dependencies: {
+        triggerFields: ['source'],
+        if: (values) => {
+          return values.source === 1;
+        },
+      },
+    },
+    {
+      component: 'SpMbSnSelect',
+      fieldName: 'vr_mb_sn',
+      label: '菌包编号',
+      rules: 'required',
+      componentProps: {
+        placeholder: '请选择购买菌包编号',
+        onChange: async (_: any, opt: any) => {
+          await StoreFromApi.setValues({
+            put_num: opt.num || 0,
+            source_id: opt.id,
+          });
+        },
+      },
+      dependencies: {
+        triggerFields: ['source'],
+        if: (values) => {
+          return values.source === 2;
+        },
       },
     },
     {
@@ -106,6 +158,7 @@ const [Modal, ModalApi] = useVbenModal({
     // 默认值
     isUpdate.value = data.isEdit;
     await StoreFromApi.setValues({
+      source: 1,
       user_id: userStore.userInfo?.userId,
     });
 

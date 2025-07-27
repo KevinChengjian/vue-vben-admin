@@ -68,7 +68,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       component: 'InputNumber',
       fieldName: 'upper_moisture',
       label: '上层水份',
-      formItemClass: 'col-span-1',
+      rules: 'required',
       componentProps: {
         class: 'w-full',
         placeholder: '请输入上层水份',
@@ -78,6 +78,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       component: 'InputNumber',
       fieldName: 'middle_moisture',
       label: '中层水份',
+      rules: 'required',
       componentProps: {
         class: 'w-full',
         placeholder: '请输入中层水份',
@@ -87,6 +88,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       component: 'InputNumber',
       fieldName: 'lower_moisture',
       label: '下层水份',
+      rules: 'required',
       componentProps: {
         class: 'w-full',
         placeholder: '请输入下层水份',

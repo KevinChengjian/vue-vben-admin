@@ -12,7 +12,6 @@ export namespace Vaccination {
     warehouse_id: string;
     can_no: string;
     mb_sn: string;
-
     label: string;
     value: string;
     num: number;
@@ -24,6 +23,16 @@ export namespace Vaccination {
    */
   export async function list(params?: QueryParams) {
     return requestClient.get<Item[]>('/admin/vaccination-record/vr-mb-sn', {
+      params,
+    });
+  }
+
+  /**
+   * 外来菌包编号列表
+   * @returns any
+   */
+  export async function splist(params?: QueryParams) {
+    return requestClient.get<Item[]>('/admin/strain-purchase/mb-sn', {
       params,
     });
   }

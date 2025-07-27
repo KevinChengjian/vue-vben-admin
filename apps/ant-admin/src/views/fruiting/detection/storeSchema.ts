@@ -15,13 +15,13 @@ export const StoreFormSchema: VbenFormSchema[] = [
     },
   },
   {
-    component: 'VrMbSnSelect',
+    component: 'VcMbSnSelect',
     fieldName: 'mb_sn',
     label: '菌包编号',
     rules: 'required',
     formItemClass: 'col-span-1',
     componentProps: {
-      placeholder: '请选择制包编号',
+      placeholder: '请选择菌包编号',
     },
   },
 

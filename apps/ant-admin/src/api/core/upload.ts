@@ -11,6 +11,7 @@ export namespace Resource {
     multiple?: boolean;
     max?: number;
     edit?: boolean;
+    btnText?: string;
   }
 
   /**

@@ -1,14 +1,17 @@
-import { Dict } from '#/api';
-
 export const TableColumn: any = [
   { title: '序号', align: 'center', type: 'seq', width: 70 },
   { title: '名称', field: 'alias', align: 'center' },
   { title: '序列号', field: 'box_no', align: 'center' },
   {
-    title: '养菌房',
-    field: 'sh_id',
+    title: '类型',
+    field: 'type',
     align: 'center',
-    cellRender: { name: 'dict', code: Dict.KeyEnum.STRAIN_HOUSE },
+    slots: { default: 'type' },
+  },
+  {
+    title: '库房号',
+    field: 'sh',
+    align: 'center',
   },
   {
     title: '设备状态',

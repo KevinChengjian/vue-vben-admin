@@ -49,7 +49,7 @@ export const TableColumn: any = [
     cellRender: { name: 'number' },
   },
   {
-    title: '蛋白含量',
+    title: '含碳量',
     field: 'protein',
     align: 'center',
     minWidth: 120,

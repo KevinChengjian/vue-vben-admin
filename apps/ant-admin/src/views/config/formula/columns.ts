@@ -10,6 +10,12 @@ export const TableColumn: any = [
     cellRender: { name: 'dict', code: Dict.KeyEnum.STATUS },
   },
   { title: '备注', field: 'remark', align: 'center' },
+  {
+    title: '水份',
+    field: 'moisture',
+    align: 'center',
+    cellRender: { name: 'percent' },
+  },
   { title: '原料', field: 'material_txt', align: 'center' },
   { title: '创建人', field: 'nickname', align: 'center' },
   { title: '创建时间', field: 'created_at', align: 'center' },

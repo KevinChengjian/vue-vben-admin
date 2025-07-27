@@ -1,12 +1,19 @@
+export { default as DeviceState } from './device/device-state.vue';
 export { default as DictCascader } from './dict/dict-cascader.vue';
+export { default as DictLabel } from './dict/dict-label.vue';
 export { default as DictRadio } from './dict/dict-radio.vue';
 export { default as DictSelectWithAdd } from './dict/dict-select-with-add.vue';
 export { default as DictSelect } from './dict/dict-select.vue';
 export { default as DictTreeSelect } from './dict/dict-tree-select.vue';
 export { default as FormulaSelect } from './formula/formula-select.vue';
+export { default as FruitingSnSelect } from './serialNumber/fruiting-sn-select.vue';
 export { default as MakeBagSnSelect } from './serialNumber/make-bag-sn-select.vue';
 export { default as MaterialSnInput } from './serialNumber/material-sn-input.vue';
 export { default as MaterialSnSelect } from './serialNumber/material-sn-select.vue';
+export { default as SpMbSnSelect } from './serialNumber/sp-mb-sn-select.vue';
 export { default as StrainSnSelect } from './serialNumber/strain-sn-select.vue';
+export { default as VcMbSnSelect } from './serialNumber/vc-mb-sn-select.vue';
 export { default as VrMbSnSelect } from './serialNumber/vr-mb-sn-select.vue';
+
 export { default as CustomUpload } from './upload/custom-upload.vue';
+export { default as ImageUpload } from './upload/image-upload.vue';

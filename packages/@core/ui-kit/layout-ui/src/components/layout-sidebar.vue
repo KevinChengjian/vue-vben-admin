@@ -276,7 +276,7 @@ function handleMouseleave() {
   >
     <div
       v-if="isSidebarMixed"
-      class="fixed left-0 top-0 min-h-[100vh] rounded-tr-[60px] bg-[url(https://api.chenion.cn/static/mbg.svg)] bg-cover bg-no-repeat dark:opacity-[0.2]"
+      class="fixed left-0 top-0 min-h-[100vh] rounded-tr-[60px] bg-[url(https://api.chenion.cn/menu-mbg.svg)] bg-cover bg-no-repeat dark:opacity-[0.2]"
       :style="{ width: `${props.width}px` }"
     ></div>
 

@@ -8,7 +8,7 @@ export const TableColumn: any = [
   },
   {
     title: '采摘员',
-    field: 'nickname',
+    field: 'name',
     align: 'center',
     minWidth: 90,
   },
@@ -19,23 +19,17 @@ export const TableColumn: any = [
     minWidth: 90,
   },
   {
-    title: '数量',
+    title: '数量/斤',
     field: 'amount',
     align: 'center',
     cellRender: { name: 'number' },
     minWidth: 90,
   },
   {
-    title: 'A菇数量',
+    title: 'A菇数量/斤',
     field: 'a_amount',
     align: 'center',
     cellRender: { name: 'number' },
-    minWidth: 90,
-  },
-  {
-    title: '记录人员',
-    field: 'creatorName',
-    align: 'center',
     minWidth: 90,
   },
   {

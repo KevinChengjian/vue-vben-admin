@@ -5,7 +5,8 @@ import { preferences, usePreferences } from '@vben/preferences';
 
 import { Copyright } from '../basic/copyright';
 import AuthenticationFormView from './form.vue';
-import SloganIcon from './icons/slogan.vue';
+import LoginBg from './icons/lb.png';
+import LoginLogo from './icons/login-logo.png';
 import Toolbar from './toolbar.vue';
 
 interface Props {
@@ -40,6 +41,12 @@ const { authPanelCenter, authPanelLeft, authPanelRight, isDark } =
   <div
     :class="[isDark ? 'dark' : '']"
     class="flex min-h-full flex-1 select-none overflow-x-hidden"
+    :style="{
+      backgroundImage: `url(${LoginBg})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed',
+    }"
   >
     <template v-if="toolbar">
       <slot name="toolbar">
@@ -65,25 +72,29 @@ const { authPanelCenter, authPanelLeft, authPanelRight, isDark } =
     <!-- 头部 Logo 和应用名称 -->
     <div
       v-if="logo || appName"
-      class="absolute left-0 top-0 z-10 flex flex-1"
+      class="absolute left-[40px] top-[100px] z-10 flex flex-1"
       @click="clickLogo"
     >
       <div
         class="text-foreground lg:text-foreground ml-4 mt-4 flex flex-1 items-center sm:left-6 sm:top-6"
       >
-        <img v-if="logo" :alt="appName" :src="logo" class="mr-2" width="42" />
-        <p v-if="appName" class="m-0 text-xl font-medium">
+        <img
+          v-if="logo"
+          :alt="appName"
+          :src="LoginLogo"
+          class="mr-2"
+          width="560"
+        />
+        <!-- <p v-if="appName" class="m-0 text-xl font-medium">
           {{ appName }}
-        </p>
+        </p> -->
       </div>
     </div>
 
     <!-- 系统介绍 -->
     <div v-if="!authPanelCenter" class="relative hidden w-0 flex-1 lg:block">
-      <div
-        class="bg-background-deep absolute inset-0 h-full w-full dark:bg-[#070709]"
-      >
-        <div class="login-background absolute left-0 top-0 size-full"></div>
+      <div class="absolute inset-0 h-full w-full">
+        <div class="absolute left-0 top-0 size-full"></div>
         <div class="flex-col-center -enter-x mr-20 h-full">
           <template v-if="sloganImage">
             <img
@@ -92,7 +103,7 @@ const { authPanelCenter, authPanelLeft, authPanelRight, isDark } =
               class="animate-float h-64 w-2/5"
             />
           </template>
-          <SloganIcon v-else :alt="appName" class="animate-float h-64 w-2/5" />
+          <!-- <SloganIcon v-else :alt="appName" class="animate-float h-64 w-2/5" /> -->
           <div class="text-1xl text-foreground mt-6 font-sans lg:text-2xl">
             {{ pageTitle }}
           </div>
@@ -107,7 +118,7 @@ const { authPanelCenter, authPanelLeft, authPanelRight, isDark } =
     <div v-if="authPanelCenter" class="flex-center relative w-full">
       <div class="login-background absolute left-0 top-0 size-full"></div>
       <AuthenticationFormView
-        class="md:bg-background shadow-primary/5 shadow-float w-full rounded-3xl pb-20 md:w-2/3 lg:w-1/2 xl:w-[36%]"
+        class="shadow-primary/5 shadow-float w-full rounded-3xl pb-20 md:w-2/3 lg:w-1/2 xl:w-[36%]"
       >
         <template v-if="copyright" #copyright>
           <slot name="copyright">

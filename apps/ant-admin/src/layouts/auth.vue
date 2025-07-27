@@ -14,6 +14,8 @@ const logo = computed(() => preferences.logo.source);
     :logo="logo"
     page-description=""
     page-title=""
+    :copyright="false"
+    :toolbar="false"
   >
     <!-- 自定义工具栏 -->
     <!-- <template #toolbar></template> -->

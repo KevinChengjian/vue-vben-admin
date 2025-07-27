@@ -46,10 +46,13 @@ import {
   DictSelectWithAdd,
   DictTreeSelect,
   FormulaSelect,
+  FruitingSnSelect,
   MakeBagSnSelect,
   MaterialSnInput,
   MaterialSnSelect,
+  SpMbSnSelect,
   StrainSnSelect,
+  VcMbSnSelect,
   VrMbSnSelect,
 } from '#/components';
 
@@ -80,6 +83,7 @@ export type ComponentType =
   | 'DictTreeSelect'
   | 'Divider'
   | 'FormulaSelect'
+  | 'FruitingSnSelect'
   | 'IconPicker'
   | 'Input'
   | 'InputNumber'
@@ -95,12 +99,14 @@ export type ComponentType =
   | 'Rate'
   | 'Select'
   | 'Space'
+  | 'SpMbSnSelect'
   | 'StrainSnSelect'
   | 'Switch'
   | 'Textarea'
   | 'TimePicker'
   | 'TreeSelect'
   | 'Upload'
+  | 'VcMbSnSelect'
   | 'VrMbSnSelect'
   | BaseFormComponentType;
 
@@ -188,6 +194,9 @@ async function initComponentAdapter() {
     StrainSnSelect,
     VrMbSnSelect,
     CustomUpload,
+    FruitingSnSelect,
+    SpMbSnSelect,
+    VcMbSnSelect,
   };
 
   // 将组件注册到全局共享状态中

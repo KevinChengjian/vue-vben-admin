@@ -1,17 +1,18 @@
 <script lang="ts" setup>
 import type { ListItem } from './type';
 
-import { Page, useVbenModal } from '@vben/common-ui';
-import { SvgMenuMjIcon } from '@vben/icons';
+import { Page, useVbenDrawer, useVbenModal } from '@vben/common-ui';
 
-import { Button, Space } from 'ant-design-vue';
+import { Space } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import { useDelete, useTable } from '#/hooks';
 import { format } from '#/utils/money';
 
 import { AuthCode, deleteApi, listApi } from './api';
+import ClearStoreModal from './clearModal.vue';
 import { TableColumn } from './columns';
+import Detail from './detail.vue';
 import MaterialStoreModal from './storeModal.vue';
 
 const [Grid, gridApi] = useTable({
@@ -49,19 +50,21 @@ const [Grid, gridApi] = useTable({
       },
     },
     {
-      component: 'RangePicker',
-      fieldName: 'put_at',
-      label: '上架日期',
+      component: 'DictSelect',
+      fieldName: 'dev_id',
+      label: '技术员',
       componentProps: {
-        valueFormat: 'YYYY-MM-DD',
+        class: 'w-full',
+        showSearch: true,
         allowClear: true,
-        placeholder: ['开始日期', '结束日期'],
+        placeholder: '请选择技术员',
+        code: Dict.KeyEnum.SYS_USER,
       },
     },
     {
       component: 'RangePicker',
-      fieldName: 'created_at',
-      label: '出菇时间',
+      fieldName: 'put_at',
+      label: '上架日期',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,
@@ -92,20 +95,36 @@ const { destory } = useDelete<ListItem>({
     gridApi.reload();
   },
 });
+
+// 详情
+const [DetailDrawer, detailDrawerApi] = useVbenDrawer({
+  connectedComponent: Detail,
+});
+const handleDetail = (row: ListItem) => {
+  detailDrawerApi.setData(row).open();
+};
+
+// 下架
+const [ClearModal, clearModalApi] = useVbenModal({
+  connectedComponent: ClearStoreModal,
+});
+
+const handleClear = (row: any) => {
+  clearModalApi.setData({ record: row }).open();
+};
 </script>
 
 <template>
   <Page class="h-full">
     <Grid>
       <template #toolbar-actions>
-        <Button
+        <!-- <Button
           type="primary"
           v-access:code="AuthCode.Create"
           @click="handleStore"
         >
-          <SvgMenuMjIcon />
           新增记录
-        </Button>
+        </Button> -->
       </template>
 
       <template #price="{ row }">
@@ -114,6 +133,22 @@ const { destory } = useDelete<ListItem>({
 
       <template #action="{ row }">
         <Space :size="15">
+          <div
+            class="text-primary cursor-pointer"
+            v-access:code="AuthCode.Detail"
+            @click="handleDetail(row)"
+          >
+            详情
+          </div>
+
+          <div
+            class="text-primary cursor-pointer"
+            v-access:code="AuthCode.Detail"
+            @click="handleClear(row)"
+          >
+            下架
+          </div>
+
           <div
             class="text-primary cursor-pointer"
             v-access:code="AuthCode.Update"
@@ -133,5 +168,7 @@ const { destory } = useDelete<ListItem>({
     </Grid>
 
     <StoreModal @reload="gridApi.reload" />
+    <DetailDrawer />
+    <ClearModal />
   </Page>
 </template>

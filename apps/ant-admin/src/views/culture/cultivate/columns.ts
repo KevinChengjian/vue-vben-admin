@@ -7,6 +7,7 @@ export const TableColumn: any = [
     field: 'mb_sn',
     align: 'center',
     minWidth: 200,
+    slots: { default: 'mb_sn' },
   },
   {
     title: '制包日期',
@@ -49,7 +50,7 @@ export const TableColumn: any = [
   },
   {
     title: '透壁',
-    field: 'transendothelial',
+    field: 'tw',
     align: 'center',
     minWidth: 100,
   },
@@ -64,6 +65,7 @@ export const TableColumn: any = [
     field: 'device_state',
     align: 'center',
     minWidth: 120,
+    slots: { default: 'device_state' },
   },
   {
     title: '消毒',
@@ -78,10 +80,18 @@ export const TableColumn: any = [
     minWidth: 120,
   },
   {
+    title: '入库量',
+    field: 'put_num',
+    align: 'center',
+    minWidth: 120,
+    cellRender: { name: 'number' },
+  },
+  {
     title: '出库量',
     field: 'out_num',
     align: 'center',
     minWidth: 120,
+    cellRender: { name: 'number' },
   },
   {
     title: '记录人员',

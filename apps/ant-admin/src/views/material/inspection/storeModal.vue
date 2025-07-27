@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
+import { message } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
@@ -123,11 +124,11 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'InputNumber',
       fieldName: 'protein',
-      label: '蛋白含量',
+      label: '含碳量',
       componentProps: {
         addonAfter: '%',
         class: 'w-full',
-        placeholder: '请输入蛋白含量',
+        placeholder: '请输入含碳量',
       },
     },
     {
@@ -185,6 +186,7 @@ const [Modal, ModalApi] = useVbenModal({
       ModalApi.close();
       ModalApi.setData({});
       StoreFromApi.resetForm();
+      message.success('操作成功');
       emit('reload');
     } catch {}
   },

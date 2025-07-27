@@ -1,16 +1,7 @@
 import type { BasicFetchResult } from '#/api/model';
 
-export interface MaterialInItem {
-  id: number;
-  mch_id: number;
-  name: string;
-  pid: number;
-  status: number;
-  status_text: string;
-  sorting: number;
-  remark: string;
-  created_at: string;
-  updated_at: string;
+export interface ListItem {
+  age?: number;
 }
 
-export type ListResult = BasicFetchResult<MaterialInItem[]>;
+export type ListResult = BasicFetchResult<ListItem[]>;

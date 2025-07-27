@@ -3,12 +3,13 @@ import { computed, onMounted, ref } from 'vue';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 
-import { DatePicker, Space } from 'ant-design-vue';
+import { Button, DatePicker, Space } from 'ant-design-vue';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
 import { AuthCode, listApi } from './api';
+import BatchFormModal from './batchModal.vue';
 import { TableColumn } from './columns';
 import StoreFormModal from './storeModal.vue';
 
@@ -62,6 +63,14 @@ const handleStore = (item: any = {}, edit: boolean = false) => {
     })
     .open();
 };
+
+// 批量添加
+const [BatchStoreModal, batchStoreModalApi] = useVbenModal({
+  connectedComponent: BatchFormModal,
+});
+const handleBatchStore = () => {
+  batchStoreModalApi.open();
+};
 </script>
 
 <template>
@@ -71,18 +80,26 @@ const handleStore = (item: any = {}, edit: boolean = false) => {
         <div
           class="flex w-full items-center justify-between pb-[15px] pt-[10px]"
         >
-          <div class="w-[200px]">
+          <div class="flex w-[240px]">
             <DatePicker
               format="YYYY年MM月"
-              class="w-full"
+              class="w-full flex-1"
               v-model:value="month"
               picker="month"
               :allow-clear="false"
               @change="handleMonth"
             />
+            <Button
+              type="primary"
+              class="ml-[15px]"
+              v-access:code="AuthCode.Create"
+              @click="handleBatchStore"
+            >
+              新增
+            </Button>
           </div>
           <div class="text-[22px]">制包生产计划（{{ title }}）</div>
-          <div class="w-[200px]"></div>
+          <div class="w-[240px]"></div>
         </div>
       </template>
 
@@ -92,12 +109,14 @@ const handleStore = (item: any = {}, edit: boolean = false) => {
             class="text-primary cursor-pointer"
             v-access:code="AuthCode.Update"
             @click="handleStore(row, !!row.id)"
+            v-if="row.plan_id > 0"
           >
-            {{ row.id ? '编辑' : '添加' }}
+            编辑
           </div>
           <div
             class="text-destructive cursor-pointer"
             v-access:code="AuthCode.Delete"
+            v-if="row.plan_id > 0"
           >
             删除
           </div>
@@ -106,5 +125,6 @@ const handleStore = (item: any = {}, edit: boolean = false) => {
     </Grid>
 
     <StoreModal @reload="gridApi.reload" />
+    <BatchStoreModal @reload="gridApi.reload" />
   </Page>
 </template>

@@ -24,3 +24,7 @@ export const DownloadOutlined = createIconifyIcon(
 
 export const ClearOutlined = createIconifyIcon('ant-design:clear-outlined');
 export const PlusOutlined = createIconifyIcon('ant-design:plus-outlined');
+export const FallOutlined = createIconifyIcon('ant-design:fall-outlined');
+export const RiseOutlined = createIconifyIcon('ant-design:rise-outlined');
+export const LeftOutlined = createIconifyIcon('ant-design:left-outlined');
+export const RightOutlined = createIconifyIcon('ant-design:right-outlined');

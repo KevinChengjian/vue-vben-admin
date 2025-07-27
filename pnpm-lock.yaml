@@ -678,13 +678,16 @@ importers:
         version: link:../../packages/utils
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 12.8.2(typescript@5.8.3)
+        version: 13.1.0(vue@3.5.13(typescript@5.8.3))
       ant-design-vue:
         specifier: 'catalog:'
         version: 4.2.6(vue@3.5.13(typescript@5.8.3))
       dayjs:
         specifier: 'catalog:'
         version: 1.11.13
+      echarts:
+        specifier: 'catalog:'
+        version: 5.6.0
       pinia:
         specifier: ^3.0.2
         version: 3.0.2(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3))

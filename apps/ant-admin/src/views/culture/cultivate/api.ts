@@ -8,6 +8,8 @@ import { requestClient } from '#/api/request';
 export enum AuthCode {
   Create = 'admin.cultivate.create',
   Delete = 'admin.cultivate.delete',
+  Detail = 'admin.cultivate.Detail',
+  Out = 'admin.cultivate.out',
   Patrol = 'admin.culture-patrol.list',
   Update = 'admin.cultivate.update',
 }
@@ -55,4 +57,27 @@ export async function deleteApi(params: any) {
  */
 export async function detailApi(params: any) {
   return requestClient.post<any>('/admin/cultivate/detail', params);
+}
+
+/**
+ * 出库
+ * @param params
+ * @returns any
+ */
+export async function outApi(params: any) {
+  return requestClient.post<any>('/admin/cultivate/out', params);
+}
+
+/**
+ * 出库
+ * @param params
+ * @returns any
+ */
+export async function lineChatApi(params: any) {
+  return requestClient.post<{
+    d: string[];
+    names: string[];
+    x: string[];
+    y: string[];
+  }>('/admin/cultivate/line-chat', params);
 }

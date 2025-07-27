@@ -21,24 +21,48 @@ export const TableColumn: any = [
     cellRender: { name: 'dict', code: Dict.KeyEnum.STRAIN_HOUSE },
     minWidth: 90,
   },
-
+  {
+    title: '发菌',
+    field: 'fh_id',
+    align: 'center',
+    cellRender: { name: 'dict', code: Dict.KeyEnum.STRAIN_STATE },
+    minWidth: 90,
+  },
+  {
+    title: '包温',
+    field: 'bag_t',
+    align: 'center',
+    minWidth: 90,
+  },
+  {
+    title: '菌龄',
+    field: 'strain_age',
+    align: 'center',
+    minWidth: 90,
+  },
+  {
+    title: '后熟',
+    field: 'postripeness',
+    align: 'center',
+    minWidth: 90,
+  },
   {
     title: '库内设定',
     field: 'house',
     headerAlign: 'center',
     children: [
       {
-        title: '库温(℃)',
-        field: 'set_temperature',
+        title: '库温',
+        field: 'set_wd',
         align: 'center',
-        cellRender: { name: 'number' },
+        // cellRender: { name: 'number' },
         minWidth: 75,
       },
       {
-        title: '二氧化碳',
+        title: 'CO₂',
         field: 'set_cd',
         align: 'center',
-        cellRender: { name: 'number' },
+        // cellRender: { name: 'number' },
         minWidth: 75,
       },
       {
@@ -56,14 +80,14 @@ export const TableColumn: any = [
     headerAlign: 'center',
     children: [
       {
-        title: '库温(℃)',
+        title: '库温',
         field: 'reality_temperature',
         align: 'center',
         cellRender: { name: 'number' },
         minWidth: 75,
       },
       {
-        title: '二氧化碳',
+        title: 'CO₂',
         field: 'reality_cd',
         align: 'center',
         cellRender: { name: 'number' },
@@ -112,31 +136,6 @@ export const TableColumn: any = [
         minWidth: 75,
       },
     ],
-  },
-  {
-    title: '发菌',
-    field: 'fh_id',
-    align: 'center',
-    cellRender: { name: 'dict', code: Dict.KeyEnum.STRAIN_STATE },
-    minWidth: 90,
-  },
-  {
-    title: '包温',
-    field: 'bag_t',
-    align: 'center',
-    minWidth: 90,
-  },
-  {
-    title: '菌龄',
-    field: 'strain_age',
-    align: 'center',
-    minWidth: 90,
-  },
-  {
-    title: '后熟',
-    field: 'postripeness',
-    align: 'center',
-    minWidth: 90,
   },
   {
     title: '巡库人员',

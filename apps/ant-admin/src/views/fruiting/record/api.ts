@@ -8,6 +8,8 @@ import { requestClient } from '#/api/request';
 export enum AuthCode {
   Create = 'admin.fruiting.create',
   Delete = 'admin.fruiting.delete',
+  Detail = 'admin.fruiting.detail',
+  SoldOut = 'admin.fruiting.sold-out',
   Update = 'admin.fruiting.update',
 }
 
@@ -54,4 +56,31 @@ export async function deleteApi(params: any) {
  */
 export async function detailApi(params: any) {
   return requestClient.post<any>('/admin/fruiting/detail', params);
+}
+
+/**
+ * 详情
+ * @param params
+ * @returns any
+ */
+export async function soldOutApi(params: any) {
+  return requestClient.post<any>('/admin/fruiting/sold-out', params);
+}
+
+/**
+ * 总结
+ * @param params
+ * @returns any
+ */
+export async function summaryApi(params: any) {
+  return requestClient.post<any>('/admin/fruiting/summary', params);
+}
+
+/**
+ * 利润统计
+ * @param params
+ * @returns any
+ */
+export async function profitApi(params: any) {
+  return requestClient.post<any>('/admin/fruiting/profit', params);
 }

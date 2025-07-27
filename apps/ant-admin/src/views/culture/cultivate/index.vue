@@ -4,17 +4,19 @@ import type { ListItem } from './type';
 import { nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { Page, useVbenModal } from '@vben/common-ui';
+import { Page, useVbenDrawer, useVbenModal } from '@vben/common-ui';
 import { useTabs } from '@vben/hooks';
 
 import { Button, Space } from 'ant-design-vue';
 
 import { Dict } from '#/api';
+import { DeviceState } from '#/components';
 import { useDelete, useTable } from '#/hooks';
-import { format } from '#/utils/money';
 
 import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
+import Detail from './detail.vue';
+import OutStoreModal from './outModal.vue';
 import MaterialStoreModal from './storeModal.vue';
 
 const route = useRoute();
@@ -131,6 +133,22 @@ const handleRecord = (row: any) => {
     },
   });
 };
+
+// 详情
+const [DetailDrawer, detailDrawerApi] = useVbenDrawer({
+  connectedComponent: Detail,
+});
+const handleDetail = (row: ListItem) => {
+  detailDrawerApi.setData(row).open();
+};
+
+const [OutModal, outModalApi] = useVbenModal({
+  connectedComponent: OutStoreModal,
+});
+
+const handleOut = (item: any) => {
+  outModalApi.setData(item).open();
+};
 </script>
 
 <template>
@@ -146,8 +164,14 @@ const handleRecord = (row: any) => {
         </Button>
       </template>
 
-      <template #price="{ row }">
-        {{ format(row.price) }}
+      <template #mb_sn="{ row }">
+        <div class="text-primary" @click="handleDetail(row)">
+          {{ row.mb_sn }}
+        </div>
+      </template>
+
+      <template #device_state="{ row }">
+        <DeviceState :state="row.device_state" :sh-id="row.warehouse_id" />
       </template>
 
       <template #action="{ row }">
@@ -157,19 +181,29 @@ const handleRecord = (row: any) => {
             v-access:code="AuthCode.Patrol"
             @click="handleRecord(row)"
           >
-            菌房巡查
+            巡查
           </div>
           <div
             class="text-primary cursor-pointer"
             v-access:code="AuthCode.Update"
             @click="handleStore(row, true)"
+            v-if="row.out_over === 2"
           >
             编辑
+          </div>
+          <div
+            class="text-primary cursor-pointer"
+            v-access:code="AuthCode.Out"
+            @click="handleOut(row)"
+            v-if="row.out_over === 2"
+          >
+            出库
           </div>
           <div
             class="text-destructive cursor-pointer"
             v-access:code="AuthCode.Delete"
             @click="destory({ id: row.id })"
+            v-if="row.out_over === 2"
           >
             删除
           </div>
@@ -178,5 +212,7 @@ const handleRecord = (row: any) => {
     </Grid>
 
     <StoreModal @reload="gridApi.reload" />
+    <OutModal @reload="gridApi.reload" />
+    <DetailDrawer />
   </Page>
 </template>

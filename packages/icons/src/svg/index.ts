@@ -19,6 +19,13 @@ const SvgMenuCgIcon = createIconifyIcon('svg:menu-cg');
 const SvgMenuYlIcon = createIconifyIcon('svg:menu-yl');
 const SvgMenuZbIcon = createIconifyIcon('svg:menu-zb');
 const SvgMenuPfIcon = createIconifyIcon('svg:menu-pf');
+const SvgHomeGnIcon = createIconifyIcon('svg:home-gn');
+const SvgYjKfIcon = createIconifyIcon('svg:yj-kf');
+
+const SvgDevWzfIcon = createIconifyIcon('svg:dev-wz');
+const SvgDevLjfIcon = createIconifyIcon('svg:dev-lj');
+const SvgDevCsIcon = createIconifyIcon('svg:dev-cs');
+const SvgDevDkIcon = createIconifyIcon('svg:dev-dk');
 
 export {
   SvgAntdvLogoIcon,
@@ -29,7 +36,12 @@ export {
   SvgBellIcon,
   SvgCakeIcon,
   SvgCardIcon,
+  SvgDevCsIcon,
+  SvgDevDkIcon,
+  SvgDevLjfIcon,
+  SvgDevWzfIcon,
   SvgDownloadIcon,
+  SvgHomeGnIcon,
   SvgMenuCgIcon,
   SvgMenuJzIcon,
   SvgMenuMjIcon,
@@ -37,4 +49,5 @@ export {
   SvgMenuYjIcon,
   SvgMenuYlIcon,
   SvgMenuZbIcon,
+  SvgYjKfIcon,
 };

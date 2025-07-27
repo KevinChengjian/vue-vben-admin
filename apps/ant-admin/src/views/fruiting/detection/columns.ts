@@ -39,21 +39,21 @@ export const TableColumn: any = [
     headerAlign: 'center',
     children: [
       {
-        title: '前排',
+        title: '上',
         field: 'upper_moisture',
         align: 'center',
         cellRender: { name: 'percent' },
         minWidth: 80,
       },
       {
-        title: '中间',
+        title: '中',
         field: 'middle_moisture',
         align: 'center',
         cellRender: { name: 'percent' },
         minWidth: 80,
       },
       {
-        title: '后排',
+        title: '下',
         field: 'lower_moisture',
         align: 'center',
         cellRender: { name: 'percent' },
@@ -67,21 +67,21 @@ export const TableColumn: any = [
     headerAlign: 'center',
     children: [
       {
-        title: '前排',
+        title: '上',
         field: 'upper_ph',
         align: 'center',
         cellRender: { name: 'number' },
         minWidth: 80,
       },
       {
-        title: '中间',
+        title: '中',
         field: 'middle_ph',
         align: 'center',
         cellRender: { name: 'number' },
         minWidth: 80,
       },
       {
-        title: '后排',
+        title: '下',
         field: 'lower_ph',
         align: 'center',
         cellRender: { name: 'number' },

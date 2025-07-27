@@ -10,6 +10,7 @@ import { useDelete, useTable } from '#/hooks';
 
 import { AuthCode, deviceDeleteApi, deviceListApi } from './api';
 import { TableColumn } from './columns';
+import NodeModal from './nodeModal.vue';
 import FormulaStoreModal from './storeModal.vue';
 
 const [Grid, gridApi] = useTable({
@@ -29,13 +30,51 @@ const [Grid, gridApi] = useTable({
       },
     },
     {
+      component: 'Select',
+      fieldName: 'type',
+      label: '关联类型',
+      componentProps: {
+        class: 'w-full',
+        allowClear: true,
+        placeholder: '请选择关联类型',
+        options: [
+          { label: '养菌房', value: 1 },
+          { label: '出菇房', value: 2 },
+        ],
+      },
+    },
+    {
       component: 'DictSelect',
       fieldName: 'sh_id',
       label: '养菌房',
       componentProps: {
+        class: 'w-full',
         allowClear: true,
         placeholder: '请选择养菌房',
         code: Dict.KeyEnum.STRAIN_HOUSE,
+      },
+      dependencies: {
+        triggerFields: ['type'],
+        if: (values: any) => {
+          return values.type === 1;
+        },
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'sh_id',
+      label: '出菇房',
+      componentProps: {
+        class: 'w-full',
+        allowClear: true,
+        placeholder: '请选择出菇房',
+        code: Dict.KeyEnum.FRUITING_HOUSE,
+      },
+      dependencies: {
+        triggerFields: ['type'],
+        if: (values: any) => {
+          return values.type === 2;
+        },
       },
     },
   ],
@@ -58,6 +97,16 @@ const { destory } = useDelete<FormulaItem>({
     gridApi.reload();
   },
 });
+
+// 监控点配置
+const [BoxNodeModal, nodeStoreModalApi] = useVbenModal({
+  draggable: true,
+  connectedComponent: NodeModal,
+});
+
+const handleNode = (item: any = {}) => {
+  nodeStoreModalApi.setData(item).open();
+};
 </script>
 
 <template>
@@ -79,8 +128,16 @@ const { destory } = useDelete<FormulaItem>({
         <div v-if="row.state === 3" class="text-destructive">断开</div>
       </template>
 
+      <template #type="{ row }">
+        <div v-if="row.type === 1">养菌房</div>
+        <div v-if="row.type === 2">出菇房</div>
+      </template>
+
       <template #action="{ row }">
         <Space :size="15">
+          <div class="text-primary cursor-pointer" @click="handleNode(row)">
+            监控点
+          </div>
           <div
             class="text-primary cursor-pointer"
             @click="handleStore(row, true)"
@@ -100,5 +157,6 @@ const { destory } = useDelete<FormulaItem>({
     </Grid>
 
     <StoreModal @reload="gridApi.reload" />
+    <BoxNodeModal />
   </Page>
 </template>

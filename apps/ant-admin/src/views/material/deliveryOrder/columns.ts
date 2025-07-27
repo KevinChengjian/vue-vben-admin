@@ -6,13 +6,13 @@ export const TableColumn: any = [
     title: '制包编号',
     field: 'make_bag_sn',
     align: 'center',
-    minWidth: 90,
+    minWidth: 120,
   },
   {
     title: '原料编号',
     field: 'material_sn',
     align: 'center',
-    minWidth: 120,
+    minWidth: 100,
   },
   {
     title: '原料名称',
@@ -40,7 +40,7 @@ export const TableColumn: any = [
     field: 'unit_id',
     align: 'center',
     cellRender: { name: 'dict', code: Dict.KeyEnum.UNIT },
-    minWidth: 105,
+    minWidth: 90,
   },
   {
     title: '单价(元)',

@@ -2,12 +2,12 @@ import { Dict } from '#/api';
 
 export const TableColumn: any = [
   { title: '序号', align: 'center', type: 'seq', minWidth: 60 },
-  {
-    title: '菌包编号',
-    field: 'mb_sn',
-    align: 'center',
-    minWidth: 160,
-  },
+  // {
+  //   title: '菌包编号',
+  //   field: 'mb_sn',
+  //   align: 'center',
+  //   minWidth: 160,
+  // },
   {
     title: '菌种编号',
     field: 'strain_sn',

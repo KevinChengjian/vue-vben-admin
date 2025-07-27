@@ -2,11 +2,9 @@
 import type { ListItem } from './type';
 
 import { Page, useVbenModal } from '@vben/common-ui';
-import { SvgMenuMjIcon } from '@vben/icons';
 
 import { Button, Space } from 'ant-design-vue';
 
-import { Dict } from '#/api';
 import { useDelete, useTable } from '#/hooks';
 import { format } from '#/utils/money';
 
@@ -20,29 +18,27 @@ const [Grid, gridApi] = useTable({
   searhcSchema: [
     {
       component: 'Input',
-      fieldName: 'make_bag_sn',
-      label: '制包编号',
+      fieldName: 'fruiting_sn',
+      label: '出菇编号',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入制包编号',
+        placeholder: '请输入出菇编号',
       },
     },
     {
-      component: 'DictSelect',
-      fieldName: 'ark_id',
-      label: '灭菌柜',
+      component: 'Input',
+      fieldName: 'name',
+      label: '采摘员',
       componentProps: {
         class: 'w-full',
-        showSearch: true,
         allowClear: true,
-        placeholder: '请选择灭菌柜',
-        code: Dict.KeyEnum.STERILIZER_CABINET,
+        placeholder: '请输入采摘员',
       },
     },
     {
       component: 'RangePicker',
-      fieldName: 'created_at',
-      label: '检测时间',
+      fieldName: 'pick_at',
+      label: '采摘日期',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,
@@ -84,7 +80,6 @@ const { destory } = useDelete<ListItem>({
           v-access:code="AuthCode.Create"
           @click="handleStore"
         >
-          <SvgMenuMjIcon />
           新增记录
         </Button>
       </template>

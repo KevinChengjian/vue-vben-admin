@@ -80,7 +80,11 @@ function handleGo(path: string) {
   router.push(path);
 }
 
+const date = ref<number>();
 onMounted(() => {
+  const t = new Date();
+  date.value = t.getFullYear();
+
   if (localUsername) {
     formApi.setFieldValue('username', localUsername);
   }
@@ -92,11 +96,11 @@ defineExpose({
 </script>
 
 <template>
-  <div @keydown.enter.prevent="handleSubmit">
+  <div @keydown.enter.prevent="handleSubmit" class="w-full">
     <slot name="title">
       <Title>
         <slot name="title">
-          {{ title || `${$t('authentication.welcomeBack')} 👋🏻` }}
+          {{ title || `${$t('authentication.welcomeBack')} ` }}
         </slot>
         <template #desc>
           <span class="text-muted-foreground">
@@ -108,7 +112,7 @@ defineExpose({
       </Title>
     </slot>
 
-    <Form />
+    <Form class="mt-[72px]" />
 
     <div
       v-if="showRememberMe || showForgetPassword"
@@ -138,11 +142,20 @@ defineExpose({
       }"
       :loading="loading"
       aria-label="login"
-      class="w-full"
+      class="w-full rounded-[8px]"
+      style="background: linear-gradient(to bottom, #5680f0, #1e6fe3)"
       @click="handleSubmit"
     >
       {{ submitButtonText || $t('common.login') }}
     </VbenButton>
+
+    <!-- 版权 -->
+    <div
+      style="width: calc(100% - 110px)"
+      class="text-muted-foreground absolute bottom-[25px] w-full text-center"
+    >
+      Copyright © {{ date }} 杭州临安农新生物科技有限公司
+    </div>
 
     <div
       v-if="showCodeLogin || showQrcodeLogin"

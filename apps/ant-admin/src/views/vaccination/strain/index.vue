@@ -19,15 +19,15 @@ const [Grid, gridApi] = useTable({
   colums: TableColumn,
   api: listApi,
   searhcSchema: [
-    {
-      component: 'Input',
-      fieldName: 'mb_sn',
-      label: '菌包编号',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入菌包编号',
-      },
-    },
+    // {
+    //   component: 'Input',
+    //   fieldName: 'mb_sn',
+    //   label: '菌包编号',
+    //   componentProps: {
+    //     allowClear: true,
+    //     placeholder: '请输入菌包编号',
+    //   },
+    // },
     {
       component: 'Input',
       fieldName: 'strain_sn',

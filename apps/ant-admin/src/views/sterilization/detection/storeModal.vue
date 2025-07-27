@@ -4,6 +4,8 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
+import { message } from 'ant-design-vue';
+
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
 
@@ -177,7 +179,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       componentProps: {
         addonAfter: 'm',
         class: 'w-full',
-        placeholder: '请输入前排高度',
+        placeholder: '请输入中间高度',
       },
     },
     {
@@ -187,7 +189,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       componentProps: {
         addonAfter: 'm',
         class: 'w-full',
-        placeholder: '请输入前排高度',
+        placeholder: '请输入后排高度',
       },
     },
     {
@@ -239,6 +241,7 @@ const [Modal, ModalApi] = useVbenModal({
       ModalApi.close();
       ModalApi.setData({});
       StoreFromApi.resetForm();
+      message.success('操作成功');
       emit('reload');
     } catch {}
   },

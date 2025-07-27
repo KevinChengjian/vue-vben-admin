@@ -1,140 +1,120 @@
 <script lang="ts" setup>
-import type { MaterialInItem } from './type';
+import { ref } from 'vue';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 
-import { Button, Space } from 'ant-design-vue';
+import { Button, Select } from 'ant-design-vue';
 
-import { Dict } from '#/api';
-import { useDelete, useTable } from '#/hooks';
-import { format } from '#/utils/money';
+import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import VcMbSnSelect from '#/components/serialNumber/vr-mb-sn-select.vue';
 
-import { AuthCode, deleteApi, listApi } from './api';
-import { TableColumn } from './columns';
-import UserStoreModal from './storeModal.vue';
+import { listApi } from './api';
+import { TableColumn, TableColumnItem } from './columns';
+import ChartModal from './storeModal.vue';
 
-const [Grid, gridApi] = useTable({
-  colums: TableColumn,
-  api: listApi,
-  searhcSchema: [
-    {
-      component: 'Input',
-      fieldName: 'material_sn',
-      label: '原料编号',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入原料编号',
-      },
+const dayStepList = ref<any>([
+  { label: '1天', value: 1 },
+  { label: '2天', value: 2 },
+  { label: '3天', value: 3 },
+  { label: '4天', value: 4 },
+  { label: '5天', value: 5 },
+  { label: '6天', value: 6 },
+  { label: '7天', value: 7 },
+  { label: '8天', value: 8 },
+  { label: '9天', value: 9 },
+  { label: '10天', value: 10 },
+]);
+const dayStep = ref<number>(3);
+const mbSnList = ref<string[]>([]);
+const tableData = ref<any>([]);
+const handleChange = () => {
+  getTableData();
+};
+
+const tableHeader = ref<any>([]);
+const builderHeader = (name: string, pefix: string) => {
+  const item = JSON.stringify(TableColumnItem);
+  const text = item.replaceAll(/%s/gi, name);
+  const result = text.replaceAll(/%c/gi, pefix);
+  return JSON.parse(result);
+};
+
+const getTableData = async () => {
+  const resp = await listApi({ sn: mbSnList.value, step: dayStep.value });
+  tableData.value = resp?.list || [];
+  let header: any = TableColumn || [];
+  resp.sn.forEach((item, key) => {
+    header = header?.concat(builderHeader(item, `C${key}`));
+  });
+  tableHeader.value = header;
+
+  if (resp?.sn && resp?.sn.length > 0) {
+    gridApi.grid.reloadColumn(header);
+    gridApi.grid.reloadData(tableData.value);
+  }
+};
+
+const [Grid, gridApi] = useVbenVxeGrid({
+  gridOptions: {
+    columns: tableHeader.value,
+    border: true,
+    editConfig: {
+      trigger: 'dblclick',
+      mode: 'row',
     },
-    {
-      component: 'DictSelect',
-      fieldName: 'material_id',
-      label: '原料名称',
-      componentProps: {
-        class: 'w-full',
-        showSearch: true,
-        allowClear: true,
-        placeholder: '请选择原料名称',
-        code: Dict.KeyEnum.MATERIAL,
-      },
+    pagerConfig: {
+      enabled: false,
     },
-    {
-      component: 'DictSelect',
-      fieldName: 'user_id',
-      label: '检测人员',
-      componentProps: {
-        class: 'w-full',
-        showSearch: true,
-        allowClear: true,
-        placeholder: '请选择检测人员',
-        code: Dict.KeyEnum.SYS_USER,
-      },
-    },
-    {
-      component: 'DictSelect',
-      fieldName: 'machine_id',
-      label: '检测机器',
-      componentProps: {
-        class: 'w-full',
-        showSearch: true,
-        allowClear: true,
-        placeholder: '请选择检测机器',
-        code: Dict.KeyEnum.MATERIAL_MACHINE,
-      },
-    },
-    {
-      component: 'RangePicker',
-      fieldName: 'detection_at',
-      label: '检测时间',
-      componentProps: {
-        valueFormat: 'YYYY-MM-DD',
-        allowClear: true,
-        placeholder: ['开始时间', '结束时间'],
-      },
-    },
-  ],
+    showOverflow: true,
+  },
 });
 
 // 添加|编辑
-const [StoreModal, storeModalApi] = useVbenModal({
-  connectedComponent: UserStoreModal,
+const [StoreModal] = useVbenModal({
+  connectedComponent: ChartModal,
 });
 
-const handleStore = (item: any = {}, edit: boolean = false) => {
-  storeModalApi
-    .setData({
-      isEdit: edit,
-      record: item,
-    })
-    .open();
+const handleShowChart = () => {
+  getTableData();
+  // storeModalApi.setData({}).open();
 };
-
-// 删除
-const { destory } = useDelete<MaterialInItem>({
-  api: deleteApi,
-  callback: () => {
-    gridApi.reload();
-  },
-});
 </script>
 
 <template>
   <Page class="h-full">
     <Grid>
-      <template #toolbar-actions>
-        <Button
-          type="primary"
-          v-access:code="AuthCode.Create"
-          @click="handleStore"
+      <template #table-title>
+        <div
+          class="flex w-full items-center justify-between pb-[15px] pt-[10px]"
         >
-          新增记录
-        </Button>
-      </template>
-
-      <template #price="{ row }">
-        {{ format(row.price) }}
-      </template>
-
-      <template #action="{ row }">
-        <Space :size="15">
-          <div
-            class="text-primary cursor-pointer"
-            v-access:code="AuthCode.Update"
-            @click="handleStore(row, true)"
+          <div class="w-[10px]"></div>
+          <div class="text-[22px]">养菌分析</div>
+          <div class="w-[10px]"></div>
+        </div>
+        <div class="flex w-full items-start">
+          <Select
+            v-model:value="dayStep"
+            :options="dayStepList"
+            class="mr-[10px] w-[80px] flex-shrink-0"
+            @change="handleChange"
+          />
+          <VcMbSnSelect
+            mode="multiple"
+            v-model:value="mbSnList"
+            placeholder="请选择对比批次"
+          />
+          <Button
+            type="primary"
+            class="ml-[10px] flex-shrink-0"
+            :disabled="!mbSnList || mbSnList.length === 0"
+            @click="handleShowChart"
           >
-            编辑
-          </div>
-          <div
-            class="text-destructive cursor-pointer"
-            v-access:code="AuthCode.Delete"
-            @click="destory({ id: row.id })"
-          >
-            删除
-          </div>
-        </Space>
+            分析
+          </Button>
+        </div>
       </template>
     </Grid>
 
-    <StoreModal @reload="gridApi.reload" />
+    <StoreModal />
   </Page>
 </template>

@@ -32,7 +32,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'warehouse_id',
-      label: '库房号',
+      label: '养菌房',
       dependencies: {
         triggerFields: ['id'],
         show: () => {
@@ -41,13 +41,14 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'VrMbSnSelect',
+      component: 'VcMbSnSelect',
       fieldName: 'mb_sn',
       label: '菌包编号',
       rules: 'required',
       componentProps: {
         placeholder: '请选择菌包编号',
-        onChange: async (_: any, opt: any) => {
+        onChange: async (e: any, opt: any) => {
+          handleQueryDeviceInfo(e);
           await StoreFromApi.setFieldValue('warehouse_id', opt.warehouse_id);
         },
       },
@@ -77,7 +78,6 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         code: Dict.KeyEnum.SYS_USER,
       },
     },
-
     {
       component: 'InputNumber',
       fieldName: 'set_temperature',
@@ -90,21 +90,12 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     },
     {
       component: 'InputNumber',
-      fieldName: 'set_cd',
-      label: '设定二氧化碳',
+      fieldName: 'set_wc',
+      label: '设定温差',
       componentProps: {
-        addonAfter: 'PPM',
+        addonAfter: '℃',
         class: 'w-full',
-        placeholder: '请输入设定二氧化碳',
-      },
-    },
-    {
-      component: 'InputNumber',
-      fieldName: 'set_humidity',
-      label: '设定湿度',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请输入设定湿度',
+        placeholder: '请输入设定温差',
       },
     },
     {
@@ -119,8 +110,28 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     },
     {
       component: 'InputNumber',
+      fieldName: 'set_min_cd',
+      label: 'CO₂下限',
+      componentProps: {
+        addonAfter: 'PPM',
+        class: 'w-full',
+        placeholder: '请输入设定二氧化碳',
+      },
+    },
+    {
+      component: 'InputNumber',
+      fieldName: 'set_max_cd',
+      label: 'CO₂上限',
+      componentProps: {
+        addonAfter: 'PPM',
+        class: 'w-full',
+        placeholder: '请输入设定二氧化碳',
+      },
+    },
+    {
+      component: 'InputNumber',
       fieldName: 'reality_cd',
-      label: '实际二氧化碳',
+      label: 'CO₂',
       componentProps: {
         addonAfter: 'PPM',
         class: 'w-full',
@@ -129,11 +140,20 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     },
     {
       component: 'InputNumber',
-      fieldName: 'reality_humidity',
-      label: '实际湿度',
+      fieldName: 'set_humidity',
+      label: '设定湿度',
       componentProps: {
         class: 'w-full',
-        placeholder: '请输入实际湿度',
+        placeholder: '请输入设定湿度',
+      },
+    },
+    {
+      component: 'InputNumber',
+      fieldName: 'reality_humidity',
+      label: '库内湿度',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入库内湿度',
       },
     },
 
@@ -141,6 +161,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       component: 'InputNumber',
       fieldName: 'max_t',
       label: '最高温度',
+      formItemClass: 'col-start-1',
       componentProps: {
         addonAfter: '℃',
         class: 'w-full',
@@ -238,9 +259,9 @@ const [Modal, ModalApi] = useVbenModal({
 
     // 默认值
     isUpdate.value = data.isEdit;
+    const deviceValue = {};
     if (!isUpdate.value && data.record && data.record.warehouse_id) {
-      const result = await deviceInfoApi({ sh_id: data.record.warehouse_id });
-      console.log(result);
+      handleQueryDeviceInfo(data.record.mb_sn);
     }
 
     await StoreFromApi.setValues({
@@ -250,6 +271,7 @@ const [Modal, ModalApi] = useVbenModal({
       min_t: weather?.min_t || undefined,
       humidity: weather?.humidity || undefined,
       weather: weather?.text || undefined,
+      ...deviceValue,
     });
 
     data.record && StoreFromApi.setValues({ ...data.record });
@@ -268,6 +290,11 @@ const [Modal, ModalApi] = useVbenModal({
     } catch {}
   },
 });
+
+const handleQueryDeviceInfo = async (sn: string) => {
+  const value = await deviceInfoApi({ sn });
+  await StoreFromApi.setValues(value);
+};
 </script>
 <template>
   <Modal
