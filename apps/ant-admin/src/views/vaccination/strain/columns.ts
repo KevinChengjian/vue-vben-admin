@@ -56,8 +56,8 @@ export const TableColumn: any = [
     minWidth: 145,
   },
   {
-    title: '记录时间',
-    field: 'created_at',
+    title: '培养时间',
+    field: 'cultivate_at',
     align: 'center',
     minWidth: 140,
   },

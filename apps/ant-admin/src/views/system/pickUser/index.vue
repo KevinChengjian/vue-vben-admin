@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ListItem } from './type';
+import type { FormulaItem } from './type';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 
@@ -7,11 +7,10 @@ import { Button, Space } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import { useDelete, useTable } from '#/hooks';
-import { format } from '#/utils/money';
 
 import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
-import MaterialStoreModal from './storeModal.vue';
+import FormulaStoreModal from './storeModal.vue';
 
 const [Grid, gridApi] = useTable({
   colums: TableColumn,
@@ -19,75 +18,40 @@ const [Grid, gridApi] = useTable({
   searhcSchema: [
     {
       component: 'Input',
-      fieldName: 'mb_sn',
-      label: '菌包编号',
+      fieldName: 'name',
+      label: '姓名',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入菌包编号',
-      },
-    },
-    {
-      component: 'RangePicker',
-      fieldName: 'vr_at',
-      label: '接种日期',
-      componentProps: {
-        valueFormat: 'YYYY-MM-DD',
-        allowClear: true,
-        placeholder: ['开始日期', '结束日期'],
-      },
-    },
-    {
-      component: 'FormulaSelect',
-      fieldName: 'formula_id',
-      label: '配方',
-      componentProps: {
-        class: 'w-full',
-        showSearch: true,
-        allowClear: true,
-        placeholder: '请选择配方',
+        placeholder: '请输入姓名',
       },
     },
     {
       component: 'DictSelect',
-      fieldName: 'variety_id',
-      label: '品种',
+      fieldName: 'creator_id',
+      label: '创建人员',
       componentProps: {
         class: 'w-full',
         showSearch: true,
         allowClear: true,
-        placeholder: '请选择品种',
-        code: Dict.KeyEnum.STRAIN_CATEGORY,
-      },
-    },
-    {
-      component: 'RangePicker',
-      fieldName: 'check_at',
-      label: '检测日期',
-      componentProps: {
-        valueFormat: 'YYYY-MM-DD',
-        allowClear: true,
-        placeholder: ['开始日期', '结束日期'],
+        placeholder: '请选择创建人员',
+        code: Dict.KeyEnum.SYS_USER,
       },
     },
   ],
 });
 
-// 添加|编辑
+// 添加&编辑
 const [StoreModal, storeModalApi] = useVbenModal({
-  connectedComponent: MaterialStoreModal,
+  draggable: true,
+  connectedComponent: FormulaStoreModal,
 });
 
 const handleStore = (item: any = {}, edit: boolean = false) => {
-  storeModalApi
-    .setData({
-      isEdit: edit,
-      record: item,
-    })
-    .open();
+  storeModalApi.setData({ isEdit: edit, record: item }).open();
 };
 
 // 删除
-const { destory } = useDelete<ListItem>({
+const { destory } = useDelete<FormulaItem>({
   api: deleteApi,
   callback: () => {
     gridApi.reload();
@@ -104,20 +68,16 @@ const { destory } = useDelete<ListItem>({
           v-access:code="AuthCode.Create"
           @click="handleStore"
         >
-          新增记录
+          新增人员
         </Button>
-      </template>
-
-      <template #price="{ row }">
-        {{ format(row.price) }}
       </template>
 
       <template #action="{ row }">
         <Space :size="15">
           <div
             class="text-primary cursor-pointer"
-            v-access:code="AuthCode.Update"
             @click="handleStore(row, true)"
+            v-access:code="AuthCode.Update"
           >
             编辑
           </div>

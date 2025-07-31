@@ -1,14 +1,17 @@
 <script lang="ts" setup>
+import type { CanItem } from '../substrateMixing/type';
+
 import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 
-import { message } from 'ant-design-vue';
+import { Col, Input, InputNumber, message, Row } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
 
-import { createApi, updateApi } from './api';
+import { canItemsApi, createApi, updateApi } from './api';
 
 const emit = defineEmits(['reload']);
 
@@ -44,11 +47,23 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       componentProps: {
         placeholder: '请选择制包编号',
         onChange: async (_: string, opt: any) => {
+          handleFormatCanItems(opt?.mb_id);
           await StoreFromApi.setValues({
             mb_id: opt?.mb_id,
             formula_id: opt?.formula_id,
           });
         },
+      },
+    },
+    {
+      component: 'DatePicker',
+      fieldName: 'bagging_at',
+      label: '装袋日期',
+      rules: 'required',
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        class: 'w-full',
+        placeholder: '请选择装袋日期',
       },
     },
     {
@@ -89,46 +104,6 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'InputNumber',
-      fieldName: 'weight',
-      label: '菌棒重量',
-      rules: 'required',
-      componentProps: {
-        addonAfter: 'kg',
-        class: 'w-full',
-        placeholder: '请输入菌棒重量',
-      },
-    },
-    {
-      component: 'InputNumber',
-      fieldName: 'depth',
-      label: '中孔深度',
-      componentProps: {
-        addonAfter: 'cm',
-        class: 'w-full',
-        placeholder: '请输入中孔深度',
-      },
-    },
-    {
-      component: 'InputNumber',
-      fieldName: 'height',
-      label: '菌棒高度',
-      componentProps: {
-        addonAfter: 'cm',
-        class: 'w-full',
-        placeholder: '请输入菌棒高度',
-      },
-    },
-    {
-      component: 'Input',
-      fieldName: 'dt',
-      label: '菌棒松紧度',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请输入菌棒松紧度',
-      },
-    },
-    {
       component: 'Textarea',
       fieldName: 'remark',
       label: '备注',
@@ -154,14 +129,21 @@ const [Modal, ModalApi] = useVbenModal({
 
     const data = ModalApi.getData();
     ModalApi.setData({});
+    await StoreFromApi.setValues({
+      bagging_at: dayjs().format('YYYY-MM-DD'),
+    });
 
     isUpdate.value = data.isEdit;
+    if (isUpdate.value) {
+      canNumItems.value = data?.record?.can_items || [];
+    }
     data.record && StoreFromApi.setValues({ ...data.record });
   },
   onConfirm: async () => {
     try {
       await StoreFromApi.validate();
       const values = await StoreFromApi.getValues();
+      values.can_items = canNumItems.value || [];
       await (values?.id ? updateApi(values) : createApi(values));
 
       ModalApi.close();
@@ -172,13 +154,71 @@ const [Modal, ModalApi] = useVbenModal({
     } catch {}
   },
 });
+
+const canNumItems = ref<CanItem[]>([]);
+const handleFormatCanItems = async (id: number) => {
+  const reuslt = await canItemsApi({ id });
+  canNumItems.value = reuslt || [];
+};
 </script>
 <template>
   <Modal
-    :title="`${isUpdate ? '编辑装袋记录' : '添加装袋记录'}`"
-    class="w-[960px]"
+    :title="`${isUpdate ? '编辑装袋' : '添加装袋'}`"
+    class="w-[1100px]"
     content-class="pt-[20px] pb-0"
   >
     <StoreForm />
+    <div class="ml-[34px] pb-[24px]">
+      <Row :gutter="15" class="mb-[15px]">
+        <Col class="text-center" :span="4">罐号</Col>
+        <Col class="text-center" :span="5">菌棒重量/kg</Col>
+        <Col class="text-center" :span="5">中孔深度/cm</Col>
+        <Col class="text-center" :span="5">菌棒高度/cm</Col>
+        <Col class="text-center" :span="5">菌包松紧度</Col>
+      </Row>
+      <Row
+        class="align-center mt-[10px] flex"
+        v-for="(item, i) in canNumItems"
+        :key="i"
+        :gutter="15"
+      >
+        <Col :span="4">
+          <InputNumber
+            class="w-full"
+            v-model:value="item.can_no"
+            placeholder="罐号"
+            :readonly="true"
+          />
+        </Col>
+        <Col :span="5">
+          <InputNumber
+            class="w-full"
+            v-model:value="item.weight"
+            placeholder="菌棒重量"
+          />
+        </Col>
+        <Col :span="5">
+          <InputNumber
+            class="w-full"
+            v-model:value="item.depth"
+            placeholder="中孔深度"
+          />
+        </Col>
+        <Col :span="5">
+          <InputNumber
+            class="w-full"
+            v-model:value="item.height"
+            placeholder="菌棒高度"
+          />
+        </Col>
+        <Col :span="5">
+          <Input
+            class="w-full"
+            v-model:value="item.dt"
+            placeholder="菌包松紧度"
+          />
+        </Col>
+      </Row>
+    </div>
   </Modal>
 </template>

@@ -14,6 +14,7 @@ export { default as SpMbSnSelect } from './serialNumber/sp-mb-sn-select.vue';
 export { default as StrainSnSelect } from './serialNumber/strain-sn-select.vue';
 export { default as VcMbSnSelect } from './serialNumber/vc-mb-sn-select.vue';
 export { default as VrMbSnSelect } from './serialNumber/vr-mb-sn-select.vue';
-
 export { default as CustomUpload } from './upload/custom-upload.vue';
+
 export { default as ImageUpload } from './upload/image-upload.vue';
+export { default as PickUserSelect } from './user/pick-user-select.vue';

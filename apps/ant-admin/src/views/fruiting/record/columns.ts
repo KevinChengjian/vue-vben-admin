@@ -9,12 +9,6 @@ export const TableColumn: any = [
     minWidth: 120,
   },
   {
-    title: '上架日期',
-    field: 'put_at',
-    align: 'center',
-    minWidth: 110,
-  },
-  {
     title: '出菇房',
     field: 'room_id',
     align: 'center',
@@ -27,6 +21,12 @@ export const TableColumn: any = [
     align: 'center',
     cellRender: { name: 'number' },
     minWidth: 120,
+  },
+  {
+    title: '上架日期',
+    field: 'put_at',
+    align: 'center',
+    minWidth: 110,
   },
   {
     title: '上架包数',

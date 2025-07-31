@@ -2,23 +2,20 @@
 import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
-import { useUserStore } from '@vben/stores';
 
 import { message } from 'ant-design-vue';
-import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 
 import { createApi, updateApi } from './api';
-import { StoreFormSchema } from './storeSchema';
+import { StoreSchema } from './storeSchema';
 
 const emit = defineEmits(['reload']);
 
-const userStore = useUserStore();
 const [StoreForm, StoreFromApi] = useVbenForm({
-  schema: StoreFormSchema,
+  schema: StoreSchema,
   showDefaultActions: false,
-  wrapperClass: 'grid-cols-3 mr-[25px]',
+  wrapperClass: 'grid-cols-1 mr-[25px]',
   commonConfig: {
     labelWidth: 90,
   },
@@ -34,13 +31,7 @@ const [Modal, ModalApi] = useVbenModal({
     const data = ModalApi.getData();
     ModalApi.setData({});
 
-    // 默认值
     isUpdate.value = data.isEdit;
-    await StoreFromApi.setValues({
-      check_at: dayjs().format('YYYY-MM-DD'),
-      user_id: userStore.userInfo?.userId,
-    });
-
     data.record && StoreFromApi.setValues({ ...data.record });
   },
   onConfirm: async () => {
@@ -60,8 +51,8 @@ const [Modal, ModalApi] = useVbenModal({
 </script>
 <template>
   <Modal
-    :title="`${isUpdate ? '编辑检测记录' : '添加检测记录'}`"
-    class="w-[960px]"
+    :title="`${isUpdate ? '编辑人员' : '添加人员'}`"
+    class="w-[580px]"
     content-class="pt-[20px] pb-0"
   >
     <StoreForm />

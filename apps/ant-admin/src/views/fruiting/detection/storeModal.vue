@@ -5,6 +5,7 @@ import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
 import { message } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 
@@ -36,6 +37,7 @@ const [Modal, ModalApi] = useVbenModal({
     // 默认值
     isUpdate.value = data.isEdit;
     await StoreFromApi.setValues({
+      check_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
     });
 

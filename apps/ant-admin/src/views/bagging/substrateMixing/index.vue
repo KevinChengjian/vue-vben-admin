@@ -10,6 +10,7 @@ import { format } from '#/utils/money';
 
 import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
+import detail from './detail.vue';
 import MaterialStoreModal from './storeModal.vue';
 
 const [Grid, gridApi] = useTable({
@@ -38,12 +39,12 @@ const [Grid, gridApi] = useTable({
     },
     {
       component: 'RangePicker',
-      fieldName: 'created_at',
-      label: '创建时间',
+      fieldName: 'make_at',
+      label: '制包日期',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,
-        placeholder: ['开始时间', '结束时间'],
+        placeholder: ['开始日期', '结束日期'],
       },
     },
   ],
@@ -70,6 +71,14 @@ const { destory } = useDelete<ListItem>({
     gridApi.reload();
   },
 });
+
+// 详情
+const [DetailModal, detailModalApi] = useVbenModal({
+  connectedComponent: detail,
+});
+const handleDetail = (row: any) => {
+  detailModalApi.setData(row).open();
+};
 </script>
 
 <template>
@@ -91,6 +100,9 @@ const { destory } = useDelete<ListItem>({
 
       <template #action="{ row }">
         <Space :size="15">
+          <div class="text-primary cursor-pointer" @click="handleDetail(row)">
+            详情
+          </div>
           <div
             class="text-primary cursor-pointer"
             v-access:code="AuthCode.Update"
@@ -110,5 +122,6 @@ const { destory } = useDelete<ListItem>({
     </Grid>
 
     <StoreModal @reload="gridApi.reload" />
+    <DetailModal />
   </Page>
 </template>

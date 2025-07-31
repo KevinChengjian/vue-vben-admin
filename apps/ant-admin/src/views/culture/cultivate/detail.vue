@@ -40,8 +40,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
         <DescriptionsItem label="配方名称">
           {{ item?.formula?.name }}
         </DescriptionsItem>
-        <DescriptionsItem label="拌料时间">
-          {{ item?.created_at }}
+        <DescriptionsItem label="制包日期">
+          {{ item?.make_at }}
         </DescriptionsItem>
       </template>
     </Descriptions>
@@ -55,17 +55,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
           />
         </DescriptionsItem>
         <DescriptionsItem label="装袋数量">{{ item?.num }}</DescriptionsItem>
-        <DescriptionsItem label="菌棒重量">
-          {{ item?.weight }}
-        </DescriptionsItem>
-        <DescriptionsItem label="中孔深度">
-          {{ item?.depth }}
-        </DescriptionsItem>
-        <DescriptionsItem label="菌棒高度">
-          {{ item?.height }}
-        </DescriptionsItem>
-        <DescriptionsItem label="菌棒高度">
-          {{ item?.dt }}
+        <DescriptionsItem label="装袋日期">
+          {{ item?.bagging_at }}
         </DescriptionsItem>
       </template>
     </Descriptions>
@@ -192,6 +183,9 @@ const [Drawer, drawerApi] = useVbenDrawer({
       <DescriptionsItem label="库房位置">
         {{ detail?.detail?.location }}
       </DescriptionsItem>
+      <DescriptionsItem label="入库日期">
+        {{ detail?.detail?.put_at }}
+      </DescriptionsItem>
       <DescriptionsItem label="入库数量">
         {{ detail?.detail?.put_num }}
       </DescriptionsItem>
@@ -213,7 +207,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
       <DescriptionsItem label="消毒">
         {{ detail?.detail?.sterilize }}
       </DescriptionsItem>
-      <DescriptionsItem label="出库时间">
+      <DescriptionsItem label="出库日期">
         {{ detail?.detail?.out_at }}
       </DescriptionsItem>
       <DescriptionsItem label="出库量">

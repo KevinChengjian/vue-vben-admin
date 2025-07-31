@@ -102,8 +102,8 @@ export const TableColumn: any = [
     minWidth: 150,
   },
   {
-    title: '检测时间',
-    field: 'created_at',
+    title: '检测日期',
+    field: 'check_at',
     align: 'center',
     minWidth: 90,
   },

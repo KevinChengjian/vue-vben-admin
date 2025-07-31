@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
 
-import { updateApi } from './api';
+import { createApi, updateApi } from './api';
 
 const emit = defineEmits(['reload']);
 
@@ -25,12 +25,12 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'Input',
+      component: 'DatePicker',
       fieldName: 'plan_at',
       label: '计划日期',
       rules: 'required',
       componentProps: {
-        readonly: true,
+        valueFormat: 'YYYY-MM-DD',
         class: 'w-full',
         placeholder: '请输入计划日期',
       },
@@ -84,6 +84,44 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     },
     {
       component: 'InputNumber',
+      fieldName: 'reality_num',
+      label: '生产数量',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入生产数量',
+      },
+    },
+    {
+      component: 'FormulaSelect',
+      fieldName: 'reality_fid',
+      label: '生产配方',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请选择生产配方',
+      },
+    },
+    {
+      component: 'DictSelect',
+      fieldName: 'variety_id',
+      label: '生产接种',
+      componentProps: {
+        class: 'w-full',
+        code: Dict.KeyEnum.STRAIN_CATEGORY,
+        placeholder: '请选择生产接种',
+      },
+    },
+    {
+      component: 'DatePicker',
+      fieldName: 'reality_at',
+      label: '接种日期',
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        class: 'w-full',
+        placeholder: '请输入接种日期',
+      },
+    },
+    {
+      component: 'InputNumber',
       fieldName: 'put_num',
       label: '入库数量',
       componentProps: {
@@ -92,17 +130,26 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'InputNumber',
+      fieldName: 'vaccination_num',
+      label: '接种数量',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入接种数量',
+      },
+    },
+    {
       component: 'Textarea',
       fieldName: 'remark',
       label: '备注',
-      formItemClass: 'col-span-2',
+      formItemClass: 'col-span-3',
       componentProps: {
         placeholder: '请输入备注',
       },
     },
   ],
   showDefaultActions: false,
-  wrapperClass: 'grid-cols-2 mr-[25px]',
+  wrapperClass: 'grid-cols-3 mr-[25px]',
   commonConfig: {
     labelWidth: 90,
   },
@@ -119,16 +166,20 @@ const [Modal, ModalApi] = useVbenModal({
 
     // 默认值
     await StoreFromApi.setValues({
-      plan_at: dayjs().format('YYYY-MM-DD HH:mm'),
+      plan_at: dayjs().format('YYYY-MM-DD'),
     });
 
-    StoreFromApi.setValues({ ...data.record, id: data.record?.plan_id });
+    StoreFromApi.setValues({
+      ...data.record,
+      reality_fid: data?.record?.reality_fid || undefined,
+      variety_id: data?.record?.variety_id || undefined,
+    });
   },
   onConfirm: async () => {
     try {
       await StoreFromApi.validate();
       const values = await StoreFromApi.getValues();
-      await updateApi(values);
+      await (values?.id ? updateApi(values) : createApi(values));
 
       ModalApi.close();
       ModalApi.setData({});

@@ -75,13 +75,13 @@ export const TableColumn: any = [
     align: 'center',
     minWidth: 90,
   },
-  {
-    title: '创建时间',
-    field: 'created_at',
-    align: 'center',
-    minWidth: 90,
-    sortable: true,
-  },
+  // {
+  //   title: '创建时间',
+  //   field: 'created_at',
+  //   align: 'center',
+  //   minWidth: 90,
+  //   sortable: true,
+  // },
   {
     title: '操作',
     field: 'action',

@@ -156,6 +156,17 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'DatePicker',
+      fieldName: 'pay_at',
+      label: '购买日期',
+      rules: 'required',
+      componentProps: {
+        class: 'w-full',
+        valueFormat: 'YYYY-MM-DD',
+        placeholder: '请填写购买日期',
+      },
+    },
+    {
       component: 'Textarea',
       fieldName: 'remark',
       label: '备注',

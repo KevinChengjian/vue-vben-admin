@@ -50,6 +50,7 @@ import {
   MakeBagSnSelect,
   MaterialSnInput,
   MaterialSnSelect,
+  PickUserSelect,
   SpMbSnSelect,
   StrainSnSelect,
   VcMbSnSelect,
@@ -92,6 +93,7 @@ export type ComponentType =
   | 'MaterialSnInput'
   | 'MaterialSnSelect'
   | 'Mentions'
+  | 'PickUserSelect'
   | 'PrimaryButton'
   | 'Radio'
   | 'RadioGroup'
@@ -197,6 +199,7 @@ async function initComponentAdapter() {
     FruitingSnSelect,
     SpMbSnSelect,
     VcMbSnSelect,
+    PickUserSelect,
   };
 
   // 将组件注册到全局共享状态中

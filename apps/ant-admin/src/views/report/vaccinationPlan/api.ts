@@ -8,6 +8,7 @@ import { requestClient } from '#/api/request';
 export enum AuthCode {
   Create = 'admin.vaccination-plan.create',
   Delete = 'admin.vaccination-plan.delete',
+  Plan = 'admin.vaccination-plan.plan',
   Update = 'admin.vaccination-plan.update',
 }
 
@@ -18,6 +19,15 @@ export enum AuthCode {
  */
 export async function listApi(params: any = {}) {
   return requestClient.post<ListItem[]>('/admin/vaccination-plan/list', params);
+}
+
+/**
+ * 批量添加计划
+ * @param params
+ * @returns any
+ */
+export async function planApi(params: any) {
+  return requestClient.post<any>('/admin/vaccination-plan/plan', params);
 }
 
 /**

@@ -39,12 +39,6 @@ export const TableColumn: any = [
     minWidth: 150,
   },
   {
-    title: '创建时间',
-    field: 'created_at',
-    align: 'center',
-    minWidth: 90,
-  },
-  {
     title: '操作',
     field: 'action',
     align: 'center',

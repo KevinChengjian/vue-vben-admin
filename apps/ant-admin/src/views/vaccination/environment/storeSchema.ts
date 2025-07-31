@@ -104,6 +104,17 @@ export const StoreFormSchema: VbenFormSchema[] = [
     },
   },
   {
+    component: 'DatePicker',
+    fieldName: 'check_at',
+    label: '检测日期',
+    rules: 'required',
+    componentProps: {
+      valueFormat: 'YYYY-MM-DD',
+      class: 'w-full',
+      placeholder: '请选择检测日期',
+    },
+  },
+  {
     component: 'Textarea',
     fieldName: 'remark',
     label: '备注',

@@ -14,3 +14,14 @@ export interface ListItem {
 }
 
 export type ListResult = BasicFetchResult<ListItem[]>;
+
+export interface CanItem {
+  mbr_id?: number;
+  can_no: number | string;
+  moisture: number | string;
+  ph: number | string;
+  weight?: number | string;
+  depth?: number | string;
+  height?: number | string;
+  dt?: string | string;
+}

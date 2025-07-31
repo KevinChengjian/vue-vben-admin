@@ -37,10 +37,20 @@ export const StoreFormSchema: VbenFormSchema[] = [
     },
   },
   {
+    component: 'DatePicker',
+    fieldName: 'check_at',
+    label: '检测日期',
+    rules: 'required',
+    componentProps: {
+      class: 'w-full',
+      valueFormat: 'YYYY-MM-DD',
+      placeholder: '请选择检测日期',
+    },
+  },
+  {
     component: 'InputNumber',
     fieldName: 'upper_moisture',
     label: '上层水份',
-    formItemClass: 'col-span-1 col-start-1',
     componentProps: {
       addonAfter: '%',
       class: 'w-full',

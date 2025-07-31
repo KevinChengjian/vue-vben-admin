@@ -5,6 +5,7 @@ import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
 import { message } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
@@ -193,6 +194,17 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'DatePicker',
+      fieldName: 'check_at',
+      label: '检测日期',
+      rules: 'required',
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        class: 'w-full',
+        placeholder: '请选择检测日期',
+      },
+    },
+    {
       component: 'Textarea',
       fieldName: 'remark',
       label: '备注',
@@ -222,6 +234,7 @@ const [Modal, ModalApi] = useVbenModal({
     // 默认值
     isUpdate.value = data.isEdit;
     await StoreFromApi.setValues({
+      check_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
     });
 

@@ -94,16 +94,16 @@ const [Grid, gridApi] = useTable({
         code: Dict.KeyEnum.SYS_USER,
       },
     },
-    {
-      component: 'RangePicker',
-      fieldName: 'created_at',
-      label: '记录时间',
-      componentProps: {
-        valueFormat: 'YYYY-MM-DD',
-        allowClear: true,
-        placeholder: ['开始时间', '结束时间'],
-      },
-    },
+    // {
+    //   component: 'RangePicker',
+    //   fieldName: 'created_at',
+    //   label: '记录时间',
+    //   componentProps: {
+    //     valueFormat: 'YYYY-MM-DD',
+    //     allowClear: true,
+    //     placeholder: ['开始时间', '结束时间'],
+    //   },
+    // },
   ],
 });
 

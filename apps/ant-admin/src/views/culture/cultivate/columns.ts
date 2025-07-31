@@ -74,8 +74,8 @@ export const TableColumn: any = [
     minWidth: 120,
   },
   {
-    title: '出库时间',
-    field: 'out_at',
+    title: '入库日期',
+    field: 'put_at',
     align: 'center',
     minWidth: 120,
   },
@@ -85,6 +85,12 @@ export const TableColumn: any = [
     align: 'center',
     minWidth: 120,
     cellRender: { name: 'number' },
+  },
+  {
+    title: '出库日期',
+    field: 'out_at',
+    align: 'center',
+    minWidth: 120,
   },
   {
     title: '出库量',
@@ -105,12 +111,12 @@ export const TableColumn: any = [
     align: 'center',
     minWidth: 150,
   },
-  {
-    title: '创建时间',
-    field: 'created_at',
-    align: 'center',
-    minWidth: 120,
-  },
+  // {
+  //   title: '创建时间',
+  //   field: 'created_at',
+  //   align: 'center',
+  //   minWidth: 120,
+  // },
   {
     title: '操作',
     field: 'action',

@@ -5,6 +5,7 @@ import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
 import { message } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
@@ -99,6 +100,18 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'DatePicker',
+      fieldName: 'put_at',
+      label: '入库日期',
+      rules: 'required',
+      labelWidth: 100,
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        class: 'w-full',
+        placeholder: '请选择入库日期',
+      },
+    },
+    {
       component: 'InputNumber',
       fieldName: 'put_num',
       label: '入库数量',
@@ -158,6 +171,7 @@ const [Modal, ModalApi] = useVbenModal({
     // 默认值
     isUpdate.value = data.isEdit;
     await StoreFromApi.setValues({
+      put_at: dayjs().format('YYYY-MM-DD'),
       source: 1,
       user_id: userStore.userInfo?.userId,
     });

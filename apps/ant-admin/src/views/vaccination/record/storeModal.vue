@@ -15,7 +15,7 @@ const emit = defineEmits(['reload']);
 
 const makeSn = ref<string>('');
 const variety = ref<string>('');
-const warehouseId = ref<string>('');
+const warehouse = ref<string>('');
 
 const [StoreForm, StoreFromApi] = useVbenForm({
   schema: [
@@ -44,8 +44,8 @@ const [StoreForm, StoreFromApi] = useVbenForm({
             num: opt?.num || undefined,
           };
 
-          if (makeSn.value && variety.value && warehouseId.value) {
-            params.mb_sn = `NX-${makeSn.value}-${variety.value}-${warehouseId.value}`;
+          if (makeSn.value && variety.value && warehouse.value) {
+            params.mb_sn = `NX-${makeSn.value}-${variety.value}-${warehouse.value}`;
           }
 
           await StoreFromApi.setValues(params);
@@ -66,8 +66,8 @@ const [StoreForm, StoreFromApi] = useVbenForm({
             variety_id: opt.identify_variety_id || opt.variety_id,
           };
 
-          if (makeSn.value && variety.value && warehouseId.value) {
-            params.mb_sn = `NX-${makeSn.value}-${variety.value}-${warehouseId.value}`;
+          if (makeSn.value && variety.value && warehouse.value) {
+            params.mb_sn = `NX-${makeSn.value}-${variety.value}-${warehouse.value}`;
           }
 
           await StoreFromApi.setValues(params);
@@ -84,11 +84,11 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         showSearch: true,
         placeholder: '请选择养菌房',
         code: Dict.KeyEnum.STRAIN_HOUSE,
-        onChange: async (e: string) => {
-          warehouseId.value = e;
-          if (makeSn.value && variety.value && warehouseId.value) {
+        onChange: async (_: string, opt: any) => {
+          warehouse.value = opt.label;
+          if (makeSn.value && variety.value && warehouse.value) {
             await StoreFromApi.setValues({
-              mb_sn: `NX-${makeSn.value}-${variety.value}-${warehouseId.value}`,
+              mb_sn: `NX-${makeSn.value}-${variety.value}-${warehouse.value}`,
             });
           }
         },
@@ -106,23 +106,13 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'DatePicker',
       fieldName: 'vaccination_at',
-      label: '接种时间',
+      label: '接种日期',
       rules: 'required',
       componentProps: {
         class: 'w-full',
         format: 'YYYY-MM-DD',
         valueFormat: 'YYYY-MM-DD',
-        placeholder: '请选择接种时间',
-      },
-    },
-    {
-      component: 'InputNumber',
-      fieldName: 'num',
-      label: '接种数量',
-      rules: 'required',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请填写接种数量',
+        placeholder: '请选择接种日期',
       },
     },
     {
@@ -140,13 +130,12 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     },
     {
       component: 'InputNumber',
-      fieldName: 'strain_num',
-      label: '菌种量',
+      fieldName: 'num',
+      label: '接种数量',
       rules: 'required',
       componentProps: {
-        addonAfter: 'ml',
         class: 'w-full',
-        placeholder: '请填写菌种量',
+        placeholder: '请填写接种数量',
       },
     },
     {
@@ -159,7 +148,18 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'InputNumber',
+      component: 'Input',
+      fieldName: 'strain_num',
+      label: '菌种量',
+      rules: 'required',
+      componentProps: {
+        addonAfter: 'ml',
+        class: 'w-full',
+        placeholder: '请填写菌种量',
+      },
+    },
+    {
+      component: 'Input',
       fieldName: 'room_temperature',
       label: '接种室温度',
       componentProps: {
@@ -169,7 +169,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'InputNumber',
+      component: 'Input',
       fieldName: 'ph',
       label: '菌包PH',
       componentProps: {
@@ -178,7 +178,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'InputNumber',
+      component: 'Input',
       fieldName: 'mb_temperature',
       label: '菌包温度',
       componentProps: {
@@ -218,7 +218,7 @@ const [Modal, ModalApi] = useVbenModal({
     isUpdate.value = data.isEdit;
     makeSn.value = isUpdate.value ? data.record?.make_bag_sn : '';
     variety.value = isUpdate.value ? data.record?.variety : '';
-    warehouseId.value = isUpdate.value ? data.record?.warehouse_id : '';
+    warehouse.value = isUpdate.value ? data.record?.warehouse : '';
 
     await StoreFromApi.setValues({
       vaccination_at: dayjs().format('YYYY-MM-DD HH:mm'),

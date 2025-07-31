@@ -27,7 +27,7 @@ export const TableColumnItem: any = [
               },
               {
                 field: '%c-set_cd',
-                title: 'CO2',
+                title: 'CO₂',
                 align: 'center',
                 minWidth: 90,
                 cellRender: { name: 'number' },
@@ -56,7 +56,7 @@ export const TableColumnItem: any = [
               },
               {
                 field: '%c-reality_cd',
-                title: 'CO2',
+                title: 'CO₂',
                 align: 'center',
                 minWidth: 90,
               },

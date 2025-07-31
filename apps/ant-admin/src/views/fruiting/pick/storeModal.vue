@@ -36,11 +36,25 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'name',
+      label: '采摘员姓名',
+      dependencies: {
+        triggerFields: ['id'],
+        show: () => {
+          return false;
+        },
+      },
+    },
+    {
+      component: 'PickUserSelect',
+      fieldName: 'user_id',
       label: '采摘员',
       rules: 'required',
       componentProps: {
         class: 'w-full',
         placeholder: '请输入采摘员',
+        onChange: (_: any, opt: any) => {
+          StoreFromApi.setValues({ name: opt.label });
+        },
       },
     },
     {

@@ -63,8 +63,8 @@ export const TableColumn: any = [
     minWidth: 150,
   },
   {
-    title: '购买时间',
-    field: 'created_at',
+    title: '购买日期',
+    field: 'pay_at',
     align: 'center',
     minWidth: 150,
   },

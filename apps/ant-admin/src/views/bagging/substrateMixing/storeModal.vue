@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import type { CanItem } from './type';
+
 import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
-import { message } from 'ant-design-vue';
+import { Col, InputNumber, message, Row } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
@@ -15,6 +17,8 @@ import { createApi, updateApi } from './api';
 const emit = defineEmits(['reload']);
 
 const userStore = useUserStore();
+const date = ref<string>('');
+const formula = ref<string>('');
 const [StoreForm, StoreFromApi] = useVbenForm({
   schema: [
     {
@@ -29,6 +33,25 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'DatePicker',
+      fieldName: 'make_at',
+      label: '制包日期',
+      rules: 'required',
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        class: 'w-full',
+        placeholder: '请选择制包日期',
+        onChange: async (e: any) => {
+          date.value = dayjs(e).format('YYYYMMDD');
+          if (date.value && formula.value) {
+            StoreFromApi.setValues({
+              make_bag_sn: `${date.value}-${formula.value}`,
+            });
+          }
+        },
+      },
+    },
+    {
       component: 'FormulaSelect',
       fieldName: 'formula_id',
       label: '制包配方',
@@ -38,9 +61,12 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         showSearch: true,
         placeholder: '请选择制包配方',
         onChange: (_: any, opt: any) => {
-          StoreFromApi.setValues({
-            make_bag_sn: `${dayjs().format('YYYYMMDD')}-${opt.label}`,
-          });
+          formula.value = opt.label;
+          if (date.value && formula.value) {
+            StoreFromApi.setValues({
+              make_bag_sn: `${date.value}-${formula.value}`,
+            });
+          }
         },
       },
     },
@@ -66,70 +92,24 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     },
     {
       component: 'InputNumber',
-      fieldName: 'upper_moisture',
-      label: '上层水份',
+      fieldName: 'can_num',
+      label: '拌料罐数',
       rules: 'required',
       componentProps: {
         class: 'w-full',
-        placeholder: '请输入上层水份',
-      },
-    },
-    {
-      component: 'InputNumber',
-      fieldName: 'middle_moisture',
-      label: '中层水份',
-      rules: 'required',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请输入中层水份',
-      },
-    },
-    {
-      component: 'InputNumber',
-      fieldName: 'lower_moisture',
-      label: '下层水份',
-      rules: 'required',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请输入下层水份',
-      },
-    },
-    {
-      component: 'InputNumber',
-      fieldName: 'upper_ph',
-      label: '上层PH值',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请输入上层PH值',
-      },
-    },
-
-    {
-      component: 'InputNumber',
-      fieldName: 'middle_ph',
-      label: '中层PH值',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请输入中层PH值',
-      },
-    },
-
-    {
-      component: 'InputNumber',
-      fieldName: 'lower_ph',
-      label: '下层PH值',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请输入下层PH值',
+        placeholder: '请输入拌料罐数',
+        onChange: (e: number) => {
+          handleCanNum(e);
+        },
       },
     },
     {
       component: 'Textarea',
       fieldName: 'remark',
-      label: '备注',
+      label: '拌料备注',
       formItemClass: 'col-span-3',
       componentProps: {
-        placeholder: '请输入备注',
+        placeholder: '请输入拌料备注',
       },
     },
   ],
@@ -152,21 +132,26 @@ const [Modal, ModalApi] = useVbenModal({
 
     // 默认值
     isUpdate.value = data.isEdit;
+    canNumItems.value = [];
+    if (isUpdate.value) {
+      date.value = dayjs(data?.record?.make_at).format('YYYYMMDD');
+      canNumItems.value = data?.record?.can_items || [];
+      formula.value = data?.record?.formula_name;
+    }
+
+    date.value = dayjs().format('YYYYMMDD');
     await StoreFromApi.setValues({
       user_id: userStore.userInfo?.userId,
+      make_at: dayjs().format('YYYY-MM-DD'),
     });
 
     data.record && StoreFromApi.setValues({ ...data.record });
-    isUpdate.value &&
-      StoreFromApi.setValues({
-        ...data.record,
-        status: `${data.record.status}`,
-      });
   },
   onConfirm: async () => {
     try {
       await StoreFromApi.validate();
       const values = await StoreFromApi.getValues();
+      values.items = canNumItems.value;
       await (values?.id ? updateApi(values) : createApi(values));
 
       ModalApi.close();
@@ -177,6 +162,26 @@ const [Modal, ModalApi] = useVbenModal({
     } catch {}
   },
 });
+
+const canNumItems = ref<CanItem[]>([]);
+const handleCanNum = (num: number) => {
+  const arr: CanItem[] = [];
+  for (let i = 1; i <= num; i++) {
+    const ix = canNumItems.value.findIndex((c) => c.can_no === i);
+    if (ix === -1) {
+      arr.push({ mbr_id: 0, can_no: i, moisture: '', ph: '' });
+    } else {
+      const item: any = canNumItems.value[ix];
+      arr.push({
+        mbr_id: item?.mbr_id,
+        can_no: item?.can_no,
+        moisture: item?.moisture,
+        ph: item?.ph,
+      });
+    }
+  }
+  canNumItems.value = arr;
+};
 </script>
 <template>
   <Modal
@@ -185,5 +190,40 @@ const [Modal, ModalApi] = useVbenModal({
     content-class="pt-[20px] pb-0"
   >
     <StoreForm />
+    <div class="ml-[34px] pb-[24px]">
+      <Row :gutter="15" class="mb-[15px]">
+        <Col class="text-center" :span="8">罐号</Col>
+        <Col class="text-center" :span="8">水份</Col>
+        <Col class="text-center" :span="8">PH值</Col>
+      </Row>
+      <Row
+        class="align-center mt-[10px] flex"
+        v-for="(item, i) in canNumItems"
+        :key="i"
+        :gutter="15"
+      >
+        <Col :span="8">
+          <InputNumber
+            class="w-full"
+            v-model:value="item.can_no"
+            placeholder="罐号"
+          />
+        </Col>
+        <Col :span="8">
+          <InputNumber
+            class="w-full"
+            v-model:value="item.moisture"
+            placeholder="水份"
+          />
+        </Col>
+        <Col :span="8">
+          <InputNumber
+            class="w-full"
+            v-model:value="item.ph"
+            placeholder="PH值"
+          />
+        </Col>
+      </Row>
+    </div>
   </Modal>
 </template>

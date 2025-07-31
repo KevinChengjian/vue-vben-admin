@@ -3,9 +3,11 @@ import { ref } from 'vue';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 
-import { Button, Select } from 'ant-design-vue';
+import { Button, message, Select } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { Dict } from '#/api';
+import DictSelect from '#/components/dict/dict-select.vue';
 import VcMbSnSelect from '#/components/serialNumber/vr-mb-sn-select.vue';
 
 import { listApi } from './api';
@@ -27,6 +29,7 @@ const dayStepList = ref<any>([
 const dayStep = ref<number>(3);
 const mbSnList = ref<string[]>([]);
 const tableData = ref<any>([]);
+const house = ref<string[]>([]);
 const handleChange = () => {
   getTableData();
 };
@@ -40,8 +43,15 @@ const builderHeader = (name: string, pefix: string) => {
 };
 
 const getTableData = async () => {
-  const resp = await listApi({ sn: mbSnList.value, step: dayStep.value });
+  const resp = await listApi({
+    house: house.value,
+    sn: mbSnList.value,
+    step: dayStep.value,
+  });
   tableData.value = resp?.list || [];
+  if (!resp?.sn && resp?.sn.length === 0) {
+    message.error('无对比批次');
+  }
   let header: any = TableColumn || [];
   resp.sn.forEach((item, key) => {
     header = header?.concat(builderHeader(item, `C${key}`));
@@ -98,6 +108,13 @@ const handleShowChart = () => {
             class="mr-[10px] w-[80px] flex-shrink-0"
             @change="handleChange"
           />
+          <DictSelect
+            :code="Dict.KeyEnum.STRAIN_HOUSE"
+            mode="multiple"
+            class="mr-[10px] w-[200px] flex-shrink-0"
+            v-model:value="house"
+            placeholder="请选择对比菌房"
+          />
           <VcMbSnSelect
             mode="multiple"
             v-model:value="mbSnList"
@@ -106,7 +123,6 @@ const handleShowChart = () => {
           <Button
             type="primary"
             class="ml-[10px] flex-shrink-0"
-            :disabled="!mbSnList || mbSnList.length === 0"
             @click="handleShowChart"
           >
             分析

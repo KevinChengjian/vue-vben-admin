@@ -69,6 +69,16 @@ const [Grid, gridApi] = useTable({
         code: Dict.KeyEnum.STRAIN_CATEGORY,
       },
     },
+    {
+      component: 'RangePicker',
+      fieldName: 'pay_at',
+      label: '购买日期',
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        allowClear: true,
+        placeholder: ['开始日期', '结束日期'],
+      },
+    },
   ],
 });
 

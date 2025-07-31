@@ -50,16 +50,6 @@ const [Grid, gridApi] = useTable({
       },
     },
     {
-      component: 'RangePicker',
-      fieldName: 'cultivate_at',
-      label: '培养日期',
-      componentProps: {
-        valueFormat: 'YYYY-MM-DD',
-        allowClear: true,
-        placeholder: ['开始日期', '结束日期'],
-      },
-    },
-    {
       component: 'DictSelect',
       fieldName: 'variety_id',
       label: '品种',
@@ -73,12 +63,12 @@ const [Grid, gridApi] = useTable({
     },
     {
       component: 'RangePicker',
-      fieldName: 'created_at',
-      label: '记录时间',
+      fieldName: 'cultivate_at',
+      label: '培养日期',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,
-        placeholder: ['开始时间', '结束时间'],
+        placeholder: ['开始日期', '结束日期'],
       },
     },
   ],

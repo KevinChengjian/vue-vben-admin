@@ -83,9 +83,8 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       label: '检测时间',
       rules: 'required',
       componentProps: {
-        showTime: { format: 'HH:mm' },
-        format: 'YYYY-MM-DD HH:mm',
-        valueFormat: 'YYYY-MM-DD HH:mm',
+        format: 'YYYY-MM-DD',
+        valueFormat: 'YYYY-MM-DD',
         class: 'w-full',
         placeholder: '请输入检测时间',
       },
@@ -170,7 +169,7 @@ const [Modal, ModalApi] = useVbenModal({
 
     // 默认值
     await StoreFromApi.setValues({
-      detection_at: dayjs().format('YYYY-MM-DD HH:mm'),
+      detection_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
     });
 

@@ -5,6 +5,7 @@ import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
 import { message } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
 import { Dict } from '#/api';
@@ -43,6 +44,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'make_bag_sn',
       label: '制包编号',
       rules: 'required',
+      labelWidth: 100,
       componentProps: {
         placeholder: '请选择制包编号',
         onChange: async (_: string, opt: any) => {
@@ -68,8 +70,8 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       component: 'Input',
       fieldName: 'set_sterilization_time',
       label: '灭菌时间',
+      labelWidth: 100,
       componentProps: {
-        addonAfter: 'h',
         class: 'w-full',
         placeholder: '请输入灭菌时间',
       },
@@ -79,7 +81,6 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'sterilization_time',
       label: '实际灭菌时间',
       componentProps: {
-        addonAfter: 'h',
         class: 'w-full',
         placeholder: '请输入实际灭菌时间',
       },
@@ -88,6 +89,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       component: 'InputNumber',
       fieldName: 'temperature',
       label: '灭菌温度',
+      labelWidth: 100,
       componentProps: {
         addonAfter: '℃',
         class: 'w-full',
@@ -107,6 +109,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       component: 'Input',
       fieldName: 'tp',
       label: '温度压力',
+      labelWidth: 100,
       componentProps: {
         addonAfter: 'MPa',
         class: 'w-full',
@@ -118,6 +121,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'user_id',
       label: '检测人员',
       rules: 'required',
+
       componentProps: {
         class: 'w-full',
         placeholder: '请选择检测人员',
@@ -125,9 +129,22 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'DatePicker',
+      fieldName: 'check_at',
+      label: '灭菌日期',
+      rules: 'required',
+      labelWidth: 100,
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        class: 'w-full',
+        placeholder: '请选择灭菌日期',
+      },
+    },
+    {
       component: 'Textarea',
       fieldName: 'remark',
       label: '备注',
+      labelWidth: 100,
       formItemClass: 'col-span-2',
       componentProps: {
         placeholder: '请输入备注',
@@ -137,7 +154,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
   showDefaultActions: false,
   wrapperClass: 'grid-cols-2 mr-[25px]',
   commonConfig: {
-    labelWidth: 130,
+    labelWidth: 120,
   },
 });
 
@@ -154,6 +171,7 @@ const [Modal, ModalApi] = useVbenModal({
     // 默认值
     isUpdate.value = data.isEdit;
     await StoreFromApi.setValues({
+      check_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
     });
 

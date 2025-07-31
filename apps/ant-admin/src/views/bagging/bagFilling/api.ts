@@ -55,3 +55,12 @@ export async function deleteApi(params: any) {
 export async function detailApi(params: any) {
   return requestClient.post<any>('/admin/bag-filling/detail', params);
 }
+
+/**
+ * 详情
+ * @param params
+ * @returns any
+ */
+export async function canItemsApi(params: any) {
+  return requestClient.post<any>('/admin/substrate-mixing/can-items', params);
+}

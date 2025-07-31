@@ -19,7 +19,7 @@ import { Dict } from '#/api';
 import { DictSelect } from '#/components';
 import FormulaSelect from '#/components/formula/formula-select.vue';
 
-import { createApi } from './api';
+import { planApi } from './api';
 
 const emit = defineEmits(['reload']);
 
@@ -37,7 +37,7 @@ const [Modal, ModalApi] = useVbenModal({
   },
   onConfirm: async () => {
     try {
-      await createApi({ plan: planItems.value });
+      await planApi({ plan: planItems.value });
 
       ModalApi.close();
       ModalApi.setData({});

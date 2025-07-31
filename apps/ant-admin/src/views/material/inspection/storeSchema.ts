@@ -52,9 +52,8 @@ export const FormStoreSchema: VbenFormSchema[] = [
     label: '检测时间',
     rules: 'required',
     componentProps: {
-      showTime: { format: 'HH:mm' },
-      format: 'YYYY-MM-DD HH:mm',
-      valueFormat: 'YYYY-MM-DD HH:mm',
+      format: 'YYYY-MM-DD',
+      valueFormat: 'YYYY-MM-DD',
       class: 'w-full',
       placeholder: '请输入检测时间',
     },
