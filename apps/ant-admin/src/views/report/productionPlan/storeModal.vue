@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-
 import { useVbenModal } from '@vben/common-ui';
 
 import { message } from 'ant-design-vue';
@@ -12,15 +10,6 @@ import { Dict } from '#/api';
 import { createApi, updateApi } from './api';
 
 const emit = defineEmits(['reload']);
-const canNo = ref<string>('');
-const date = ref<string>('');
-const handleStrainSn = () => {
-  let strainSn: string = '';
-  if (canNo.value && date.value) {
-    strainSn = `${dayjs(date.value).format('YYYYMMDD')}-${canNo.value}`;
-  }
-  StoreFromApi.setFieldValue('strain_sn', strainSn);
-};
 
 const [StoreForm, StoreFromApi] = useVbenForm({
   schema: [
@@ -36,55 +25,78 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'DictSelect',
-      fieldName: 'can_no',
-      label: '罐号',
-      rules: 'required',
-      componentProps: {
-        class: 'w-full',
-        placeholder: '请选择罐号',
-        code: Dict.KeyEnum.STRAIN_CAN_NO,
-        onChange: (_: any, opt: any) => {
-          canNo.value = opt.label;
-          handleStrainSn();
-        },
-      },
-    },
-    {
       component: 'DatePicker',
-      fieldName: 'cultivate_at',
-      label: '培养日期',
+      fieldName: 'plan_at',
+      label: '计划日期',
       rules: 'required',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         class: 'w-full',
-        placeholder: '请选择培养日期',
-        onChange: (e: any) => {
-          date.value = e;
-          handleStrainSn();
-        },
+        placeholder: '请输入计划日期',
       },
     },
     {
       component: 'Input',
-      fieldName: 'strain_sn',
-      label: '菌种编号',
-      rules: 'required',
+      fieldName: 'mc',
+      label: '做陪养基',
       componentProps: {
         class: 'w-full',
-        placeholder: '请输入菌种编号',
+        placeholder: '请输入做陪养基',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'bottled_num',
+      label: '接瓶',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入接瓶',
       },
     },
     {
       component: 'DictSelect',
       fieldName: 'variety_id',
       label: '品种',
-      rules: 'required',
       componentProps: {
         class: 'w-full',
-        showSearch: true,
-        placeholder: '请选择品种',
         code: Dict.KeyEnum.STRAIN_CATEGORY,
+        placeholder: '请选择品种',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'make_can',
+      label: '做罐',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入做罐',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'vc_can',
+      label: '接罐',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入接罐',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'production',
+      label: '生产',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入生产',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'production_vc',
+      label: '生产接种',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请输入生产接种',
       },
     },
     {
@@ -104,7 +116,6 @@ const [StoreForm, StoreFromApi] = useVbenForm({
   },
 });
 
-const isUpdate = ref<boolean>(false);
 const [Modal, ModalApi] = useVbenModal({
   closeOnClickModal: false,
   onOpenChange: async (isOpen: boolean) => {
@@ -115,13 +126,15 @@ const [Modal, ModalApi] = useVbenModal({
     ModalApi.setData({});
 
     // 默认值
-    isUpdate.value = data.isEdit;
-    date.value = data?.record?.cultivate_at || dayjs().format('YYYY-MM-DD');
     await StoreFromApi.setValues({
-      cultivate_at: date.value,
+      plan_at: dayjs().format('YYYY-MM-DD'),
     });
 
-    data.record && StoreFromApi.setValues({ ...data.record });
+    StoreFromApi.setValues({
+      ...data.record,
+      reality_fid: data?.record?.reality_fid || undefined,
+      variety_id: data?.record?.variety_id || undefined,
+    });
   },
   onConfirm: async () => {
     try {
@@ -139,11 +152,7 @@ const [Modal, ModalApi] = useVbenModal({
 });
 </script>
 <template>
-  <Modal
-    :title="`${isUpdate ? '编辑记录' : '添加记录'}`"
-    class="w-[960px]"
-    content-class="pt-[20px] pb-0"
-  >
+  <Modal title="编辑计划" class="w-[960px]" content-class="pt-[20px] pb-0">
     <StoreForm />
   </Modal>
 </template>

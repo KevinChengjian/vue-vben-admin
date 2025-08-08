@@ -10,6 +10,9 @@ export enum AuthCode {
   Delete = 'admin.cultivate.delete',
   Detail = 'admin.cultivate.Detail',
   Out = 'admin.cultivate.out',
+  OutDelete = 'admin.cultivate.out-delete',
+  OutList = 'admin.cultivate.out-list',
+  OutUpdate = 'admin.cultivate.out-update',
   Patrol = 'admin.culture-patrol.list',
   Update = 'admin.cultivate.update',
 }
@@ -66,6 +69,33 @@ export async function detailApi(params: any) {
  */
 export async function outApi(params: any) {
   return requestClient.post<any>('/admin/cultivate/out', params);
+}
+
+/**
+ * 出库
+ * @param params
+ * @returns any
+ */
+export async function outListApi(params: any) {
+  return requestClient.post<any>('/admin/cultivate/out-list', params);
+}
+
+/**
+ * 出库
+ * @param params
+ * @returns any
+ */
+export async function outDeleteApi(params: any) {
+  return requestClient.post<any>('/admin/cultivate/out-delete', params);
+}
+
+/**
+ * 出库
+ * @param params
+ * @returns any
+ */
+export async function outUpdateApi(params: any) {
+  return requestClient.post<any>('/admin/cultivate/out-update', params);
 }
 
 /**

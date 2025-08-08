@@ -36,12 +36,26 @@ export const FormulaFormStoreSchema: VbenFormSchema[] = [
     },
   },
   {
-    component: 'Input',
+    component: 'InputNumber',
     fieldName: 'moisture',
-    label: '水份%',
+    label: '水份',
     rules: 'required',
     componentProps: {
+      class: 'w-full',
+      addonAfter: '%',
       placeholder: '请输入水份',
+    },
+  },
+  {
+    component: 'InputNumber',
+    fieldName: 'sorting',
+    defaultValue: 0,
+    label: '排序',
+    rules: 'required',
+    componentProps: {
+      class: 'w-full',
+      addonAfter: '%',
+      placeholder: '请输入排序',
     },
   },
   {
@@ -57,7 +71,6 @@ export const FormulaFormStoreSchema: VbenFormSchema[] = [
     component: 'DictSelect',
     fieldName: 'material',
     label: '原料',
-    help: '原料占比不含水份',
     componentProps: {
       class: 'grid-cols-1',
       placeholder: '请输入原料明细',

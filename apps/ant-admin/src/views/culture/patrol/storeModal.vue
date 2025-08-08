@@ -211,11 +211,41 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'InputNumber',
       fieldName: 'bag_t',
-      label: '包温',
+      label: '包温1',
       componentProps: {
         addonAfter: '℃',
         class: 'w-full',
         placeholder: '请输入包温',
+      },
+    },
+    {
+      component: 'InputNumber',
+      fieldName: 'bag_t1',
+      label: '包温2',
+      componentProps: {
+        addonAfter: '℃',
+        class: 'w-full',
+        placeholder: '请输入包温',
+      },
+    },
+    {
+      component: 'InputNumber',
+      fieldName: 'wd',
+      label: '温度1',
+      componentProps: {
+        addonAfter: '℃',
+        class: 'w-full',
+        placeholder: '请输入温度',
+      },
+    },
+    {
+      component: 'InputNumber',
+      fieldName: 'wd2',
+      label: '温度2',
+      componentProps: {
+        addonAfter: '℃',
+        class: 'w-full',
+        placeholder: '请输入温度',
       },
     },
     {

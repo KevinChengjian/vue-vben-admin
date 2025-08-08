@@ -1,17 +1,22 @@
 <script lang="ts" setup>
-import { Page } from '@vben/common-ui';
+import { useRouter } from 'vue-router';
 
+import { Page } from '@vben/common-ui';
+import { downloadFileFromUrl } from '@vben/utils';
+
+import { Button } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { Dict } from '#/api';
 import { useTable } from '#/hooks';
 
-import { listApi } from './api';
+import { exportApi, listApi } from './api';
 import { TableColumn } from './columns';
 
-const [Grid] = useTable({
+const [Grid, gridApi] = useTable({
   colums: TableColumn,
   api: listApi,
+  height: 900,
   pagerConfig: {
     enabled: false,
   },
@@ -52,6 +57,7 @@ const [Grid] = useTable({
         class: 'w-full',
         showSearch: true,
         allowClear: true,
+        mode: 'multiple',
         placeholder: '请选择品种',
         code: Dict.KeyEnum.STRAIN_CATEGORY,
       },
@@ -64,7 +70,21 @@ const [Grid] = useTable({
         class: 'w-full',
         showSearch: true,
         allowClear: true,
+        mode: 'multiple',
         placeholder: '请选择养菌房',
+        code: Dict.KeyEnum.STRAIN_HOUSE,
+      },
+    },
+    {
+      component: 'FormulaSelect',
+      fieldName: 'formula_id',
+      label: '配方',
+      componentProps: {
+        class: 'w-full',
+        showSearch: true,
+        allowClear: true,
+        mode: 'multiple',
+        placeholder: '请选择配方',
         code: Dict.KeyEnum.STRAIN_HOUSE,
       },
     },
@@ -84,10 +104,60 @@ const [Grid] = useTable({
     },
   ],
 });
+
+const router = useRouter();
+const handleCulture = (item: any) => {
+  router.push({
+    path: '/culture/cultivate',
+    query: {
+      mb_sn: item.mb_sn,
+      title: item.mb_sn,
+    },
+  });
+};
+
+const handleFruiting = (item: any) => {
+  router.push({
+    path: '/fruiting/record',
+    query: {
+      fruiting_sn: item.fruiting_sn,
+      title: item.fruiting_sn,
+    },
+  });
+};
+
+// 导出数据
+const handleExport = async () => {
+  try {
+    const resp = await exportApi(gridApi.formApi.getValues);
+    downloadFileFromUrl({ source: resp.url, target: '_self' });
+  } catch {}
+};
 </script>
 
 <template>
   <Page class="h-full">
-    <Grid />
+    <Grid>
+      <template #mb_sn="{ row }">
+        <div class="text-primary" @click="handleCulture(row)">
+          {{ row.mb_sn }}
+        </div>
+      </template>
+
+      <template #fruiting_sn="{ row }">
+        <div class="text-primary" @click="handleFruiting(row)">
+          {{ row.fruiting_sn }}
+        </div>
+      </template>
+
+      <template #table-title>
+        <div class="w-full items-center">
+          <Button type="primary" @click="handleExport()">
+            <!-- v-access:code="AuthCode.Export" -->
+            导出数据
+          </Button>
+        </div>
+      </template>
+    </Grid>
   </Page>
 </template>

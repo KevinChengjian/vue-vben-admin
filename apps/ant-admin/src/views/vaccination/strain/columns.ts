@@ -2,12 +2,6 @@ import { Dict } from '#/api';
 
 export const TableColumn: any = [
   { title: '序号', align: 'center', type: 'seq', minWidth: 60 },
-  // {
-  //   title: '菌包编号',
-  //   field: 'mb_sn',
-  //   align: 'center',
-  //   minWidth: 160,
-  // },
   {
     title: '菌种编号',
     field: 'strain_sn',
@@ -18,9 +12,14 @@ export const TableColumn: any = [
     title: '罐号',
     field: 'can_no',
     align: 'center',
-    minWidth: 90,
-    // sortable: true,
+    minWidth: 80,
     cellRender: { name: 'dict', code: Dict.KeyEnum.STRAIN_CAN_NO },
+  },
+  {
+    title: '培养日期',
+    field: 'cultivate_at',
+    align: 'center',
+    minWidth: 120,
   },
   {
     title: '品种',
@@ -40,7 +39,7 @@ export const TableColumn: any = [
     title: '菌种状态',
     field: 'state',
     align: 'center',
-    minWidth: 105,
+    minWidth: 150,
   },
   {
     title: '有无杂菌',
@@ -54,12 +53,6 @@ export const TableColumn: any = [
     field: 'remark',
     align: 'center',
     minWidth: 145,
-  },
-  {
-    title: '培养时间',
-    field: 'cultivate_at',
-    align: 'center',
-    minWidth: 140,
   },
   {
     title: '操作',

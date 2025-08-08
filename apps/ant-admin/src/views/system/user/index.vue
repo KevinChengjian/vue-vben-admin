@@ -1,12 +1,14 @@
 <script lang="ts" setup>
+import type { UserItem } from './type';
+
 import { Page, useVbenModal } from '@vben/common-ui';
 
 import { Button } from 'ant-design-vue';
 
 import { Dict } from '#/api';
-import { useTable } from '#/hooks';
+import { useDelete, useTable } from '#/hooks';
 
-import { AuthCode, userListApi } from './api';
+import { AuthCode, userDeleteApi, userListApi } from './api';
 import { UserColumn } from './columns';
 import UserPwdModal from './pwdModal.vue';
 import UserStoreModal from './storeModal.vue';
@@ -104,6 +106,14 @@ const handleStoreUser = (item: any = {}, edit: boolean = false) => {
 const [PwdModal, pwdModalApi] = useVbenModal({
   connectedComponent: UserPwdModal,
 });
+
+// 删除
+const { destory } = useDelete<UserItem>({
+  api: userDeleteApi,
+  callback: () => {
+    gridApi.reload();
+  },
+});
 </script>
 
 <template>
@@ -147,6 +157,7 @@ const [PwdModal, pwdModalApi] = useVbenModal({
           <div
             class="text-destructive ml-[15px] cursor-pointer"
             v-access:code="AuthCode.Delete"
+            @click="destory({ id: row.id })"
           >
             删除
           </div>

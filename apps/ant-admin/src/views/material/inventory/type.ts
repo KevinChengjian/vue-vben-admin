@@ -3,11 +3,11 @@ import type { BasicFetchResult } from '#/api/model';
 export interface ListItem {
   id: number;
   material_id: number;
-  materialName?: string;
+  material?: string;
   spec_id?: string;
-  specName?: string;
+  spec?: string;
   unit_id: string;
-  unitName: string;
+  unit: string;
   in_num: number;
   in_money: number;
   out_num: number;

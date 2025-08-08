@@ -19,7 +19,7 @@ export const TableColumn: any = [
     field: 'identification_at',
     align: 'center',
     sortable: true,
-    minWidth: 90,
+    minWidth: 105,
   },
   {
     title: '罐号',
@@ -51,7 +51,7 @@ export const TableColumn: any = [
     cellRender: { name: 'number' },
   },
   {
-    title: '菌丝浓度(ng/g)',
+    title: '菌丝浓度(%)',
     field: 'concentration',
     align: 'center',
     minWidth: 110,

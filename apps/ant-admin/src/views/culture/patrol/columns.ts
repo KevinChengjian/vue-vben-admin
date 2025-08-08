@@ -6,13 +6,13 @@ export const TableColumn: any = [
     title: '巡库日期',
     field: 'patrol_at',
     align: 'center',
-    minWidth: 100,
+    minWidth: 110,
   },
   {
     title: '菌包编号',
     field: 'mb_sn',
     align: 'center',
-    minWidth: 200,
+    minWidth: 320,
   },
   {
     title: '养菌房',
@@ -29,8 +29,14 @@ export const TableColumn: any = [
     minWidth: 90,
   },
   {
-    title: '包温',
+    title: '包温1',
     field: 'bag_t',
+    align: 'center',
+    minWidth: 90,
+  },
+  {
+    title: '包温2',
+    field: 'bag_t1',
     align: 'center',
     minWidth: 90,
   },
@@ -56,14 +62,14 @@ export const TableColumn: any = [
         field: 'set_wd',
         align: 'center',
         // cellRender: { name: 'number' },
-        minWidth: 75,
+        minWidth: 90,
       },
       {
         title: 'CO₂',
         field: 'set_cd',
         align: 'center',
         // cellRender: { name: 'number' },
-        minWidth: 75,
+        minWidth: 120,
       },
       {
         title: '湿度',
@@ -80,7 +86,19 @@ export const TableColumn: any = [
     headerAlign: 'center',
     children: [
       {
-        title: '库温',
+        title: '温度1',
+        field: 'wd',
+        align: 'center',
+        minWidth: 75,
+      },
+      {
+        title: '温度2',
+        field: 'wd2',
+        align: 'center',
+        minWidth: 75,
+      },
+      {
+        title: '均温',
         field: 'reality_temperature',
         align: 'center',
         cellRender: { name: 'number' },
@@ -133,7 +151,7 @@ export const TableColumn: any = [
         title: '天气',
         field: 'weather',
         align: 'center',
-        minWidth: 75,
+        minWidth: 120,
       },
     ],
   },

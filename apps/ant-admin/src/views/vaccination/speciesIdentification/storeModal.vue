@@ -40,6 +40,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         onChange: async (_: any, opt: any) => {
           if (opt.hour) {
             await StoreFromApi.setValues({
+              variety_id: opt?.variety_id || undefined,
               hour: opt?.hour || undefined,
             });
           }
@@ -64,6 +65,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       rules: 'required',
       componentProps: {
         class: 'w-full',
+        disabled: true,
         showSearch: true,
         allowClear: true,
         placeholder: '请选择品种',
@@ -105,21 +107,22 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       fieldName: 'concentration',
       label: '菌丝浓度',
       componentProps: {
-        addonAfter: 'ng/g',
+        addonAfter: '%',
         class: 'w-full',
         placeholder: '请填写菌丝浓度',
       },
     },
     {
-      component: 'Input',
-      fieldName: 'result',
+      component: 'DictSelect',
+      fieldName: 'result_id',
       label: '判定结果',
+      rules: 'required',
       componentProps: {
         class: 'w-full',
-        placeholder: '请填写判定结果',
+        placeholder: '请选择判定结果',
+        code: Dict.KeyEnum.STRAIN_RESULT,
       },
     },
-
     {
       component: 'Textarea',
       fieldName: 'remark',

@@ -54,7 +54,7 @@ onMounted(async () => {
     <SelectOption
       v-for="item in searchResult"
       :value="item.value"
-      :key="item.value"
+      :key="item.id"
       :label="item.label"
       :mb_id="item.id"
       :formula_id="item.formula_id"

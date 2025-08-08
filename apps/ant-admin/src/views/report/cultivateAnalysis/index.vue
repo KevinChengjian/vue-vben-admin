@@ -34,6 +34,11 @@ const handleChange = () => {
   getTableData();
 };
 
+const handleStrainHouse = () => {
+  mbSnList.value = [];
+  getTableData();
+};
+
 const tableHeader = ref<any>([]);
 const builderHeader = (name: string, pefix: string) => {
   const item = JSON.stringify(TableColumnItem);
@@ -57,17 +62,18 @@ const getTableData = async () => {
     header = header?.concat(builderHeader(item, `C${key}`));
   });
   tableHeader.value = header;
-
-  if (resp?.sn && resp?.sn.length > 0) {
-    gridApi.grid.reloadColumn(header);
-    gridApi.grid.reloadData(tableData.value);
-  }
+  mbSnList.value = resp.sn || [];
+  gridApi.grid.reloadColumn(header);
+  gridApi.grid.reloadData(tableData.value);
 };
 
 const [Grid, gridApi] = useVbenVxeGrid({
   gridOptions: {
     columns: tableHeader.value,
     border: true,
+    rowConfig: {
+      isHover: true,
+    },
     editConfig: {
       trigger: 'dblclick',
       mode: 'row',
@@ -76,6 +82,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
       enabled: false,
     },
     showOverflow: true,
+    height: 900,
   },
 });
 
@@ -91,7 +98,7 @@ const handleShowChart = () => {
 </script>
 
 <template>
-  <Page class="h-full">
+  <Page style="height: calc(100vh - 90px)">
     <Grid>
       <template #table-title>
         <div
@@ -114,6 +121,7 @@ const handleShowChart = () => {
             class="mr-[10px] w-[200px] flex-shrink-0"
             v-model:value="house"
             placeholder="请选择对比菌房"
+            @change="handleStrainHouse"
           />
           <VcMbSnSelect
             mode="multiple"

@@ -36,11 +36,11 @@ const handleMaterial = (ids: any) => {
     if (index > -1) {
       const item = dictMaterialList.value[index];
       const ei = materialForm.value.findIndex((m) => m.mid === Number(id));
-      let ratio = 0;
+      let weight = 0;
       let remark = '';
       if (ei !== -1) {
         const mfItem = materialForm.value[ei];
-        ratio = mfItem?.ratio || 0;
+        weight = mfItem?.weight || 0;
         remark = mfItem?.remark || '';
       }
 
@@ -49,7 +49,7 @@ const handleMaterial = (ids: any) => {
         fid: 0,
         mid: Number(id),
         name: item?.label,
-        ratio,
+        weight,
         remark,
       });
     }
@@ -79,7 +79,7 @@ const [Modal, ModalApi] = useVbenModal({
           fid: item.fid,
           mid: item.mid,
           name: item.name,
-          ratio: Number.parseFloat(item.ratio.toString()),
+          weight: Number.parseFloat(item.weight.toString()),
           remark: item.remark,
         });
       });
@@ -110,7 +110,7 @@ const [Modal, ModalApi] = useVbenModal({
 <template>
   <Modal
     :title="`${isUpdate ? '编辑配方' : '添加配方'}`"
-    class="w-[680px]"
+    class="w-[860px]"
     content-class="pt-[20px] pb-0"
   >
     <StoreForm>
@@ -141,9 +141,9 @@ const [Modal, ModalApi] = useVbenModal({
           </Col>
           <Col :span="6">
             <Input
-              v-model:value="item.ratio"
-              placeholder="原料比例"
-              addon-after="%"
+              v-model:value="item.weight"
+              placeholder="原料重量"
+              addon-after="kg"
             />
           </Col>
           <Col class="text-center" :span="10">

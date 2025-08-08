@@ -23,7 +23,7 @@ const route = useRoute();
 const { setTabTitle } = useTabs();
 nextTick(() => {
   if (!route.query?.title) return;
-  setTabTitle(`${route.query?.title}培养记录`);
+  setTabTitle(`${route.query?.title}-培养记录`);
 });
 
 const [Grid, gridApi] = useTable({
@@ -34,6 +34,7 @@ const [Grid, gridApi] = useTable({
       component: 'Input',
       fieldName: 'mb_sn',
       label: '菌包编号',
+      defaultValue: route?.query?.mb_sn || undefined,
       componentProps: {
         allowClear: true,
         placeholder: '请输入菌包编号',
@@ -144,6 +145,9 @@ const handleDetail = (row: ListItem) => {
 
 const [OutModal, outModalApi] = useVbenModal({
   connectedComponent: OutStoreModal,
+  onClosed: () => {
+    gridApi.reload();
+  },
 });
 
 const handleOut = (item: any) => {
@@ -193,9 +197,8 @@ const handleOut = (item: any) => {
           </div>
           <div
             class="text-primary cursor-pointer"
-            v-access:code="AuthCode.Out"
+            v-access:code="AuthCode.OutList"
             @click="handleOut(row)"
-            v-if="row.out_over === 2"
           >
             出库
           </div>

@@ -99,7 +99,7 @@ const handleExport = async () => {
       <template #table-title>
         <div class="flex w-full items-center justify-between pt-[10px]">
           <div class="flex w-[80px]"></div>
-          <div class="text-[22px]">制包生产计划（{{ title }}）</div>
+          <div class="text-[22px]">制种计划（{{ title }}）</div>
           <div class="w-[80px]"></div>
         </div>
         <div class="w-full items-center">
@@ -117,7 +117,7 @@ const handleExport = async () => {
             v-access:code="AuthCode.Plan"
             @click="handleBatchStore"
           >
-            批量计划
+            批量新增
           </Button>
 
           <Button
@@ -146,6 +146,7 @@ const handleExport = async () => {
             class="text-primary cursor-pointer"
             v-access:code="AuthCode.Update"
             @click="handleStore(row, true)"
+            v-if="row?.id > 0"
           >
             编辑
           </div>
@@ -153,6 +154,7 @@ const handleExport = async () => {
             class="text-destructive cursor-pointer"
             v-access:code="AuthCode.Delete"
             @click="destory({ id: row.id })"
+            v-if="row?.id > 0"
           >
             删除
           </div>

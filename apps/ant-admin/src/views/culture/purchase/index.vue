@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { ListItem } from './type';
 
+import { useRouter } from 'vue-router';
+
 import { Page, useVbenModal } from '@vben/common-ui';
 
 import { Button, Space } from 'ant-design-vue';
@@ -98,6 +100,17 @@ const { destory } = useDelete<ListItem>({
     gridApi.reload();
   },
 });
+
+const router = useRouter();
+const handleCulture = (item: ListItem) => {
+  router.push({
+    path: '/culture/cultivate',
+    query: {
+      mb_sn: item.mb_sn,
+      title: item.mb_sn,
+    },
+  });
+};
 </script>
 
 <template>
@@ -113,9 +126,9 @@ const { destory } = useDelete<ListItem>({
         </Button>
       </template>
 
-      <template #attach_ids="{ row }">
-        <div class="text-primary cursor-pointer">
-          {{ row.attach }}
+      <template #mb_sn="{ row }">
+        <div class="text-primary" @click="handleCulture(row)">
+          {{ row.mb_sn }}
         </div>
       </template>
 

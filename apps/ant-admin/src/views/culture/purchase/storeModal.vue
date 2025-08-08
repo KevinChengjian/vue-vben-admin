@@ -203,6 +203,7 @@ const [Modal, ModalApi] = useVbenModal({
     warehouse.value = data.record?.warehouse || '';
 
     await StoreFromApi.setValues({
+      pay_at: dayjs().format('YYYY-MM-DD'),
       make_at: dayjs().format('YYYY-MM-DD'),
       vaccination_at: dayjs().format('YYYY-MM-DD'),
     });

@@ -16,9 +16,9 @@ onMounted(async () => {
 <template>
   <Select show-search option-filter-prop="label" v-bind="$attrs" class="w-full">
     <SelectOption
-      v-for="item in options"
+      v-for="(item, index) in options"
       :value="item.value"
-      :key="item.value"
+      :key="index"
       :label="item.label"
     >
       {{ item.label }}

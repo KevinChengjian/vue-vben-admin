@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import type { ListItem } from './type';
 
+import { useRouter } from 'vue-router';
+
 import { Page, useVbenModal } from '@vben/common-ui';
 
 import { Button, Space } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import { useDelete, useTable } from '#/hooks';
-import { format } from '#/utils/money';
 
 import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
@@ -88,12 +89,7 @@ const [StoreModal, storeModalApi] = useVbenModal({
 });
 
 const handleStore = (item: any = {}, edit: boolean = false) => {
-  storeModalApi
-    .setData({
-      isEdit: edit,
-      record: item,
-    })
-    .open();
+  storeModalApi.setData({ isEdit: edit, record: item }).open();
 };
 
 // 删除
@@ -103,6 +99,17 @@ const { destory } = useDelete<ListItem>({
     gridApi.reload();
   },
 });
+
+const router = useRouter();
+const handleCulture = (item: ListItem) => {
+  router.push({
+    path: '/culture/cultivate',
+    query: {
+      mb_sn: item.mb_sn,
+      title: item.mb_sn,
+    },
+  });
+};
 </script>
 
 <template>
@@ -118,8 +125,10 @@ const { destory } = useDelete<ListItem>({
         </Button>
       </template>
 
-      <template #price="{ row }">
-        {{ format(row.price) }}
+      <template #mb_sn="{ row }">
+        <div class="text-primary" @click="handleCulture(row)">
+          {{ row.mb_sn }}
+        </div>
       </template>
 
       <template #action="{ row }">

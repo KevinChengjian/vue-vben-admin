@@ -6,21 +6,44 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
-import { Descriptions, DescriptionsItem, message } from 'ant-design-vue';
+import {
+  Button,
+  Descriptions,
+  DescriptionsItem,
+  message,
+  Space,
+} from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
+import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { Dict } from '#/api';
+import { useDelete } from '#/hooks';
 
-import { outApi } from './api';
-
-const emit = defineEmits(['reload']);
+import {
+  AuthCode,
+  outApi,
+  outDeleteApi,
+  outListApi,
+  outUpdateApi,
+} from './api';
 
 const date = ref<string>('');
 const room = ref<string>('');
 const userStore = useUserStore();
 const [StoreForm, StoreFromApi] = useVbenForm({
   schema: [
+    {
+      component: 'Input',
+      fieldName: 'id',
+      label: 'id',
+      dependencies: {
+        triggerFields: ['vr_id'],
+        show: () => {
+          return false;
+        },
+      },
+    },
     {
       component: 'Input',
       fieldName: 'cr_id',
@@ -127,14 +150,21 @@ const [StoreForm, StoreFromApi] = useVbenForm({
   },
 });
 
-const row = ref<ListItem>();
+const row = ref<ListItem>({} as ListItem);
+const outList = ref<any>([]);
+const showUpdate = ref<boolean>(false);
 const [Modal, ModalApi] = useVbenModal({
+  draggable: true,
+  footer: false,
   closeOnClickModal: false,
   onOpenChange: async (isOpen: boolean) => {
     StoreFromApi.resetForm();
     if (!isOpen) return;
 
     row.value = ModalApi.getData<ListItem>();
+    showUpdate.value = row.value.out_over === 2;
+    handleReloadList();
+
     ModalApi.setData({});
 
     // 默认值
@@ -147,31 +177,157 @@ const [Modal, ModalApi] = useVbenModal({
       user_id: userStore.userInfo?.userId,
     });
   },
-  onConfirm: async () => {
-    try {
-      await StoreFromApi.validate();
-      const values = await StoreFromApi.getValues();
-      await outApi(Object.assign(values, { cr_id: row.value?.id }));
+  onConfirm: async () => {},
+});
 
-      ModalApi.close();
-      ModalApi.setData({});
-      StoreFromApi.resetForm();
-      message.success('操作成功');
-      emit('reload');
-    } catch {}
+const handleSubmit = async () => {
+  try {
+    await StoreFromApi.validate();
+    const values = await StoreFromApi.getValues();
+    const data = Object.assign(values, { cr_id: row.value?.id });
+    await (values?.id ? outUpdateApi(data) : outApi(data));
+
+    ModalApi.setData({});
+    StoreFromApi.resetForm();
+    handleReloadList();
+    message.success('操作成功');
+  } catch {}
+};
+
+const handleReset = async () => {
+  StoreFromApi.resetForm();
+};
+
+const [Grid, gridApi] = useVbenVxeGrid({
+  gridOptions: {
+    columns: [
+      {
+        title: '出库日期',
+        field: 'out_at',
+        align: 'center',
+        minWidth: 200,
+      },
+      {
+        title: '出菇编号',
+        field: 'fruiting_sn',
+        align: 'center',
+        minWidth: 200,
+      },
+      {
+        title: '出菇房',
+        field: 'room',
+        align: 'center',
+        minWidth: 200,
+      },
+      {
+        title: '出库数量',
+        field: 'num',
+        align: 'center',
+        minWidth: 200,
+      },
+      {
+        title: '养菌期',
+        field: 'strain_age',
+        align: 'center',
+        minWidth: 200,
+      },
+      {
+        title: '包芯温度',
+        field: 'temperature',
+        align: 'center',
+        minWidth: 200,
+      },
+      {
+        title: '操作',
+        field: 'action',
+        align: 'center',
+        minWidth: 90,
+        fixed: 'right',
+        slots: { default: 'action' },
+      },
+    ],
+    headerCellConfig: {
+      height: 20,
+    },
+    border: true,
+    minHeight: 50,
+    pagerConfig: {
+      enabled: false,
+    },
+  },
+});
+
+const handleReloadList = async () => {
+  outList.value = await outListApi({ cr_id: row?.value?.id });
+  gridApi.grid.reloadData(outList.value);
+
+  let outNum: number = 0;
+  outList.value.forEach((item: any) => {
+    outNum += item.num;
+  });
+
+  row.value.out_num = outNum;
+  row.value.bl_num =
+    row.value?.put_num - row.value?.out_num - row.value?.bad_num;
+  row.value.out_over = row.value.bl_num <= 0 ? 1 : 2;
+};
+
+const handleOutUpdate = async (data: any) => {
+  showUpdate.value = true;
+  await StoreFromApi.setValues({ ...data });
+};
+
+// 删除
+const { destory } = useDelete<ListItem>({
+  api: outDeleteApi,
+  callback: () => {
+    handleReloadList();
   },
 });
 </script>
 <template>
-  <Modal title="菌包出库" class="w-[960px]" content-class="pt-[20px] pb-0">
+  <Modal
+    title="菌包出库"
+    class="w-[1400px]"
+    content-class="pt-[20px] pb-[24px]"
+  >
     <Descriptions class="mb-[15px] ml-[32px]">
       <DescriptionsItem label="菌包编号">{{ row?.mb_sn }}</DescriptionsItem>
       <DescriptionsItem label="库房位置">{{ row?.location }}</DescriptionsItem>
-      <DescriptionsItem label="出库日期">{{ row?.out_at }}</DescriptionsItem>
       <DescriptionsItem label="入库数量">{{ row?.put_num }}</DescriptionsItem>
+      <DescriptionsItem label="损耗数量">{{ row?.bad_num }}</DescriptionsItem>
       <DescriptionsItem label="出库数量">{{ row?.out_num }}</DescriptionsItem>
       <DescriptionsItem label="剩余数量">{{ row?.bl_num }}</DescriptionsItem>
     </Descriptions>
-    <StoreForm />
+
+    <!-- 出库明细 -->
+    <Grid>
+      <template #action="{ row: item }">
+        <Space :size="15">
+          <div
+            class="text-primary cursor-pointer"
+            @click="handleOutUpdate(item)"
+            v-access:code="AuthCode.OutUpdate"
+          >
+            编辑
+          </div>
+          <div
+            class="text-destructive cursor-pointer"
+            @click="destory({ id: item.id })"
+            v-access:code="AuthCode.OutDelete"
+          >
+            删除
+          </div>
+        </Space>
+      </template>
+    </Grid>
+
+    <StoreForm class="mt-[15px]" v-if="showUpdate" />
+    <div class="flex items-center justify-center" v-if="showUpdate">
+      <Space :size="15">
+        <Button @click="handleReset">重置</Button>
+        <Button type="primary" @click="handleSubmit">提交</Button>
+      </Space>
+    </div>
   </Modal>
 </template>

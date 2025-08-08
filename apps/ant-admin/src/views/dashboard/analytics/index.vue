@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import AnalysisCulturePatol from './analysis-culture-patol.vue';
+import analysisFruitingProfit from './analysis-fruiting-profit.vue';
 import AnalysisOverview from './analysis-overview.vue';
 </script>
 
 <template>
   <div class="p-4">
     <AnalysisOverview />
-    <AnalysisCulturePatol />
+    <analysisFruitingProfit />
+    <!-- <AnalysisCulturePatol /> -->
 
     <!-- <AnalysisChartsTabs :tabs="chartTabs" class="mt-5">
       <template #trends>

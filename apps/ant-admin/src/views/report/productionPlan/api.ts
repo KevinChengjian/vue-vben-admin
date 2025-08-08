@@ -6,11 +6,11 @@ import { requestClient } from '#/api/request';
  * 操作权限标识
  */
 export enum AuthCode {
-  Create = 'admin.vaccination-plan.create',
-  Delete = 'admin.vaccination-plan.delete',
-  Export = 'admin.vaccination-plan.export',
-  Plan = 'admin.vaccination-plan.plan',
-  Update = 'admin.vaccination-plan.update',
+  Create = 'admin.production-plan.create',
+  Delete = 'admin.production-plan.delete',
+  Export = 'admin.production-plan.export',
+  Plan = 'admin.production-plan.plan',
+  Update = 'admin.production-plan.update',
 }
 
 /**
@@ -19,7 +19,7 @@ export enum AuthCode {
  * @returns ListResult
  */
 export async function listApi(params: any = {}) {
-  return requestClient.post<ListItem[]>('/admin/vaccination-plan/list', params);
+  return requestClient.post<ListItem[]>('/admin/production-plan/list', params);
 }
 
 /**
@@ -28,7 +28,7 @@ export async function listApi(params: any = {}) {
  * @returns any
  */
 export async function planApi(params: any) {
-  return requestClient.post<any>('/admin/vaccination-plan/plan', params);
+  return requestClient.post<any>('/admin/production-plan/plan', params);
 }
 
 /**
@@ -37,7 +37,7 @@ export async function planApi(params: any) {
  * @returns any
  */
 export async function createApi(params: any) {
-  return requestClient.post<any>('/admin/vaccination-plan/create', params);
+  return requestClient.post<any>('/admin/production-plan/create', params);
 }
 
 /**
@@ -46,7 +46,7 @@ export async function createApi(params: any) {
  * @returns any
  */
 export async function updateApi(params: any) {
-  return requestClient.post<any>('/admin/vaccination-plan/update', params);
+  return requestClient.post<any>('/admin/production-plan/update', params);
 }
 
 /**
@@ -55,7 +55,7 @@ export async function updateApi(params: any) {
  * @returns any
  */
 export async function deleteApi(params: any) {
-  return requestClient.post<any>('/admin/vaccination-plan/delete', params);
+  return requestClient.post<any>('/admin/production-plan/delete', params);
 }
 
 /**
@@ -64,7 +64,7 @@ export async function deleteApi(params: any) {
  * @returns any
  */
 export async function detailApi(params: any) {
-  return requestClient.post<any>('/admin/vaccination-plan/detail', params);
+  return requestClient.post<any>('/admin/production-plan/detail', params);
 }
 
 /**
@@ -73,5 +73,5 @@ export async function detailApi(params: any) {
  * @returns any
  */
 export async function exportApi(params: any) {
-  return requestClient.post<any>('/admin/vaccination-plan/export', params);
+  return requestClient.post<any>('/admin/production-plan/export', params);
 }

@@ -72,8 +72,8 @@ const [Grid, gridApi] = useTable({
     },
     {
       component: 'RangePicker',
-      fieldName: 'created_at',
-      label: '入库时间',
+      fieldName: 'put_at',
+      label: '入库日期',
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,

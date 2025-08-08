@@ -45,6 +45,13 @@ export namespace Analysis {
     aAmount: number[];
   }
 
+  export interface fruitingProfitResult {
+    names: string[];
+    sale: number[];
+    cost: number[];
+    profit: number[];
+  }
+
   /**
    * 卡片统计
    * @returns any
@@ -69,6 +76,14 @@ export namespace Analysis {
     return requestClient.get<fruitingNumResult>(
       '/admin/analytics/fruiting-num',
     );
+  }
+
+  /**
+   * 利润统计
+   * @returns any
+   */
+  export async function fruitingProfitApi() {
+    return requestClient.get<fruitingProfitResult>('/admin/analytics/profit');
   }
 
   /**

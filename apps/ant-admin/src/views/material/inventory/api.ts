@@ -8,6 +8,7 @@ import { requestClient } from '#/api/request';
 export enum AuthCode {
   Create = 'admin.material-inventory.create',
   Delete = 'admin.material-inventory.delete',
+  Import = 'admin.material-inventory.import',
   Refresh = 'admin.material-inventory.refresh',
 }
 
@@ -52,9 +53,16 @@ export async function deleteApi(params: any) {
 
 /**
  * 刷新
- * @param params
  * @returns any
  */
 export async function refreshApi() {
   return requestClient.post<any>('/admin/material-inventory/refresh');
+}
+
+/**
+ * 下载模板
+ * @returns any
+ */
+export async function materialDownloadApi() {
+  return requestClient.post<any>('/admin/material-inventory/download');
 }

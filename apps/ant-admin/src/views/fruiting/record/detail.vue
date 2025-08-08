@@ -2,6 +2,7 @@
 import type { ListItem, Profit, Summary } from './type';
 
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { useVbenDrawer } from '@vben/common-ui';
 
@@ -11,7 +12,7 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import deviceStage from '#/components/device/device-stage.vue';
 import ImageUplod from '#/components/upload/image-upload.vue';
 
-import { detailApi, profitApi, summaryApi } from './api';
+import { detailApi, profitApi, profitConfigApi, summaryApi } from './api';
 import { DetailTableColumn } from './columns';
 
 const [Grid, gridApi] = useVbenVxeGrid({
@@ -136,6 +137,10 @@ const storeForm = ref<Profit>({
 
 const handleSubmit = async (key: string) => {
   try {
+    await profitConfigApi(storeForm.value);
+  } catch {}
+
+  try {
     const putNum: number = detail.value.put_num;
     const outNum: number = detail.value.out_num;
     const aOutNum: number = detail.value.a_out_num;
@@ -173,7 +178,7 @@ const handleSubmit = async (key: string) => {
 
       // C菇采摘成本
       storeForm.value.cost_c_amount = Number.parseFloat(
-        (aOutNum * storeForm.value.cost_c_rate).toFixed(2),
+        (otherNum * storeForm.value.cost_c_rate).toFixed(2),
       );
 
       // 单包采摘成本
@@ -205,8 +210,7 @@ const handleSubmit = async (key: string) => {
     }
 
     // 计算利润
-    let profit = storeForm.value.sale_amount - storeForm.value.cost_amount;
-    profit = Math.max(profit, 0);
+    const profit = storeForm.value.sale_amount - storeForm.value.cost_amount;
     storeForm.value.profit = Number.parseFloat(profit.toFixed(3));
     storeForm.value.profit_sp = 0;
     if (putNum > 0) {
@@ -217,12 +221,32 @@ const handleSubmit = async (key: string) => {
     await profitApi(storeForm.value);
   } catch {}
 };
+
+const router = useRouter();
+const handleCulture = (item: any) => {
+  router.push({
+    path: '/culture/cultivate',
+    query: {
+      mb_sn: item.mb_sn,
+      title: item.mb_sn,
+    },
+  });
+};
 </script>
 
 <template>
   <Drawer :title="title">
     <div>
-      <Grid />
+      <Grid>
+        <template #mb_sn="{ row }">
+          <div v-if="row.mb_sn === '总计'">
+            {{ row.mb_sn }}
+          </div>
+          <div v-else class="text-primary" @click="handleCulture(row)">
+            {{ row.mb_sn }}
+          </div>
+        </template>
+      </Grid>
       <div class="px-[15px]">
         <Card
           title="操作记录"

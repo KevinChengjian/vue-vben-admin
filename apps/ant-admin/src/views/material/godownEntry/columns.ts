@@ -22,7 +22,7 @@ export const TableColumn: any = [
     cellRender: { name: 'dict', code: Dict.KeyEnum.MATERIAL_SPEC },
     minWidth: 105,
   },
-  { title: '购置厂家', field: 'manufacturer', align: 'center', width: '10%' },
+  { title: '购置厂家', field: 'manufacturer', align: 'center', minWidth: 105 },
   {
     title: '数量',
     field: 'num',
@@ -41,14 +41,14 @@ export const TableColumn: any = [
     title: '单价(元)',
     field: 'price',
     align: 'center',
-    cellRender: { name: 'money' },
+    cellRender: { name: 'number' },
     minWidth: 105,
   },
   {
     title: '合计金额(元)',
     field: 'amount',
     align: 'center',
-    cellRender: { name: 'money' },
+    cellRender: { name: 'number' },
     minWidth: 120,
   },
   {
@@ -70,8 +70,8 @@ export const TableColumn: any = [
     minWidth: 90,
   },
   {
-    title: '入库时间',
-    field: 'created_at',
+    title: '入库日期',
+    field: 'put_at',
     align: 'center',
     minWidth: 140,
   },

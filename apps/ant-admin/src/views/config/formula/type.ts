@@ -5,7 +5,7 @@ export interface FormulaMaterialItem {
   fid: number;
   mid: number;
   name?: string;
-  ratio: number;
+  weight: number;
   remark?: string;
 }
 

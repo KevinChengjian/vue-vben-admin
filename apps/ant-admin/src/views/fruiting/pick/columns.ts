@@ -5,6 +5,7 @@ export const TableColumn: any = [
     field: 'fruiting_sn',
     align: 'center',
     minWidth: 120,
+    slots: { default: 'fruiting_sn' },
   },
   {
     title: '采摘员',

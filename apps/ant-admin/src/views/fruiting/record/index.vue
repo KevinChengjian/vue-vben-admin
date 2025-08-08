@@ -1,19 +1,29 @@
 <script lang="ts" setup>
 import type { ListItem } from './type';
 
+import { nextTick } from 'vue';
+import { useRoute } from 'vue-router';
+
 import { Page, useVbenDrawer, useVbenModal } from '@vben/common-ui';
+import { useTabs } from '@vben/hooks';
 
 import { Space } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import { useDelete, useTable } from '#/hooks';
-import { format } from '#/utils/money';
 
 import { AuthCode, deleteApi, listApi } from './api';
 import ClearStoreModal from './clearModal.vue';
 import { TableColumn } from './columns';
 import Detail from './detail.vue';
 import MaterialStoreModal from './storeModal.vue';
+
+const route = useRoute();
+const { setTabTitle } = useTabs();
+nextTick(() => {
+  if (!route.query?.title) return;
+  setTabTitle(`${route.query?.title}-出菇记录`);
+});
 
 const [Grid, gridApi] = useTable({
   colums: TableColumn,
@@ -23,18 +33,10 @@ const [Grid, gridApi] = useTable({
       component: 'Input',
       fieldName: 'fruiting_sn',
       label: '出菇编号',
+      defaultValue: route?.query?.fruiting_sn || undefined,
       componentProps: {
         allowClear: true,
         placeholder: '请输入出菇编号',
-      },
-    },
-    {
-      component: 'Input',
-      fieldName: 'fruiting_sn',
-      label: '菌包编号',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入菌包编号',
       },
     },
     {
@@ -99,6 +101,9 @@ const { destory } = useDelete<ListItem>({
 // 详情
 const [DetailDrawer, detailDrawerApi] = useVbenDrawer({
   connectedComponent: Detail,
+  onClosed: () => {
+    gridApi.reload();
+  },
 });
 const handleDetail = (row: ListItem) => {
   detailDrawerApi.setData(row).open();
@@ -107,6 +112,9 @@ const handleDetail = (row: ListItem) => {
 // 下架
 const [ClearModal, clearModalApi] = useVbenModal({
   connectedComponent: ClearStoreModal,
+  onClosed: () => {
+    gridApi.reload();
+  },
 });
 
 const handleClear = (row: any) => {
@@ -127,8 +135,10 @@ const handleClear = (row: any) => {
         </Button> -->
       </template>
 
-      <template #price="{ row }">
-        {{ format(row.price) }}
+      <template #fruiting_sn="{ row }">
+        <div class="text-primary" @click="handleDetail(row)">
+          {{ row.fruiting_sn }}
+        </div>
       </template>
 
       <template #action="{ row }">

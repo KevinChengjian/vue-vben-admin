@@ -16,6 +16,19 @@ const emit = defineEmits(['reload']);
 const makeSn = ref<string>('');
 const variety = ref<string>('');
 const warehouse = ref<string>('');
+const vcAt = ref<string>('');
+const handleSn = () => {
+  const arr = makeSn.value.split('-');
+  if (arr.length < 2) {
+    return `NX-${makeSn.value}-${vcAt.value}-${variety.value}-${warehouse.value}`;
+  } else {
+    const arr = makeSn.value.split('-');
+    const prifix: any = arr.splice(0, 1);
+    arr.unshift(vcAt.value);
+    arr.unshift(prifix[0]);
+    return `NX-${arr.join('-')}-${variety.value}-${warehouse.value}`;
+  }
+};
 
 const [StoreForm, StoreFromApi] = useVbenForm({
   schema: [
@@ -44,8 +57,8 @@ const [StoreForm, StoreFromApi] = useVbenForm({
             num: opt?.num || undefined,
           };
 
-          if (makeSn.value && variety.value && warehouse.value) {
-            params.mb_sn = `NX-${makeSn.value}-${variety.value}-${warehouse.value}`;
+          if (makeSn.value && variety.value && warehouse.value && vcAt.value) {
+            params.mb_sn = handleSn();
           }
 
           await StoreFromApi.setValues(params);
@@ -66,8 +79,8 @@ const [StoreForm, StoreFromApi] = useVbenForm({
             variety_id: opt.identify_variety_id || opt.variety_id,
           };
 
-          if (makeSn.value && variety.value && warehouse.value) {
-            params.mb_sn = `NX-${makeSn.value}-${variety.value}-${warehouse.value}`;
+          if (makeSn.value && variety.value && warehouse.value && vcAt.value) {
+            params.mb_sn = handleSn();
           }
 
           await StoreFromApi.setValues(params);
@@ -86,10 +99,38 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         code: Dict.KeyEnum.STRAIN_HOUSE,
         onChange: async (_: string, opt: any) => {
           warehouse.value = opt.label;
-          if (makeSn.value && variety.value && warehouse.value) {
+          if (makeSn.value && variety.value && warehouse.value && vcAt.value) {
             await StoreFromApi.setValues({
-              mb_sn: `NX-${makeSn.value}-${variety.value}-${warehouse.value}`,
+              mb_sn: handleSn(),
             });
+          }
+        },
+      },
+    },
+    {
+      component: 'DatePicker',
+      fieldName: 'vaccination_at',
+      label: '接种日期',
+      rules: 'required',
+      componentProps: {
+        showTime: { format: 'HH:mm' },
+        format: 'YYYY-MM-DD HH:mm',
+        class: 'w-full',
+        valueFormat: 'YYYY-MM-DD HH:mm',
+        placeholder: '请选择接种时间',
+        onChange: async (date: string) => {
+          if (date) {
+            vcAt.value = dayjs(`${date}`).format('MMDD');
+            if (
+              makeSn.value &&
+              variety.value &&
+              warehouse.value &&
+              vcAt.value
+            ) {
+              await StoreFromApi.setValues({
+                mb_sn: handleSn(),
+              });
+            }
           }
         },
       },
@@ -104,23 +145,12 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
-      component: 'DatePicker',
-      fieldName: 'vaccination_at',
-      label: '接种日期',
-      rules: 'required',
-      componentProps: {
-        class: 'w-full',
-        format: 'YYYY-MM-DD',
-        valueFormat: 'YYYY-MM-DD',
-        placeholder: '请选择接种日期',
-      },
-    },
-    {
       component: 'DictSelect',
       fieldName: 'variety_id',
       label: '品种',
       rules: 'required',
       componentProps: {
+        disabled: true,
         class: 'w-full',
         showSearch: true,
         allowClear: true,
@@ -151,7 +181,6 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       component: 'Input',
       fieldName: 'strain_num',
       label: '菌种量',
-      rules: 'required',
       componentProps: {
         addonAfter: 'ml',
         class: 'w-full',
@@ -206,6 +235,7 @@ const [StoreForm, StoreFromApi] = useVbenForm({
 
 const isUpdate = ref<boolean>(false);
 const [Modal, ModalApi] = useVbenModal({
+  draggable: true,
   closeOnClickModal: false,
   onOpenChange: async (isOpen: boolean) => {
     StoreFromApi.resetForm();
@@ -219,6 +249,10 @@ const [Modal, ModalApi] = useVbenModal({
     makeSn.value = isUpdate.value ? data.record?.make_bag_sn : '';
     variety.value = isUpdate.value ? data.record?.variety : '';
     warehouse.value = isUpdate.value ? data.record?.warehouse : '';
+
+    vcAt.value = isUpdate.value
+      ? dayjs(data.record?.vaccination_at).format('MMDD')
+      : dayjs().format('MMDD');
 
     await StoreFromApi.setValues({
       vaccination_at: dayjs().format('YYYY-MM-DD HH:mm'),

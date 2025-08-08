@@ -142,6 +142,15 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'InputNumber',
+      fieldName: 'bad_num',
+      label: '损耗数量',
+      componentProps: {
+        class: 'w-full',
+        placeholder: '请填写损耗数量',
+      },
+    },
+    {
       component: 'Textarea',
       fieldName: 'remark',
       label: '备注',

@@ -1,8 +1,8 @@
 export const TableColumn: any = [
   { title: '序号', align: 'center', type: 'seq', width: 70 },
-  { title: '名称', field: 'materialName', align: 'center' },
-  { title: '规格', field: 'specName', align: 'center' },
-  { title: '单位', field: 'unitName', align: 'center' },
+  { title: '名称', field: 'material', align: 'center' },
+  // { title: '规格', field: 'spec', align: 'center' },
+  { title: '单位', field: 'unit', align: 'center' },
 
   {
     title: '库存',
@@ -19,13 +19,26 @@ export const TableColumn: any = [
       },
     ],
   },
+
   {
     title: '入库',
     field: 'in',
     headerAlign: 'center',
     children: [
       {
-        title: '入库总量',
+        title: '期初库存',
+        field: 'surplus',
+        align: 'center',
+        cellRender: { name: 'number' },
+      },
+      {
+        title: '期初金额(元)',
+        field: 'surplus_money',
+        align: 'center',
+        cellRender: { name: 'number' },
+      },
+      {
+        title: '入库数量',
         field: 'in_num',
         align: 'center',
         cellRender: { name: 'number' },

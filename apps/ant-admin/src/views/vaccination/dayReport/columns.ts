@@ -25,7 +25,7 @@ export const TableColumn: any = [
     title: '罐号',
     field: 'can_no',
     align: 'center',
-    minWidth: 90,
+    minWidth: 80,
     cellRender: { name: 'dict', code: Dict.KeyEnum.STRAIN_CAN_NO },
   },
   {
@@ -52,7 +52,7 @@ export const TableColumn: any = [
     title: '菌种状态',
     field: 'state',
     align: 'center',
-    minWidth: 105,
+    minWidth: 180,
   },
   {
     title: '风速',
@@ -78,7 +78,7 @@ export const TableColumn: any = [
     title: '备注',
     field: 'remark',
     align: 'center',
-    minWidth: 145,
+    minWidth: 150,
   },
   {
     title: '记录人员',

@@ -1,13 +1,23 @@
 <script lang="ts" setup>
-import { Page, useVbenModal } from '@vben/common-ui';
+import type { Dayjs } from 'dayjs';
 
-import { Button, message } from 'ant-design-vue';
+import { ref } from 'vue';
+
+import { Page, useVbenModal } from '@vben/common-ui';
+import { downloadFileFromUrl } from '@vben/utils';
+
+import { Button, RangePicker } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import CustomImport from '#/components/import/custom-import.vue';
 
-import { AuthCode, listApi, refreshApi } from './api';
+import { AuthCode, listApi, materialDownloadApi } from './api';
 import { TableColumn } from './columns';
 import StoreFormModal from './storeModal.vue';
+
+type RangeValue = [Dayjs, Dayjs];
+const month = ref<RangeValue>([dayjs(), dayjs()]);
 
 const [Grid, gridApi] = useVbenVxeGrid({
   gridOptions: {
@@ -23,7 +33,10 @@ const [Grid, gridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async () => {
-          return await listApi();
+          return await listApi({
+            startMonth: month.value[0].format('YYYY-MM'),
+            endMonth: month.value[1].format('YYYY-MM'),
+          });
         },
       },
     },
@@ -40,13 +53,19 @@ const handleStore = () => {
   storeModalApi.setData({ list: gridApi.grid.getData() }).open();
 };
 
-const handleRefresh = async () => {
+const handleMonth = () => {
+  gridApi.reload();
+};
+
+const handleDownload = async () => {
   try {
-    await refreshApi();
-    message.success('提交成功，库存统计中请稍后刷新页面查看');
-    gridApi.reload();
+    const resp = await materialDownloadApi();
+    downloadFileFromUrl({ source: resp.url, target: '_self' });
   } catch {}
 };
+
+// 导入库存盘点
+const handleImport = () => {};
 </script>
 
 <template>
@@ -54,23 +73,43 @@ const handleRefresh = async () => {
     <Grid>
       <template #table-title>
         <div
-          class="flex w-full items-center justify-between pb-[15px] pt-[10px]"
+          class="flex w-full items-center justify-center pb-[15px] pt-[10px]"
         >
-          <div class="w-[200px]">
-            <Button
-              type="primary"
-              v-access:code="AuthCode.Create"
-              @click="handleStore"
-            >
-              库存盘点
-            </Button>
-
-            <Button type="primary" class="ml-[14px]" @click="handleRefresh">
-              刷新库存
-            </Button>
-          </div>
           <div class="text-[22px]">原料库存统计</div>
-          <div class="w-[200px]"></div>
+        </div>
+        <div class="w-full items-center">
+          <RangePicker
+            format="YYYY-MM"
+            class="mr-[15px] w-[240px] flex-1"
+            v-model:value="month"
+            picker="month"
+            :allow-clear="false"
+            @change="handleMonth"
+          />
+          <Button
+            type="primary"
+            class="mr-[15px]"
+            v-access:code="AuthCode.Create"
+            @click="handleStore"
+          >
+            库存盘点
+          </Button>
+
+          <Button
+            type="primary"
+            class="mr-[15px]"
+            v-access:code="AuthCode.Import"
+            @click="handleDownload"
+          >
+            下载模板
+          </Button>
+          <CustomImport
+            v-access:code="AuthCode.Import"
+            url="/admin/material-inventory/import"
+            @success="gridApi.reload"
+          >
+            <Button type="primary" @click="handleImport"> 盘库导入 </Button>
+          </CustomImport>
         </div>
       </template>
     </Grid>

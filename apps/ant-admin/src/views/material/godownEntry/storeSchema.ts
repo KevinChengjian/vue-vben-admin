@@ -130,6 +130,17 @@ export const MaterialInFormStoreSchema: VbenFormSchema[] = [
     },
   },
   {
+    component: 'DatePicker',
+    fieldName: 'put_at',
+    label: '入库日期',
+    rules: 'required',
+    componentProps: {
+      valueFormat: 'YYYY-MM-DD',
+      class: 'w-full',
+      placeholder: '请输入入库日期',
+    },
+  },
+  {
     component: 'Textarea',
     fieldName: 'remark',
     label: '备注',

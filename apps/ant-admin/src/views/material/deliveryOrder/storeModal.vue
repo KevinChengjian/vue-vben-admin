@@ -57,22 +57,22 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         showSearch: true,
         placeholder: '请选择原料名称',
         code: Dict.KeyEnum.MATERIAL,
-        onChange: (e: string) => {
+        onChange: async (e: string) => {
           if (e && MaterialItems.value) {
-            MaterialItems.value.forEach((item: any) => {
+            MaterialItems.value.forEach(async (item: any) => {
               if (item.material_id === e) {
-                StoreFromApi.setValues({
+                await StoreFromApi.setValues({
                   unit_id: item.unit_id,
                   price: item.price,
                 });
               }
 
               if (item.spec && item.spec.length > 0) {
-                StoreFromApi.updateSchema([
+                await StoreFromApi.updateSchema([
                   {
                     fieldName: 'spec_id',
                     componentProps: {
-                      filters: item.spec,
+                      filters: item.spec || [],
                     },
                   },
                 ]);
@@ -100,17 +100,17 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         },
       },
     },
-    {
-      component: 'DictSelect',
-      fieldName: 'spec_id',
-      label: '原料规格',
-      componentProps: {
-        class: 'w-full',
-        allowClear: true,
-        placeholder: '请选择原料规格',
-        code: Dict.KeyEnum.MATERIAL_SPEC,
-      },
-    },
+    // {
+    //   component: 'DictSelect',
+    //   fieldName: 'spec_id',
+    //   label: '原料规格',
+    //   componentProps: {
+    //     class: 'w-full',
+    //     allowClear: true,
+    //     placeholder: '请选择原料规格',
+    //     code: Dict.KeyEnum.MATERIAL_SPEC,
+    //   },
+    // },
     {
       component: 'InputNumber',
       fieldName: 'num',

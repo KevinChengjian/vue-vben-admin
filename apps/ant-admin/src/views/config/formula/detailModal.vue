@@ -10,7 +10,6 @@ import {
   Descriptions,
   DescriptionsItem,
   Divider,
-  Progress,
   Row,
 } from 'ant-design-vue';
 
@@ -59,18 +58,9 @@ const [Modal, ModalApi] = useVbenModal({
       <Col :span="8" class="flex items-center">
         {{ item.name }}
       </Col>
-      <Col :span="6" class="flex items-center">
-        <Progress
-          :stroke-color="{
-            '0%': '#108ee9',
-            '100%': '#87d068',
-          }"
-          :format="(percent) => `${percent}%`"
-          :percent="item.ratio"
-        />
-      </Col>
+      <Col :span="6" class="flex items-center"> {{ item.weight }} kg </Col>
       <Col class="flex items-center" :span="8" :offset="2">
-        {{ item.remark }}
+        {{ item.remark || '~' }}
       </Col>
     </Row>
   </Modal>

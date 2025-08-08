@@ -52,7 +52,7 @@ onMounted(async () => {
     <SelectOption
       v-for="item in searchResult"
       :value="item.value"
-      :key="item.value"
+      :key="item.id"
       :label="item.label"
       :id="item.id"
       :can_no="item.can_no"

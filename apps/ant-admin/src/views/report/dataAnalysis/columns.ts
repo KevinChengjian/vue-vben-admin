@@ -1,12 +1,87 @@
 import { Dict } from '#/api';
 
 export const TableColumn: any = [
-  { title: '序号', align: 'center', type: 'seq', minWidth: 60 },
+  {
+    title: '出菇编号',
+    field: 'fruiting_sn',
+    align: 'center',
+    minWidth: 150,
+    fixed: 'left',
+    slots: { default: 'fruiting_sn' },
+  },
+  {
+    title: '上架时间',
+    field: 'put_at',
+    align: 'center',
+    minWidth: 105,
+  },
+  {
+    title: '下架时间',
+    field: 'out_at',
+    align: 'center',
+    minWidth: 105,
+  },
+  {
+    title: '上架包数',
+    field: 'co_put_num',
+    align: 'center',
+    minWidth: 105,
+  },
+  {
+    title: '产量(斤)',
+    field: 'cl',
+    headerAlign: 'center',
+    children: [
+      {
+        title: '总',
+        field: 'co_amount',
+        align: 'center',
+        cellRender: { name: 'number' },
+        minWidth: 75,
+      },
+      {
+        title: 'A菇',
+        field: 'co_a_amount',
+        align: 'center',
+        cellRender: { name: 'number' },
+        minWidth: 75,
+      },
+    ],
+  },
+  {
+    title: 'A菇率',
+    field: 'co_a_rate',
+    align: 'center',
+    minWidth: 90,
+    cellRender: { name: 'percent' },
+  },
+  {
+    title: '产单包产量(斤)',
+    field: 'dbcl',
+    headerAlign: 'center',
+    children: [
+      {
+        title: '总',
+        field: 'co_sp_num',
+        align: 'center',
+        cellRender: { name: 'number' },
+        minWidth: 75,
+      },
+      {
+        title: 'A菇',
+        field: 'co_asp_num',
+        align: 'center',
+        cellRender: { name: 'number' },
+        minWidth: 75,
+      },
+    ],
+  },
   {
     title: '菌包编号',
     field: 'mb_sn',
     align: 'center',
-    minWidth: 200,
+    minWidth: 280,
+    slots: { default: 'mb_sn' },
   },
   {
     title: '接种日期',
@@ -37,6 +112,12 @@ export const TableColumn: any = [
   {
     title: '配方',
     field: 'formulaName',
+    align: 'center',
+    minWidth: 105,
+  },
+  {
+    title: '实验',
+    field: 'experiment',
     align: 'center',
     minWidth: 105,
   },
@@ -95,86 +176,5 @@ export const TableColumn: any = [
         minWidth: 75,
       },
     ],
-  },
-
-  {
-    title: '出菇编号',
-    field: 'fruiting_sn',
-    align: 'center',
-    minWidth: 105,
-  },
-  {
-    title: '上架时间',
-    field: 'put_at',
-    align: 'center',
-    minWidth: 105,
-  },
-  {
-    title: '下架时间',
-    field: 'out_at',
-    align: 'center',
-    minWidth: 105,
-  },
-  {
-    title: '上架包数',
-    field: 'co_put_num',
-    align: 'center',
-    minWidth: 105,
-  },
-
-  {
-    title: '产量(斤)',
-    field: 'cl',
-    headerAlign: 'center',
-    children: [
-      {
-        title: '总',
-        field: 'co_amount',
-        align: 'center',
-        cellRender: { name: 'number' },
-        minWidth: 75,
-      },
-      {
-        title: 'A菇',
-        field: 'co_a_amount',
-        align: 'center',
-        cellRender: { name: 'number' },
-        minWidth: 75,
-      },
-    ],
-  },
-  {
-    title: 'A菇率',
-    field: 'co_a_rate',
-    align: 'center',
-    minWidth: 90,
-    cellRender: { name: 'percent' },
-  },
-  {
-    title: '产单包产量(斤)',
-    field: 'dbcl',
-    headerAlign: 'center',
-    children: [
-      {
-        title: '总',
-        field: 'co_sp_num',
-        align: 'center',
-        cellRender: { name: 'number' },
-        minWidth: 75,
-      },
-      {
-        title: 'A菇',
-        field: 'co_asp_num',
-        align: 'center',
-        cellRender: { name: 'number' },
-        minWidth: 75,
-      },
-    ],
-  },
-  {
-    title: '实验',
-    field: 'experiment',
-    align: 'center',
-    minWidth: 105,
   },
 ];

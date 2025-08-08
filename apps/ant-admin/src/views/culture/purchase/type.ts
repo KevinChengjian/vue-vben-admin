@@ -3,7 +3,7 @@ import type { BasicFetchResult } from '#/api/model';
 export interface ListItem {
   id: number;
   make_bag_sn: string;
-  ark_id: string;
+  mb_sn: string;
   upper_moisture: number;
   middle_moisture: number;
   lower_moisture: number;

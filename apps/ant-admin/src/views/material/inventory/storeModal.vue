@@ -58,7 +58,7 @@ const materialItems = ref<ListItem[]>([]);
           <Input
             class="w-full text-center"
             readonly
-            v-model:value="item.materialName"
+            v-model:value="item.material"
             placeholder="原料名称"
           />
         </Col>
@@ -66,7 +66,7 @@ const materialItems = ref<ListItem[]>([]);
           <Input
             class="w-full text-center"
             readonly
-            v-model:value="item.specName"
+            v-model:value="item.spec"
             placeholder="原料规格"
           />
         </Col>
@@ -75,7 +75,7 @@ const materialItems = ref<ListItem[]>([]);
             class="w-full"
             v-model:value="item.reality_num"
             placeholder="库存数量"
-            :addon-after="item.unitName"
+            :addon-after="item.unit"
           />
         </Col>
         <Col :span="9" class="flex items-center">

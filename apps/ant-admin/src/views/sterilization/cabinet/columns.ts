@@ -6,7 +6,13 @@ export const TableColumn: any = [
     title: '制包编号',
     field: 'make_bag_sn',
     align: 'center',
-    minWidth: 150,
+    minWidth: 160,
+  },
+  {
+    title: '灭菌日期',
+    field: 'check_at',
+    align: 'center',
+    minWidth: 120,
   },
   {
     title: '灭菌柜',
@@ -59,12 +65,7 @@ export const TableColumn: any = [
     align: 'center',
     minWidth: 180,
   },
-  {
-    title: '灭菌日期',
-    field: 'check_at',
-    align: 'center',
-    minWidth: 150,
-  },
+
   {
     title: '操作',
     field: 'action',

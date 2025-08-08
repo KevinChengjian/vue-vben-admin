@@ -61,6 +61,17 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'DatePicker',
+      fieldName: 'put_at',
+      label: '入库日期',
+      rules: 'required',
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        class: 'w-full',
+        placeholder: '请输入入库日期',
+      },
+    },
+    {
       component: 'DictSelect',
       fieldName: 'material',
       label: '入库原料',
@@ -124,6 +135,7 @@ const [Modal, ModalApi] = useVbenModal({
     // 默认值
     materialItems.value = [];
     await StoreFromApi.setValues({
+      put_at: dayjs().format('YYYY-MM-DD'),
       purchase_at: dayjs().format('YYYY-MM-DD'),
       user_id: userStore.userInfo?.userId,
       material_sn: isUpdate.value ? '' : await Material.materialSn(),

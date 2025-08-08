@@ -7,6 +7,7 @@ export interface ListItem {
   vr_mb_sn: string;
   put_num: number;
   out_num: number;
+  bad_num: number;
   out_at: string;
   make_bag_sn: string;
   warehouse_id: string;
@@ -28,6 +29,7 @@ export interface ListItem {
   created_at: string;
   updated_at: string;
   bl_num: number;
+  out_over: number;
 }
 
 export type ListResult = BasicFetchResult<ListItem[]>;

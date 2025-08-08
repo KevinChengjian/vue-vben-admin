@@ -80,13 +80,13 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     {
       component: 'DatePicker',
       fieldName: 'detection_at',
-      label: '检测时间',
+      label: '检测日期',
       rules: 'required',
       componentProps: {
         format: 'YYYY-MM-DD',
         valueFormat: 'YYYY-MM-DD',
         class: 'w-full',
-        placeholder: '请输入检测时间',
+        placeholder: '请输入检测日期',
       },
     },
     {
@@ -174,7 +174,11 @@ const [Modal, ModalApi] = useVbenModal({
     });
 
     isUpdate.value = data.isEdit;
-    data.record && StoreFromApi.setValues({ ...data.record });
+    data.record &&
+      (await StoreFromApi.setValues({
+        ...data.record,
+        user_id: data.record?.user_id || undefined,
+      }));
   },
   onConfirm: async () => {
     try {

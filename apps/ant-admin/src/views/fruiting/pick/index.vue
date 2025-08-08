@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import type { ListItem } from './type';
 
+import { useRouter } from 'vue-router';
+
 import { Page, useVbenModal } from '@vben/common-ui';
 
 import { Button, Space } from 'ant-design-vue';
 
 import { useDelete, useTable } from '#/hooks';
-import { format } from '#/utils/money';
 
 import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
@@ -69,6 +70,17 @@ const { destory } = useDelete<ListItem>({
     gridApi.reload();
   },
 });
+
+const router = useRouter();
+const handleFruiting = (item: any) => {
+  router.push({
+    path: '/fruiting/record',
+    query: {
+      fruiting_sn: item.fruiting_sn,
+      title: item.fruiting_sn,
+    },
+  });
+};
 </script>
 
 <template>
@@ -84,8 +96,10 @@ const { destory } = useDelete<ListItem>({
         </Button>
       </template>
 
-      <template #price="{ row }">
-        {{ format(row.price) }}
+      <template #fruiting_sn="{ row }">
+        <div class="text-primary" @click="handleFruiting(row)">
+          {{ row.fruiting_sn }}
+        </div>
       </template>
 
       <template #action="{ row }">

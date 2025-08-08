@@ -84,3 +84,12 @@ export async function summaryApi(params: any) {
 export async function profitApi(params: any) {
   return requestClient.post<any>('/admin/fruiting/profit', params);
 }
+
+/** Config
+ * 利润配置
+ * @param params
+ * @returns any
+ */
+export async function profitConfigApi(params: any) {
+  return requestClient.post<any>('/admin/profit-config/store', params);
+}

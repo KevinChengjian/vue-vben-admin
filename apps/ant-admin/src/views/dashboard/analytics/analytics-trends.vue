@@ -49,7 +49,6 @@ onMounted(async () => {
         {
           name: '出菇产量',
           type: 'line',
-          stack: 'Total',
           smooth: true,
           lineStyle: {
             width: 0,
@@ -60,7 +59,7 @@ onMounted(async () => {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: 'rgb(111, 210, 194)',
+                color: 'rgb(70, 130, 243)',
               },
               {
                 offset: 1,
@@ -76,7 +75,6 @@ onMounted(async () => {
         {
           name: 'A菇产量',
           type: 'line',
-          stack: 'Total',
           smooth: true,
           lineStyle: {
             width: 0,
@@ -87,7 +85,7 @@ onMounted(async () => {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: 'rgb(70, 130, 243)',
+                color: 'rgb(111, 210, 194)',
               },
               {
                 offset: 1,

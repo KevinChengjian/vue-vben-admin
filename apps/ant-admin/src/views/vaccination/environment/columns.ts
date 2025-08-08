@@ -3,6 +3,12 @@ import { Dict } from '#/api';
 export const TableColumn: any = [
   { title: '序号', align: 'center', type: 'seq', minWidth: 60 },
   {
+    title: '检测日期',
+    field: 'check_at',
+    align: 'center',
+    minWidth: 135,
+  },
+  {
     title: '检测区域',
     field: 'region_id',
     align: 'center',
@@ -64,12 +70,7 @@ export const TableColumn: any = [
     align: 'center',
     minWidth: 120,
   },
-  {
-    title: '检测日期',
-    field: 'check_at',
-    align: 'center',
-    minWidth: 135,
-  },
+
   {
     title: '操作',
     field: 'action',

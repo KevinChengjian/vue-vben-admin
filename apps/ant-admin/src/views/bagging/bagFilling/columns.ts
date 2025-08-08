@@ -9,6 +9,25 @@ export const TableColumn: any = [
     minWidth: 150,
   },
   {
+    title: '制包日期',
+    field: 'make_at',
+    align: 'center',
+    minWidth: 120,
+  },
+  {
+    title: '装袋日期',
+    field: 'bagging_at',
+    align: 'center',
+    minWidth: 120,
+  },
+  {
+    title: '装袋数量',
+    field: 'num',
+    align: 'center',
+    minWidth: 105,
+    cellRender: { name: 'number' },
+  },
+  {
     title: '配方',
     field: 'formula_name',
     align: 'center',
@@ -22,23 +41,10 @@ export const TableColumn: any = [
     minWidth: 120,
   },
   {
-    title: '装袋数量',
-    field: 'num',
-    align: 'center',
-    minWidth: 105,
-    cellRender: { name: 'number' },
-  },
-  {
     title: '备注',
     field: 'remark',
     align: 'center',
     minWidth: 225,
-  },
-  {
-    title: '装袋日期',
-    field: 'bagging_at',
-    align: 'center',
-    minWidth: 135,
   },
   {
     title: '操作',

@@ -1,5 +1,5 @@
 export const TableColumn: any = [
-  { title: '菌龄', field: 'age', align: 'center', minWidth: 50 },
+  { title: '菌龄', field: 'age', align: 'center', minWidth: 50, fixed: 'left' },
 ];
 
 export const TableColumnItem: any = [
@@ -123,8 +123,15 @@ export const TableColumnItem: any = [
             minWidth: 90,
           },
           {
-            title: '包温',
+            title: '包温1',
             field: '%c-bag_t',
+            align: 'center',
+            minWidth: 90,
+            cellRender: { name: 'number' },
+          },
+          {
+            title: '包温2',
+            field: '%c-bag_t1',
             align: 'center',
             minWidth: 90,
             cellRender: { name: 'number' },
@@ -132,6 +139,12 @@ export const TableColumnItem: any = [
           {
             title: '后熟',
             field: '%c-postripeness',
+            align: 'center',
+            minWidth: 90,
+          },
+          {
+            title: '备注',
+            field: '%c-remark',
             align: 'center',
             minWidth: 90,
           },
