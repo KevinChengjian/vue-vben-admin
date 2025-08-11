@@ -178,7 +178,7 @@ export const TableColumn: any = [
     title: '操作',
     field: 'action',
     align: 'center',
-    minWidth: 120,
+    minWidth: 150,
     fixed: 'right',
     slots: { default: 'action' },
   },

@@ -90,6 +90,12 @@ export const TableColumn: any = [
         minWidth: 120,
         cellRender: { name: 'number' },
       },
+      {
+        field: 'warehouse',
+        title: '养菌房',
+        align: 'center',
+        minWidth: 110,
+      },
     ],
   },
   {

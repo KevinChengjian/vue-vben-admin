@@ -139,6 +139,16 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       },
     },
     {
+      component: 'DictSelect',
+      fieldName: 'warehouse_id',
+      label: '养菌房',
+      componentProps: {
+        class: 'w-full',
+        code: Dict.KeyEnum.STRAIN_HOUSE,
+        placeholder: '请选择养菌房',
+      },
+    },
+    {
       component: 'Textarea',
       fieldName: 'remark',
       label: '备注',

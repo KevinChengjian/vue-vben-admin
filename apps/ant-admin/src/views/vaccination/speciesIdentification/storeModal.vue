@@ -132,6 +132,15 @@ const [StoreForm, StoreFromApi] = useVbenForm({
         placeholder: '请输入备注',
       },
     },
+    {
+      component: 'CustomUpload',
+      fieldName: 'attach_ids',
+      label: '附件',
+      formItemClass: 'col-span-2',
+      componentProps: {
+        placeholder: '请上传附件',
+      },
+    },
   ],
   showDefaultActions: false,
   wrapperClass: 'grid-cols-2 mr-[25px]',

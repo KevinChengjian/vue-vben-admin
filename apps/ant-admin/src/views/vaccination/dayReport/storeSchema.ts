@@ -116,7 +116,6 @@ export const StoreFormSchema: VbenFormSchema[] = [
       placeholder: '请填写温度',
     },
   },
-
   {
     component: 'Textarea',
     fieldName: 'remark',
@@ -124,6 +123,15 @@ export const StoreFormSchema: VbenFormSchema[] = [
     formItemClass: 'col-span-2',
     componentProps: {
       placeholder: '请输入备注',
+    },
+  },
+  {
+    component: 'CustomUpload',
+    fieldName: 'attach_ids',
+    label: '附件',
+    formItemClass: 'col-span-2',
+    componentProps: {
+      placeholder: '请上传附件',
     },
   },
 ];

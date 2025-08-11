@@ -11,6 +11,7 @@ import { format } from '#/utils/money';
 
 import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
+import Detail from './detail.vue';
 import MaterialStoreModal from './storeModal.vue';
 
 const [Grid, gridApi] = useTable({
@@ -115,6 +116,14 @@ const { destory } = useDelete<ListItem>({
     gridApi.reload();
   },
 });
+
+// 详情
+const [DetailModal, detailModalApi] = useVbenModal({
+  connectedComponent: Detail,
+});
+const handleDetail = (row: ListItem) => {
+  detailModalApi.setData(row).open();
+};
 </script>
 
 <template>
@@ -136,6 +145,9 @@ const { destory } = useDelete<ListItem>({
 
       <template #action="{ row }">
         <Space :size="15">
+          <div class="text-primary cursor-pointer" @click="handleDetail(row)">
+            详情
+          </div>
           <div
             class="text-primary cursor-pointer"
             v-access:code="AuthCode.Update"
@@ -155,5 +167,6 @@ const { destory } = useDelete<ListItem>({
     </Grid>
 
     <StoreModal @reload="gridApi.reload" />
+    <DetailModal />
   </Page>
 </template>
