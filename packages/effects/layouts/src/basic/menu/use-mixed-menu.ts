@@ -74,7 +74,7 @@ function useMixedMenu() {
    */
   const headerActive = computed(() => {
     if (!needSplit.value) {
-      return route.path;
+      return route.meta?.activePath ?? route.path;
     }
     return rootMenuPath.value;
   });
@@ -140,7 +140,10 @@ function useMixedMenu() {
   watch(
     () => route.path,
     (path) => {
-      const currentPath = (route?.meta?.activePath as string) ?? path;
+      const currentPath = route?.meta?.activePath ?? route?.meta?.link ?? path;
+      if (willOpenedByWindow(currentPath)) {
+        return;
+      }
       calcSideMenus(currentPath);
       if (rootMenuPath.value)
         defaultSubMap.set(rootMenuPath.value, currentPath);
