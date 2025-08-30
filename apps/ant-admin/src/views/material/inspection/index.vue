@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import type { MaterialInItem } from './type';
 
+import { nextTick } from 'vue';
+import { useRoute } from 'vue-router';
+
 import { Page, useVbenModal } from '@vben/common-ui';
+import { useTabs } from '@vben/hooks';
 
 import { Button, Space } from 'ant-design-vue';
 
@@ -13,6 +17,12 @@ import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
 import UserStoreModal from './storeModal.vue';
 
+const route = useRoute();
+const { setTabTitle } = useTabs();
+nextTick(() => {
+  if (!route.query?.title) return;
+  setTabTitle(`${route.query?.title}-检测记录`);
+});
 const [Grid, gridApi] = useTable({
   colums: TableColumn,
   api: listApi,
@@ -21,6 +31,7 @@ const [Grid, gridApi] = useTable({
       component: 'MaterialSnSelect',
       fieldName: 'material_sn',
       label: '原料编号',
+      defaultValue: route?.query?.material_sn || undefined,
       componentProps: {
         allowClear: true,
         placeholder: '请输入原料编号',
@@ -30,6 +41,7 @@ const [Grid, gridApi] = useTable({
       component: 'DictSelect',
       fieldName: 'material_id',
       label: '原料名称',
+      defaultValue: route?.query?.material_id || undefined,
       componentProps: {
         class: 'w-full',
         showSearch: true,

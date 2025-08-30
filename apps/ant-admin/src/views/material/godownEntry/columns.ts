@@ -7,6 +7,7 @@ export const TableColumn: any = [
     field: 'material_sn',
     align: 'center',
     minWidth: 120,
+    slots: { default: 'material_sn' },
   },
   {
     title: '名称',

@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import type { MaterialInItem } from './type';
 
+import { useRouter } from 'vue-router';
+
 import { Page, useVbenModal } from '@vben/common-ui';
 
 import { Button, Space } from 'ant-design-vue';
 
 import { Dict } from '#/api';
 import { useDelete, useTable } from '#/hooks';
-import { format } from '#/utils/money';
 
 import { AuthCode, materialInDeleteApi, materialInListApi } from './api';
 import BatchStoreModal from './batchModal.vue';
@@ -112,6 +113,20 @@ const { destory } = useDelete<MaterialInItem>({
     gridApi.reload();
   },
 });
+
+// 巡查记录
+const router = useRouter();
+const handleInspection = (row: any) => {
+  router.push({
+    path: '/material/inspection',
+    query: {
+      material_sn: row.material_sn,
+      material_id: row.material_id,
+      materialName: row.materialName,
+      title: `${row.material_sn}-${row.materialName}`,
+    },
+  });
+};
 </script>
 
 <template>
@@ -135,8 +150,10 @@ const { destory } = useDelete<MaterialInItem>({
         </Button>
       </template>
 
-      <template #price="{ row }">
-        {{ format(row.price) }}
+      <template #material_sn="{ row }">
+        <div class="text-primary cursor-pointer" @click="handleInspection(row)">
+          {{ row.material_sn }}
+        </div>
       </template>
 
       <template #action="{ row }">

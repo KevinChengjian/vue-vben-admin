@@ -103,7 +103,7 @@ export const TableColumn: any = [
   },
   {
     title: '备注',
-    field: 'remark',
+    field: 'fullRemark',
     align: 'center',
     minWidth: 150,
   },

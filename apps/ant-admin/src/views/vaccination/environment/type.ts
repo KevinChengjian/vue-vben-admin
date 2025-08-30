@@ -19,3 +19,13 @@ export interface ListItem {
 }
 
 export type ListResult = BasicFetchResult<ListItem[]>;
+
+export interface AreaItem {
+  label: string;
+  value: number | string;
+  rs1?: string;
+  rs2?: string;
+  rs3?: string;
+  rs4?: string;
+  rs5?: string;
+}

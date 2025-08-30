@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 
 import { Page, useVbenModal } from '@vben/common-ui';
+import { downloadFileFromUrl } from '@vben/utils';
 
 import { Button, message, Select } from 'ant-design-vue';
 
@@ -10,7 +11,7 @@ import { Dict } from '#/api';
 import DictSelect from '#/components/dict/dict-select.vue';
 import VcMbSnSelect from '#/components/serialNumber/vr-mb-sn-select.vue';
 
-import { listApi } from './api';
+import { AuthCode, exportApi, listApi } from './api';
 import { TableColumn, TableColumnItem } from './columns';
 import ChartModal from './storeModal.vue';
 
@@ -95,6 +96,22 @@ const handleShowChart = () => {
   getTableData();
   // storeModalApi.setData({}).open();
 };
+
+// 导出数据
+const handleExport = async () => {
+  try {
+    const resp = await exportApi({
+      house: house.value,
+      sn: mbSnList.value,
+      step: dayStep.value,
+    });
+    downloadFileFromUrl({
+      fileName: '养菌分析统计',
+      source: resp.url,
+      target: '_self',
+    });
+  } catch {}
+};
 </script>
 
 <template>
@@ -134,6 +151,14 @@ const handleShowChart = () => {
             @click="handleShowChart"
           >
             分析
+          </Button>
+          <Button
+            type="primary"
+            class="ml-[10px]"
+            @click="handleExport()"
+            v-access:code="AuthCode.Export"
+          >
+            导出
           </Button>
         </div>
       </template>

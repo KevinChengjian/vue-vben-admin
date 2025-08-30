@@ -6,6 +6,7 @@ import { requestClient } from '#/api/request';
 export enum AuthCode {
   Create = 'admin.report.create',
   Delete = 'admin.report.delete',
+  Export = 'admin.report.strain-export',
   Update = 'admin.report.update',
 }
 
@@ -19,4 +20,13 @@ export async function listApi(params: any = {}) {
     '/admin/report/strain',
     params,
   );
+}
+
+/**
+ * 导出
+ * @param params
+ * @returns any
+ */
+export async function exportApi(params: any) {
+  return requestClient.post<any>('/admin/report/strainexport', params);
 }

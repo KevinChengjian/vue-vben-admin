@@ -2,6 +2,7 @@
 import type { ListItem } from './type';
 
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { useVbenDrawer } from '@vben/common-ui';
 
@@ -28,6 +29,12 @@ const [Drawer, drawerApi] = useVbenDrawer({
     detail.value = await detailApi({ id: row.value.id });
   },
 });
+
+// 巡查记录
+const router = useRouter();
+const handleJump = (url: string, params: any) => {
+  router.push({ path: url, query: params });
+};
 </script>
 
 <template>
@@ -35,7 +42,18 @@ const [Drawer, drawerApi] = useVbenDrawer({
     <Descriptions title="制包" size="small" v-if="detail?.detail?.source === 1">
       <template v-for="(item, key) in detail?.bl" :key="key">
         <DescriptionsItem label="制包编号">
-          {{ item?.make_bag_sn }}
+          <div
+            class="text-primary cursor-pointer"
+            @click="
+              handleJump('/bagging/substrateMixing', {
+                make_bag_sn: item.make_bag_sn,
+                formula_id: item.formula_id,
+                title: item.make_bag_sn,
+              })
+            "
+          >
+            {{ item?.make_bag_sn }}
+          </div>
         </DescriptionsItem>
         <DescriptionsItem label="配方名称">
           {{ item?.formula?.name }}
@@ -69,7 +87,17 @@ const [Drawer, drawerApi] = useVbenDrawer({
     >
       <template v-for="(item, index) in detail?.strain" :key="index">
         <DescriptionsItem label="菌种编号">
-          {{ item?.strain_sn }}
+          <div
+            class="text-primary cursor-pointer"
+            @click="
+              handleJump('/vaccination/strain', {
+                strain_sn: item.strain_sn,
+                title: item.strain_sn,
+              })
+            "
+          >
+            {{ item?.strain_sn }}
+          </div>
         </DescriptionsItem>
         <DescriptionsItem label="灌号">
           <DictLabel :code="Dict.KeyEnum.STRAIN_CAN_NO" :value="item?.can_no" />
@@ -94,10 +122,31 @@ const [Drawer, drawerApi] = useVbenDrawer({
           {{ item?.mb_sn }}
         </DescriptionsItem>
         <DescriptionsItem label="制包编号">
-          {{ item?.make_bag_sn }}
+          <div
+            class="text-primary cursor-pointer"
+            @click="
+              handleJump('/bagging/substrateMixing', {
+                make_bag_sn: item.make_bag_sn,
+                formula_id: item.formula_id,
+                title: item.make_bag_sn,
+              })
+            "
+          >
+            {{ item?.make_bag_sn }}
+          </div>
         </DescriptionsItem>
         <DescriptionsItem label="菌种编号">
-          {{ item?.strain_sn }}
+          <div
+            class="text-primary cursor-pointer"
+            @click="
+              handleJump('/vaccination/strain', {
+                strain_sn: item.strain_sn,
+                title: item.strain_sn,
+              })
+            "
+          >
+            {{ item?.strain_sn }}
+          </div>
         </DescriptionsItem>
         <DescriptionsItem label="接种日期">
           {{ item?.vaccination_at }}
@@ -133,7 +182,17 @@ const [Drawer, drawerApi] = useVbenDrawer({
       v-if="detail?.detail?.source === 2"
     >
       <DescriptionsItem label="菌包编号">
-        {{ detail?.pr?.mb_sn }}
+        <div
+          class="text-primary cursor-pointer"
+          @click="
+            handleJump('/culture/purchase', {
+              mb_sn: detail?.pr.mb_sn,
+              title: detail?.pr.mb_sn,
+            })
+          "
+        >
+          {{ detail?.pr?.mb_sn }}
+        </div>
       </DescriptionsItem>
       <DescriptionsItem label="制包日期">
         {{ detail?.pr?.make_at }}

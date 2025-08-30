@@ -129,7 +129,8 @@ const handleFruiting = (item: any) => {
 // 导出数据
 const handleExport = async () => {
   try {
-    const resp = await exportApi(gridApi.formApi.getValues);
+    const values = await gridApi.formApi.getValues();
+    const resp = await exportApi(values);
     downloadFileFromUrl({ source: resp.url, target: '_self' });
   } catch {}
 };

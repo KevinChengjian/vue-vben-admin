@@ -11,6 +11,7 @@ import { format } from '#/utils/money';
 
 import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
+import Detail from './detail.vue';
 import MaterialStoreModal from './storeModal.vue';
 
 const [Grid, gridApi] = useTable({
@@ -19,24 +20,13 @@ const [Grid, gridApi] = useTable({
   searhcSchema: [
     {
       component: 'DictSelect',
-      fieldName: 'region_id',
-      label: '检测区域',
+      fieldName: 'user_id',
+      label: '检测人员',
       componentProps: {
         class: 'w-full',
         showSearch: true,
-        placeholder: '请选择检测区域',
-        code: Dict.KeyEnum.ENV_REGION,
-      },
-    },
-    {
-      component: 'DictSelect',
-      fieldName: 'point_id',
-      label: '检测点位',
-      componentProps: {
-        class: 'w-full',
-        showSearch: true,
-        placeholder: '请选择检测点位',
-        code: Dict.KeyEnum.ENV_POINT,
+        placeholder: '请选择检测人员',
+        code: Dict.KeyEnum.SYS_USER,
       },
     },
     {
@@ -58,12 +48,7 @@ const [StoreModal, storeModalApi] = useVbenModal({
 });
 
 const handleStore = (item: any = {}, edit: boolean = false) => {
-  storeModalApi
-    .setData({
-      isEdit: edit,
-      record: item,
-    })
-    .open();
+  storeModalApi.setData({ isEdit: edit, record: item }).open();
 };
 
 // 删除
@@ -73,6 +58,14 @@ const { destory } = useDelete<ListItem>({
     gridApi.reload();
   },
 });
+
+// 详情
+const [DetailModal, detailModalApi] = useVbenModal({
+  connectedComponent: Detail,
+});
+const handleDetail = (row: ListItem) => {
+  detailModalApi.setData(row).open();
+};
 </script>
 
 <template>
@@ -94,6 +87,9 @@ const { destory } = useDelete<ListItem>({
 
       <template #action="{ row }">
         <Space :size="15">
+          <div class="text-primary cursor-pointer" @click="handleDetail(row)">
+            详情
+          </div>
           <div
             class="text-primary cursor-pointer"
             v-access:code="AuthCode.Update"
@@ -113,5 +109,6 @@ const { destory } = useDelete<ListItem>({
     </Grid>
 
     <StoreModal @reload="gridApi.reload" />
+    <DetailModal />
   </Page>
 </template>

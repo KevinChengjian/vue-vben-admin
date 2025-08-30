@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import type { ListItem } from './type';
 
-import { useRouter } from 'vue-router';
+import { nextTick } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 import { Page, useVbenModal } from '@vben/common-ui';
+import { useTabs } from '@vben/hooks';
 
 import { Button, Space } from 'ant-design-vue';
 
@@ -14,6 +16,12 @@ import { AuthCode, deleteApi, listApi } from './api';
 import { TableColumn } from './columns';
 import MaterialStoreModal from './storeModal.vue';
 
+const route = useRoute();
+const { setTabTitle } = useTabs();
+nextTick(() => {
+  if (!route.query?.title) return;
+  setTabTitle(`${route.query?.title}-购买记录`);
+});
 const [Grid, gridApi] = useTable({
   colums: TableColumn,
   api: listApi,
@@ -22,6 +30,7 @@ const [Grid, gridApi] = useTable({
       component: 'Input',
       fieldName: 'mb_sn',
       label: '菌包编号',
+      defaultValue: route?.query?.mb_sn || undefined,
       componentProps: {
         allowClear: true,
         placeholder: '请输入菌包编号',

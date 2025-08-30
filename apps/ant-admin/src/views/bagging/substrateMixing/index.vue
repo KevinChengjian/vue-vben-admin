@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import type { ListItem } from './type';
 
+import { nextTick } from 'vue';
+import { useRoute } from 'vue-router';
+
 import { Page, useVbenModal } from '@vben/common-ui';
+import { useTabs } from '@vben/hooks';
 
 import { Button, Space } from 'ant-design-vue';
 
@@ -13,6 +17,17 @@ import { TableColumn } from './columns';
 import detail from './detail.vue';
 import MaterialStoreModal from './storeModal.vue';
 
+const route = useRoute();
+let formulaId: any;
+if (route?.query?.formula_id) {
+  formulaId = Number.parseInt(route?.query?.formula_id as any);
+}
+const { setTabTitle } = useTabs();
+nextTick(() => {
+  if (!route.query?.title) return;
+  setTabTitle(`${route.query?.title}-拌料记录`);
+});
+
 const [Grid, gridApi] = useTable({
   colums: TableColumn,
   api: listApi,
@@ -21,6 +36,7 @@ const [Grid, gridApi] = useTable({
       component: 'Input',
       fieldName: 'make_bag_sn',
       label: '制包编号',
+      defaultValue: route?.query?.make_bag_sn || undefined,
       componentProps: {
         allowClear: true,
         placeholder: '请输入制包编号',
@@ -29,6 +45,7 @@ const [Grid, gridApi] = useTable({
     {
       component: 'FormulaSelect',
       fieldName: 'formula_id',
+      defaultValue: formulaId,
       label: '制包配方',
       componentProps: {
         class: 'w-full',

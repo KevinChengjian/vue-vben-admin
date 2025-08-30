@@ -150,10 +150,7 @@ defineExpose({
     </VbenButton>
 
     <!-- 版权 -->
-    <div
-      style="width: calc(100% - 110px)"
-      class="text-muted-foreground absolute bottom-[25px] w-full text-center"
-    >
+    <div class="text-muted-foreground mt-[100px] w-full text-center">
       Copyright © {{ date }} 杭州临安农新生物科技有限公司
     </div>
 
