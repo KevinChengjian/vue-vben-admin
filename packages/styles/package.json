@@ -26,6 +26,9 @@
     },
     "./global": {
       "default": "./src/global/index.scss"
+    },
+    "./font": {
+      "default": "./src/font/index.css"
     }
   },
   "dependencies": {
