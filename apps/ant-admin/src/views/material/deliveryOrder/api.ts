@@ -8,6 +8,7 @@ import { requestClient } from '#/api/request';
 export enum AuthCode {
   Create = 'admin.material-out.create',
   Delete = 'admin.material-out.delete',
+  Export = 'admin.material-out.export',
   Update = 'admin.material-out.update',
 }
 
@@ -57,4 +58,13 @@ export async function deleteApi(params: any) {
  */
 export async function detailApi(params: any) {
   return requestClient.post<any>('/admin/material-out/detail', params);
+}
+
+/**
+ * 导出
+ * @param params any
+ * @returns ListResult
+ */
+export async function exportApi(params: any = {}) {
+  return requestClient.post<any>('/admin/material-out/export', params);
 }

@@ -2,16 +2,18 @@
 import { useRouter } from 'vue-router';
 
 import { Page } from '@vben/common-ui';
+import { downloadFileFromUrl } from '@vben/utils';
 
+import { Button } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { Dict } from '#/api';
 import { useTable } from '#/hooks';
 
-import { listApi } from './api';
+import { AuthCode, exportApi, listApi } from './api';
 import { TableColumn } from './columns';
 
-const [Grid] = useTable({
+const [Grid, gridApi] = useTable({
   colums: TableColumn,
   api: listApi,
   searhcSchema: [
@@ -111,12 +113,33 @@ const handleStrainHouse = (item: any) => {
     },
   });
 };
+
+// 导出数据
+const handleExport = async () => {
+  try {
+    const params = await gridApi.formApi.getValues();
+    const resp = await exportApi(params);
+    downloadFileFromUrl({
+      fileName: '菌包出库统计',
+      source: resp.url,
+      target: '_self',
+    });
+  } catch {}
+};
 </script>
 
 <template>
   <Page class="h-full">
     <Grid>
-      <template #toolbar-actions> </template>
+      <template #toolbar-actions>
+        <Button
+          type="primary"
+          @click="handleExport"
+          v-access:code="AuthCode.Export"
+        >
+          导出数据
+        </Button>
+      </template>
       <template #mb_sn="{ row }">
         <div class="text-primary" @click="handleCulture(row)">
           {{ row.mb_sn }}

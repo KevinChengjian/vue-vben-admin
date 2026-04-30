@@ -8,6 +8,7 @@ import { requestClient } from '#/api/request';
 export enum AuthCode {
   Create = 'admin.fruiting-pick.create',
   Delete = 'admin.fruiting-pick.delete',
+  Export = 'admin.fruiting-pick.export',
   Update = 'admin.fruiting-pick.update',
 }
 
@@ -54,4 +55,13 @@ export async function deleteApi(params: any) {
  */
 export async function detailApi(params: any) {
   return requestClient.post<any>('/admin/fruiting-pick/detail', params);
+}
+
+/**
+ * 导出
+ * @param params any
+ * @returns ListResult
+ */
+export async function exportApi(params: any = {}) {
+  return requestClient.post<any>('/admin/fruiting-pick/export', params);
 }

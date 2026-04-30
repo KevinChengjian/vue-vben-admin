@@ -145,12 +145,14 @@ const [Modal, ModalApi] = useVbenModal({
     date.value = isUpdate.value
       ? data.record.put_at
       : dayjs().format('YYYYMMDD');
-    await StoreFromApi.setValues({
-      put_at: dayjs().format('YYYY-MM-DD'),
-      dev_id: userStore.userInfo?.userId,
-    });
 
-    data.record && StoreFromApi.setValues({ ...data.record });
+    await StoreFromApi.setValues({ put_at: dayjs().format('YYYY-MM-DD') });
+
+    data.record &&
+      StoreFromApi.setValues({
+        ...data.record,
+        dev_id: data.record.dev_id === 0 ? null : data.record.dev_id,
+      });
   },
   onConfirm: async () => {
     try {

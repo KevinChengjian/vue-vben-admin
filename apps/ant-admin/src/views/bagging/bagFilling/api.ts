@@ -8,6 +8,7 @@ import { requestClient } from '#/api/request';
 export enum AuthCode {
   Create = 'admin.bag-filling.create',
   Delete = 'admin.bag-filling.delete',
+  Export = 'admin.bag-filling.export',
   Update = 'admin.bag-filling.update',
 }
 
@@ -62,5 +63,14 @@ export async function detailApi(params: any) {
  * @returns any
  */
 export async function canItemsApi(params: any) {
-  return requestClient.post<any>('/admin/substrate-mixing/can-items', params);
+  return requestClient.post<any>('/admin/bag-filling/can-items', params);
+}
+
+/**
+ * 导出
+ * @param params any
+ * @returns ListResult
+ */
+export async function exportApi(params: any = {}) {
+  return requestClient.post<any>('/admin/bag-filling/export', params);
 }

@@ -17,10 +17,10 @@ export const TableColumn: any = [
     minWidth: 100,
   },
   {
-    title: '包芯温度',
-    field: 'temperature',
+    title: '包龄',
+    field: 'age',
     align: 'center',
-    cellRender: { name: 'number' },
+    slots: { default: 'age' },
     minWidth: 100,
   },
   {

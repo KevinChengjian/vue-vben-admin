@@ -102,6 +102,17 @@ const [Grid, gridApi] = useTable({
         placeholder: ['开始时间', '结束时间'],
       },
     },
+    {
+      component: 'RangePicker',
+      fieldName: 'out_at',
+      label: '下架时间',
+      defaultValue: [],
+      componentProps: {
+        valueFormat: 'YYYY-MM-DD',
+        allowClear: true,
+        placeholder: ['开始时间', '结束时间'],
+      },
+    },
   ],
 });
 

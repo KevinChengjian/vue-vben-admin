@@ -17,7 +17,10 @@ import { TableColumn } from './columns';
 import StoreFormModal from './storeModal.vue';
 
 type RangeValue = [Dayjs, Dayjs];
-const month = ref<RangeValue>([dayjs(), dayjs()]);
+const month = ref<RangeValue>([
+  dayjs().add(-1, 'month').startOf('month'),
+  dayjs(),
+]);
 
 const [Grid, gridApi] = useVbenVxeGrid({
   gridOptions: {
@@ -34,8 +37,8 @@ const [Grid, gridApi] = useVbenVxeGrid({
       ajax: {
         query: async () => {
           return await listApi({
-            startMonth: month.value[0].format('YYYY-MM'),
-            endMonth: month.value[1].format('YYYY-MM'),
+            startDay: month.value[0].format('YYYY-MM-DD'),
+            endDay: month.value[1].format('YYYY-MM-DD'),
           });
         },
       },
@@ -79,10 +82,9 @@ const handleImport = () => {};
         </div>
         <div class="w-full items-center">
           <RangePicker
-            format="YYYY-MM"
+            format="YYYY-MM-DD"
             class="mr-[15px] w-[240px] flex-1"
             v-model:value="month"
-            picker="month"
             :allow-clear="false"
             @change="handleMonth"
           />

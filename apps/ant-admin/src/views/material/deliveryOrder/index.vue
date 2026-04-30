@@ -2,14 +2,16 @@
 import type { MaterialInItem } from './type';
 
 import { Page, useVbenModal } from '@vben/common-ui';
+import { downloadFileFromUrl } from '@vben/utils';
 
 import { Button, Space } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { Dict } from '#/api';
 import { useDelete, useTable } from '#/hooks';
 import { format } from '#/utils/money';
 
-import { AuthCode, deleteApi, listApi } from './api';
+import { AuthCode, deleteApi, exportApi, listApi } from './api';
 import { TableColumn } from './columns';
 import UserStoreModal from './storeModal.vue';
 
@@ -51,6 +53,10 @@ const [Grid, gridApi] = useTable({
       component: 'RangePicker',
       fieldName: 'created_at',
       label: '出库时间',
+      defaultValue: [
+        dayjs().add(-1, 'month').startOf('month').format('YYYY-MM-DD'),
+        dayjs().endOf('month').format('YYYY-MM-DD'),
+      ],
       componentProps: {
         valueFormat: 'YYYY-MM-DD',
         allowClear: true,
@@ -81,6 +87,15 @@ const { destory } = useDelete<MaterialInItem>({
     gridApi.reload();
   },
 });
+
+// 导出数据
+const handleExport = async () => {
+  try {
+    const values = await gridApi.formApi.getValues();
+    const resp = await exportApi(values);
+    downloadFileFromUrl({ source: resp.url, target: '_self' });
+  } catch {}
+};
 </script>
 
 <template>
@@ -93,6 +108,15 @@ const { destory } = useDelete<MaterialInItem>({
           @click="handleStore"
         >
           新增记录
+        </Button>
+
+        <Button
+          type="primary"
+          class="ml-[10px]"
+          @click="handleExport"
+          v-access:code="AuthCode.Export"
+        >
+          导出记录
         </Button>
       </template>
 

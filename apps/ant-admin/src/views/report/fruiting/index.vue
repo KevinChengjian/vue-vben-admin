@@ -2,13 +2,14 @@
 import { computed, nextTick, onMounted, ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
+import { downloadFileFromUrl } from '@vben/utils';
 
-import { DatePicker } from 'ant-design-vue';
+import { Button, DatePicker } from 'ant-design-vue';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
-import { listApi } from './api';
+import { AuthCode, exportApi, listApi } from './api';
 
 onMounted(() => {
   month.value = dayjs();
@@ -59,6 +60,18 @@ const getTableData = async () => {
     }, 500);
   });
 };
+
+// 导出数据
+const handleExport = async () => {
+  try {
+    const resp = await exportApi({ month: month.value?.format('YYYY-MM') });
+    downloadFileFromUrl({
+      fileName: '出菇统计',
+      source: resp.url,
+      target: '_self',
+    });
+  } catch {}
+};
 </script>
 
 <template>
@@ -66,20 +79,30 @@ const getTableData = async () => {
     <Grid>
       <template #table-title>
         <div
-          class="flex w-full items-center justify-between pb-[15px] pt-[10px]"
+          class="flex w-full items-center justify-between pb-[5px] pt-[10px]"
         >
-          <div class="flex w-[240px]">
-            <DatePicker
-              format="YYYY年MM月"
-              class="w-full flex-1"
-              v-model:value="month"
-              picker="month"
-              :allow-clear="false"
-              @change="handleMonth"
-            />
-          </div>
+          <div class="flex w-[240px]"></div>
           <div class="text-[22px]">出菇统计（{{ title }}）</div>
           <div class="w-[240px]"></div>
+        </div>
+
+        <div class="w-full items-center">
+          <DatePicker
+            format="YYYY年MM月"
+            class="w-[200px] flex-1"
+            v-model:value="month"
+            picker="month"
+            :allow-clear="false"
+            @change="handleMonth"
+          />
+          <Button
+            type="primary"
+            class="ml-[10px]"
+            @click="handleExport"
+            v-access:code="AuthCode.Export"
+          >
+            导出数据
+          </Button>
         </div>
       </template>
     </Grid>

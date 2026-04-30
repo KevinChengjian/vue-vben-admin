@@ -4,6 +4,7 @@ import type { ListItem } from './type';
 import { nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 
+import { useAccess } from '@vben/access';
 import { Page, useVbenDrawer, useVbenModal } from '@vben/common-ui';
 import { useTabs } from '@vben/hooks';
 
@@ -120,6 +121,8 @@ const [ClearModal, clearModalApi] = useVbenModal({
 const handleClear = (row: any) => {
   clearModalApi.setData({ record: row }).open();
 };
+
+const permiss = useAccess();
 </script>
 
 <template>
@@ -138,6 +141,19 @@ const handleClear = (row: any) => {
       <template #fruiting_sn="{ row }">
         <div class="text-primary" @click="handleDetail(row)">
           {{ row.fruiting_sn }}
+        </div>
+      </template>
+
+      <template #age="{ row }">
+        <div
+          v-if="permiss.hasAccessByCodes([AuthCode.Detail])"
+          class="text-primary"
+          @click="handleDetail(row)"
+        >
+          {{ row.age }}
+        </div>
+        <div v-else class="text-primary">
+          {{ row.age }}
         </div>
       </template>
 
