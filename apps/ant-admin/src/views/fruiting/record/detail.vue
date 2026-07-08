@@ -76,6 +76,8 @@ const getDetail = async () => {
   storeForm.value.cost_cg_amount = detail.value?.profit.cost_cg_amount || 0;
   storeForm.value.cost_a_rate = detail.value?.profit.cost_a_rate || 0;
   storeForm.value.cost_a_amount = detail.value?.profit.cost_a_amount || 0;
+  storeForm.value.cost_b_rate = detail.value?.profit.cost_b_rate || 0;
+  storeForm.value.cost_b_amount = detail.value?.profit.cost_b_amount || 0;
   storeForm.value.cost_c_rate = detail.value?.profit.cost_c_rate || 0;
   storeForm.value.cost_c_amount = detail.value?.profit.cost_c_amount || 0;
   storeForm.value.cost_cz_price = detail.value?.profit.cost_cz_price || 0;
@@ -125,6 +127,10 @@ const storeForm = ref<Profit>({
   cost_cg_amount: 0,
   cost_a_rate: 0.4,
   cost_a_amount: 0,
+
+  cost_b_rate: 0.5,
+  cost_b_amount: 0,
+
   cost_c_rate: 0.6,
   cost_c_amount: 0,
   cost_cz_price: 0,
@@ -144,19 +150,28 @@ const handleSubmit = async (key: string) => {
     const putNum: number = detail.value.put_num;
     const outNum: number = detail.value.out_num;
     const aOutNum: number = detail.value.a_out_num;
-    const otherNum: number = outNum - aOutNum;
+    const bOutNum: number = detail.value.b_out_num;
+    const otherNum: number = outNum - aOutNum - bOutNum;
     if (key === 'sale') {
       // A菇销售额
       storeForm.value.sale_a_amount = Number.parseFloat(
         (aOutNum * storeForm.value.sale_a_price).toFixed(2),
       );
+
+      storeForm.value.sale_a1_amount = Number.parseFloat(
+        (bOutNum * storeForm.value.sale_a1_price).toFixed(2),
+      );
+
       // 剩余销售
       storeForm.value.sale_c_amount = Number.parseFloat(
         (otherNum * storeForm.value.sale_c_price).toFixed(2),
       );
 
       // 销售总额
-      const sa = storeForm.value.sale_a_amount + storeForm.value.sale_c_amount;
+      const sa =
+        storeForm.value.sale_a_amount +
+        storeForm.value.sale_a1_amount +
+        storeForm.value.sale_c_amount;
       storeForm.value.sale_amount = Number.parseFloat(sa.toFixed(2));
     }
 
@@ -176,6 +191,11 @@ const handleSubmit = async (key: string) => {
         (aOutNum * storeForm.value.cost_a_rate).toFixed(2),
       );
 
+      // A菇采摘成本
+      storeForm.value.cost_b_amount = Number.parseFloat(
+        (aOutNum * storeForm.value.cost_b_rate).toFixed(2),
+      );
+
       // C菇采摘成本
       storeForm.value.cost_c_amount = Number.parseFloat(
         (otherNum * storeForm.value.cost_c_rate).toFixed(2),
@@ -185,7 +205,9 @@ const handleSubmit = async (key: string) => {
       storeForm.value.cost_cz_price = 0;
       if (putNum > 0) {
         const czPrice =
-          (storeForm.value.cost_a_amount + storeForm.value.cost_c_amount) /
+          (storeForm.value.cost_a_amount +
+            storeForm.value.cost_b_amount +
+            storeForm.value.cost_c_amount) /
           putNum;
         storeForm.value.cost_cz_price = Number.parseFloat(czPrice.toFixed(2));
       }
@@ -196,6 +218,7 @@ const handleSubmit = async (key: string) => {
           storeForm.value.cost_bag_amount +
           storeForm.value.cost_cg_amount +
           storeForm.value.cost_a_amount +
+          storeForm.value.cost_b_amount +
           storeForm.value.cost_c_amount
         ).toFixed(2),
       );
@@ -393,9 +416,9 @@ const handleCulture = (item: any) => {
                 <span class="ml-[3px]">元</span>
               </div>
             </div>
-            <div class="flex w-[140px] flex-shrink-0 border-r">
+            <div class="flex w-[130px] flex-shrink-0 border-r">
               <div
-                class="label flex w-[140px] items-center justify-center px-[15px] py-[10px] text-center"
+                class="label flex w-[130px] items-center justify-center px-[15px] py-[10px] text-center"
               >
                 {{ storeForm.sale_a_amount }}
                 <span class="ml-[3px]">元</span>
@@ -405,7 +428,28 @@ const handleCulture = (item: any) => {
               <div
                 class="flex w-[120px] items-center justify-center px-[15px] py-[10px] text-center"
               >
-                <span class="flex-shrink-0">其他：</span>
+                <span>B：</span>
+                <input
+                  v-model="storeForm.sale_a1_price"
+                  @keyup.enter="handleSubmit('sale')"
+                  class="w-full border-none text-right outline-none"
+                />
+                <span class="ml-[3px]">元</span>
+              </div>
+            </div>
+            <div class="flex w-[130px] flex-shrink-0 border-r">
+              <div
+                class="label flex w-[130px] items-center justify-center px-[15px] py-[10px] text-center"
+              >
+                {{ storeForm.sale_a1_amount }}
+                <span class="ml-[3px]">元</span>
+              </div>
+            </div>
+            <div class="flex w-[120px] flex-shrink-0 border-r">
+              <div
+                class="flex w-[120px] items-center justify-center px-[15px] py-[10px] text-center"
+              >
+                <span class="flex-shrink-0">C：</span>
                 <input
                   v-model="storeForm.sale_c_price"
                   @keyup.enter="handleSubmit('sale')"
@@ -414,9 +458,9 @@ const handleCulture = (item: any) => {
                 <span class="ml-[3px]">元</span>
               </div>
             </div>
-            <div class="flex w-[140px] flex-shrink-0 border-r">
+            <div class="flex w-[130px] flex-shrink-0 border-r">
               <div
-                class="label flex w-[140px] items-center justify-center px-[15px] py-[10px] text-center"
+                class="label flex w-[130px] items-center justify-center px-[15px] py-[10px] text-center"
               >
                 {{ storeForm.sale_c_amount }}
                 <span class="ml-[3px]">元</span>
@@ -449,7 +493,7 @@ const handleCulture = (item: any) => {
                 />
               </div>
             </div>
-            <div class="flex w-[140px] flex-shrink-0 border-r">
+            <div class="flex w-[130px] flex-shrink-0 border-r">
               <div
                 class="label flex w-full items-center justify-center px-[15px] py-[10px] text-center"
               >
@@ -470,7 +514,7 @@ const handleCulture = (item: any) => {
                 />
               </div>
             </div>
-            <div class="flex w-[140px] flex-shrink-0 border-r">
+            <div class="flex w-[130px] flex-shrink-0 border-r">
               <div
                 class="label flex w-full items-center justify-center px-[15px] py-[10px] text-center"
               >
@@ -491,11 +535,32 @@ const handleCulture = (item: any) => {
                 />
               </div>
             </div>
-            <div class="flex w-[140px] flex-shrink-0 border-r">
+            <div class="flex w-[130px] flex-shrink-0 border-r">
               <div
                 class="label flex w-full items-center justify-center px-[15px] py-[10px] text-center"
               >
                 {{ storeForm.cost_a_amount }}
+                <span class="ml-[3px]">元</span>
+              </div>
+            </div>
+
+            <div class="flex w-[120px] flex-shrink-0 border-r">
+              <div
+                class="flex w-[120px] items-center justify-center py-[10px] pl-[10px] pr-[15px] text-center"
+              >
+                <span class="flex-shrink-0">B菇采摘：</span>
+                <input
+                  v-model="storeForm.cost_b_rate"
+                  @keyup.enter="handleSubmit('cost')"
+                  class="w-full border-none text-right outline-none"
+                />
+              </div>
+            </div>
+            <div class="flex w-[130px] flex-shrink-0 border-r">
+              <div
+                class="label flex w-full items-center justify-center px-[15px] py-[10px] text-center"
+              >
+                {{ storeForm.cost_b_amount }}
                 <span class="ml-[3px]">元</span>
               </div>
             </div>
@@ -512,7 +577,7 @@ const handleCulture = (item: any) => {
                 />
               </div>
             </div>
-            <div class="flex w-[140px] flex-shrink-0 border-r">
+            <div class="flex w-[130px] flex-shrink-0 border-r">
               <div
                 class="label flex w-full items-center justify-center px-[15px] py-[10px] text-center"
               >

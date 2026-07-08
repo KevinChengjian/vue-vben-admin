@@ -46,6 +46,9 @@ export interface Profit {
   cost_a_rate: number; // A菇采摘系数
   cost_a_amount: number; // A菇采摘成本
 
+  cost_b_rate: number; // A菇采摘系数
+  cost_b_amount: number; // A菇采摘成本
+
   cost_c_rate: number; // C菇采摘系数
   cost_c_amount: number; // C菇采摘成本
 

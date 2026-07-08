@@ -5,11 +5,13 @@ import { Page, useVbenModal } from '@vben/common-ui';
 
 import { Button, Space } from 'ant-design-vue';
 
+import { downloadFileFromUrl } from '@vben/utils';
+
 import { Dict } from '#/api';
 import { useDelete, useTable } from '#/hooks';
 import { format } from '#/utils/money';
 
-import { AuthCode, deleteApi, listApi } from './api';
+import { AuthCode, deleteApi, exportApi, listApi } from './api';
 import { TableColumn } from './columns';
 import MaterialStoreModal from './storeModal.vue';
 
@@ -65,6 +67,15 @@ const handleStore = (item: any = {}, edit: boolean = false) => {
     .open();
 };
 
+// 导出数据
+const handleExport = async () => {
+  try {
+    const values = await gridApi.formApi.getValues();
+    const resp = await exportApi(values);
+    downloadFileFromUrl({ source: resp.url, target: '_self' });
+  } catch {}
+};
+
 // 删除
 const { destory } = useDelete<ListItem>({
   api: deleteApi,
@@ -84,6 +95,13 @@ const { destory } = useDelete<ListItem>({
           @click="handleStore"
         >
           新增记录
+        </Button>
+        <Button
+          type="primary"
+          v-access:code="AuthCode.Export"
+          @click="handleExport()"
+        >
+          导出数据
         </Button>
       </template>
 

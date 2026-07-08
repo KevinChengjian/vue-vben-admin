@@ -9,6 +9,7 @@ export enum AuthCode {
   Create = 'admin.sterilization-inspection.create',
   Delete = 'admin.sterilization-inspection.delete',
   Update = 'admin.sterilization-inspection.update',
+  Export = 'admin.sterilization-inspection.export',
 }
 
 /**
@@ -67,6 +68,18 @@ export async function deleteApi(params: any) {
 export async function detailApi(params: any) {
   return requestClient.post<any>(
     '/admin/sterilization-inspection/detail',
+    params,
+  );
+}
+
+/**
+ * 导出
+ * @param params any
+ * @returns any
+ */
+export async function exportApi(params: any = {}) {
+  return requestClient.post<any>(
+    '/admin/sterilization-inspection/export',
     params,
   );
 }

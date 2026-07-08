@@ -76,7 +76,11 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       componentProps: {
         addonAfter: '斤',
         class: 'w-full',
+        min: 0,
         placeholder: '请输入采摘数量',
+        onBlur: () => {
+          handleCAmount();
+        },
       },
     },
     {
@@ -87,7 +91,38 @@ const [StoreForm, StoreFromApi] = useVbenForm({
       componentProps: {
         addonAfter: '斤',
         class: 'w-full',
+        min: 0,
         placeholder: '请输入A菇数量',
+        onBlur: () => {
+          handleCAmount();
+        },
+      },
+    },
+    {
+      component: 'InputNumber',
+      fieldName: 'b_amount',
+      label: 'B菇数量',
+      rules: 'required',
+      componentProps: {
+        addonAfter: '斤',
+        class: 'w-full',
+        min: 0,
+        placeholder: '请输入B菇数量',
+        onBlur: () => {
+          handleCAmount();
+        },
+      },
+    },
+    {
+      component: 'InputNumber',
+      fieldName: 'c_amount',
+      label: 'C菇数量',
+      rules: 'required',
+      componentProps: {
+        addonAfter: '斤',
+        class: 'w-full',
+        min: 0,
+        placeholder: '请输入C菇数量',
       },
     },
     {
@@ -106,6 +141,19 @@ const [StoreForm, StoreFromApi] = useVbenForm({
     labelWidth: 90,
   },
 });
+
+const handleCAmount = async () => {
+  const values = await StoreFromApi.getValues();
+
+  const amount = Number(values.amount) || 0;
+  const a_amount = Number(values.a_amount) || 0;
+  const b_amount = Number(values.b_amount) || 0;
+  const c_amount = amount - a_amount - b_amount;
+
+  StoreFromApi.setValues({
+    c_amount: c_amount < 0 ? 0 : c_amount.toFixed(2),
+  });
+};
 
 const isUpdate = ref<boolean>(false);
 const [Modal, ModalApi] = useVbenModal({
