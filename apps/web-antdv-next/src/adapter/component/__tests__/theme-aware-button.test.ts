@@ -1,4 +1,4 @@
-/* eslint-disable vue/one-component-per-file, vue/require-default-prop */
+/* eslint-disable vue/require-default-prop */
 
 import type { App, Component } from 'vue';
 

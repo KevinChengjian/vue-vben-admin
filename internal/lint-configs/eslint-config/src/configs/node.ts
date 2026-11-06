@@ -51,6 +51,7 @@ export async function node(): Promise<Linter.Config[]> {
       ],
       rules: {
         'n/prefer-global/process': 'off',
+        'vue/one-component-per-file': 'off',
       },
     },
     {
